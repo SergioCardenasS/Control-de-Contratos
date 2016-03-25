@@ -15,9 +15,9 @@ cursor=db.cursor()
 
 cursor.execute("""CREATE TABLE Process
 				(
-				id_process int UNSIGNED PRIMARY KEY,
+				id_process int PRIMARY KEY,
 				name varchar(50),
-				id_area int UNSIGNED,
+				id_area int,
 				FOREIGN KEY (id_area) REFERENCES Area(id_area)
 				)""")
 

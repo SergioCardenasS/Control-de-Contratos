@@ -15,10 +15,10 @@ cursor=db.cursor()
 
 cursor.execute("""CREATE TABLE Comment
 				(
-				id_contract int UNSIGNED,
+				id_contract int,
 				FOREIGN KEY (id_contract) REFERENCES Contract(id_contract),
-				comment_number int UNSIGNED,
-				id_area int UNSIGNED,
+				comment_number int,
+				id_area int,
 				FOREIGN KEY (id_area) REFERENCES Area(id_area),
 				text_comment TEXT
 				)""")

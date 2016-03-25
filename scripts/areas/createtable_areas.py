@@ -15,7 +15,7 @@ cursor=db.cursor()
 
 cursor.execute("""CREATE TABLE Area
 				(
-				id_area int UNSIGNED PRIMARY KEY,
+				id_area int PRIMARY KEY,
 				name varchar(30),
 				password varchar(30)
 				)""")

@@ -15,14 +15,14 @@ cursor=db.cursor()
 
 cursor.execute("""CREATE TABLE Contract
 				(
-				id_contract int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				id_contract int AUTO_INCREMENT PRIMARY KEY,
 				purchase_order varchar(30),
 				contract_number varchar(10),
-				id_process int UNSIGNED,
-				contract_type boolean,
+				id_process int,
+				contract_type BIT,
 				init_date DATETIME,
 				mod_date DATETIME,
-				iteration_number int UNSIGNED
+				iteration_number int
 				)""")
 
 db.commit()
