@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys
-from dateutil.tz import tzlocal
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from datetime import datetime, timedelta, date
+import MySQLdb
 
+#Para incluir, del directorio principal las vistas, constantes y controladores
+sys.path.insert(0, '..')
+from constants import DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME
+
+print DATABASE_HOST
 
 class ventanaPrincial(QWidget):
   	def __init__(self):
@@ -32,6 +37,8 @@ class ventanaLogin(QDialog):
 
 		self.editUser = QLineEdit() 
 		self.editPassword = QLineEdit()
+		
+		self.editPassword.setEchoMode(QLineEdit.Password)
 
 		grid = QGridLayout()
 			
@@ -58,9 +65,15 @@ class ventanaLogin(QDialog):
 		self.connect(self.ingresarBoton, SIGNAL("clicked()"), self.Ingresar)
 
 	def Ingresar(self):
+		name = str(self.editUser.text())
+		passwd = str(self.editPassword.text())
+		print name
+		print passwd
 		#Validar user y password
-		self.accept()
-		
+		if(name==''):
+			QMessageBox.warning(self, 'Greška',"Bad user or password", QMessageBox.Ok)
+		else:
+			self.accept()
 
 def main():
   app = QApplication(sys.argv)
