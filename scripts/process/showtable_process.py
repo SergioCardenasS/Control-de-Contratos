@@ -13,7 +13,10 @@ from constants import *
 db=get_connection()
 cursor=db.cursor()
 
-cursor.execute("DROP TABLE Area")
+cursor.execute("SELECT * FROM Process")
+
+for row in cursor:
+	print row
 
 db.commit()
 db.close()

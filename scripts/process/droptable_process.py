@@ -13,7 +13,7 @@ from constants import *
 db=get_connection()
 cursor=db.cursor()
 
-cursor.execute("DROP TABLE Area")
+cursor.execute("DROP TABLE Process")
 
 db.commit()
 db.close()

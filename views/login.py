@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #Import de Librerias
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from datetime import datetime
-import MySQLdb
 
 #Import de Modulos
 BASE_DIR='..'
@@ -69,7 +71,8 @@ class ventanaLogin(QDialog):
 		print passwd
 		#Validar user y password
 		if(name==''):
-			QMessageBox.warning(self, 'Greška',"Bad user or password", QMessageBox.Ok)
+			self.editPassword.setText('')
+			QMessageBox.warning(self, 'Greka',"Bad user or password", QMessageBox.Ok)
 		else:
 			self.accept()
 

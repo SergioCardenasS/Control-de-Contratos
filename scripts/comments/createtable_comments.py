@@ -13,11 +13,14 @@ from constants import *
 db=get_connection()
 cursor=db.cursor()
 
-cursor.execute("""CREATE TABLE Area
+cursor.execute("""CREATE TABLE Comment
 				(
-				id_area int UNSIGNED PRIMARY KEY,
-				name varchar(30),
-				password varchar(30)
+				id_contract int UNSIGNED,
+				FOREIGN KEY (id_contract) REFERENCES Contract(id_contract),
+				comment_number int UNSIGNED,
+				id_area int UNSIGNED,
+				FOREIGN KEY (id_area) REFERENCES Area(id_area),
+				text_comment TEXT
 				)""")
 
 db.commit()

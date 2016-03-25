@@ -1,12 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #Import de Librerias
 import sys
 from PyQt4 import QtGui
-import MySQLdb
 
 #Import de Modulos
 from constants import *
 
-db=MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
+db=get_connection()
 cursor=db.cursor()
 cursor.execute("select 'hello world'")
 value=cursor.fetchone()
