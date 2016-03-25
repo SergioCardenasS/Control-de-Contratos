@@ -1,16 +1,14 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#Import de Librerias
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from datetime import datetime, timedelta, date
+from datetime import datetime
 import MySQLdb
 
-#Para incluir, del directorio principal las vistas, constantes y controladores
-sys.path.insert(0, '..')
-from constants import DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME
-
-print DATABASE_HOST
+#Import de Modulos
+BASE_DIR='..'
+sys.path.insert(0,BASE_DIR)
+from constants import *
 
 class ventanaPrincial(QWidget):
   	def __init__(self):
@@ -76,15 +74,15 @@ class ventanaLogin(QDialog):
 			self.accept()
 
 def main():
-  app = QApplication(sys.argv)
-  login = ventanaLogin()
-  if login.exec_() == QDialog.Accepted:
-  	window = ventanaPrincial()
-  	screenGeometry = QApplication.desktop().availableGeometry()
-  	window.resize(screenGeometry.width(), screenGeometry.height())
-  	window.showMaximized()
-  	sys.exit(app.exec_())
+	app = QApplication(sys.argv)
+	login = ventanaLogin()
+	if login.exec_() == QDialog.Accepted:
+		window = ventanaPrincial()
+		screenGeometry = QApplication.desktop().availableGeometry()
+		window.resize(screenGeometry.width(), screenGeometry.height())
+		window.showMaximized()
+		sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
-  main()  
+	main()  

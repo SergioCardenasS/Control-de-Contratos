@@ -1,9 +1,11 @@
-#!C:\Python27\python
+#Import de Librerias
+import sys
 import datetime
 
-#Constantes
-CONTRACT_TYPE_FIRME			= 0
-CONTRACT_TYPE_PROVISIONAL	= 1
+#Import de Modulos
+BASE_DIR='..'
+sys.path.insert(0,BASE_DIR)
+from constants import *
 
 #Clase Contract:
 #Contiene su PO, Numero de Conrato, el estado en el

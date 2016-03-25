@@ -1,5 +1,3 @@
-#!C:\Python27\python
-
 #Clase Process:
 #Contiene su propio nombre y el id del area
 #que esta acargo de este proceso.

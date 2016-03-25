@@ -1,5 +1,3 @@
-#!C:\Python27\python
-
 # La clase comentario guardara los comentarios del contrado que cada area colocara 
 # en cada uno de los procesos
 class Comment():

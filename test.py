@@ -1,8 +1,10 @@
-#!C:\Python27\python
+#Import de Librerias
 import sys
 from PyQt4 import QtGui
 import MySQLdb
-from constants import DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME
+
+#Import de Modulos
+from constants import *
 
 db=MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
 cursor=db.cursor()
