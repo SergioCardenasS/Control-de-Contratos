@@ -7,10 +7,12 @@ from PyQt4 import QtGui
 
 #Import de Modulos
 from constants import *
-from controllers import controller_contract
+from controllers import controller_process
 
 db=get_connection()
-lista=controller_contract.get_all_contracts(db)
+lista=controller_process.get_all_process(db)
+id=1
 for i in lista:
-	print i.name
+	id+=i.id_process
+print id
 db.close()

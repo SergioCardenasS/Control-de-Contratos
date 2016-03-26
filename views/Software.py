@@ -23,7 +23,6 @@ def main():
 		if(actual_id==AREA_CONTROL_ID):
 			window = control_view.control_window()
 		else:
-			Login.close_db()
 			return
 		screenGeometry = QApplication.desktop().availableGeometry()
 		window.resize(screenGeometry.width(), screenGeometry.height())
