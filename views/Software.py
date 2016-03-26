@@ -18,11 +18,17 @@ def main():
 	Login = login.login_window()
 	if Login.exec_() == QDialog.Accepted:
 		Login.close_db()
-		window = control_view.control_window()
+		actual_id=Login.get_actual_id()
+		window = None
+		if(actual_id==AREA_CONTROL_ID):
+			window = control_view.control_window()
+		else:
+			Login.close_db()
+			return
 		screenGeometry = QApplication.desktop().availableGeometry()
 		window.resize(screenGeometry.width(), screenGeometry.height())
 		window.showMaximized()
-		sys.exit(app.exec_())
+		app.exec_()
 	Login.close_db()
 
 if __name__ == '__main__':

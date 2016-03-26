@@ -11,6 +11,7 @@ from datetime import datetime
 BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
+from controllers import controller_area
 
 class login_window(QDialog):
 	def __init__(self, parent=None):
@@ -19,17 +20,17 @@ class login_window(QDialog):
 		self.ingresarBoton = QPushButton("Ingresar", self)
 		self.cancelarBoton = QPushButton("Cancelar")
 
-		luser = QLabel('User')
+		luser = QLabel('Area')
 		lpassword = QLabel('Password')
 
 		self.editUser = QComboBox() 
 		self.editPassword = QLineEdit()
 		
 		self.db=get_connection()
-		cursor=self.db.cursor()
-		cursor.execute("select name from Area")
-		for row in cursor:
-			self.editUser.addItem(row[0])
+		self.db_connected=True
+		area_list=controller_area.get_all_areas(self.db)
+		for area_element in area_list:
+			self.editUser.addItem(area_element.name)
 		self.editPassword.setEchoMode(QLineEdit.Password)
 
 		grid = QGridLayout()
@@ -62,16 +63,18 @@ class login_window(QDialog):
 		if(passwd==''):
 			QMessageBox.warning(self, 'Error',LOGIN_ERROR_NO_PASS_TYPED, QMessageBox.Ok)
 		else:
-			cursor=self.db.cursor()
-			select_pass="select password from Area where name='%s'"%(name)
-			cursor.execute(select_pass)
-			for row in cursor:
-				if(row[0]==passwd):
-					self.accept()
-				else:
-					QMessageBox.warning(self, 'Error',LOGIN_ERROR_BAD_PASS, QMessageBox.Ok)
-					self.editPassword.setText('')
+			actual_area=controller_area.get_area_by_name(self.db,name)
+			if(actual_area.password==passwd):
+				self.actual_id=actual_area.id_area
+				self.accept()
+			else:
+				QMessageBox.warning(self, 'Error',LOGIN_ERROR_BAD_PASS, QMessageBox.Ok)
+				self.editPassword.setText('')
 
+	def get_actual_id(self):
+		return self.actual_id
 	def close_db(self):
-		self.db.close()
+		if(self.db_connected):
+			self.db_connected=False
+			self.db.close()
 
