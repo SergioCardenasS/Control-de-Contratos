@@ -32,10 +32,10 @@ def get_contract_by_process_list(db,process_list):
 	cursor=db.cursor()
 	contract_list=[]
 	select_contract="select * from Contract where id_process IN ('%d'"%(process_list[0].id_process)
-	for index in range(1,process_list):
+	for index in range(1,len(process_list)):
 		select_contract+=",'%d'"%(process_list[index].id_process)
 	select_contract+=") ORDER BY mod_date"
 	cursor.execute(select_contract)
 	for row in cursor:
-		process_list.append(contract.Contract(row))
+		contract_list.append(contract.Contract(row))
 	return contract_list

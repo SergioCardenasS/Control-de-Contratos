@@ -7,26 +7,8 @@ from PyQt4 import QtGui
 
 #Import de Modulos
 from constants import *
+from controllers import controller_process, controller_contract
 
 db=get_connection()
-cursor=db.cursor()
-cursor.execute("select 'hello world'")
-value=cursor.fetchone()
-
-def main():
-	app=QtGui.QApplication(sys.argv)
-	w=QtGui.QWidget()
-	w.resize(200,200)
-	w.move(300,300)
-	w.setWindowTitle(value[0])
-	w.show()
-	sys.exit(app.exec_())
-
-main()
-
-#sql="Select * From productos WHERE Nombre LIKE '%s'" %('%'+bus+'%')
-#cursor.execute(sql)
-#resultado=cursor.fetchall()
-#prod="insert into productos values('null','%s','%s','%s','%s','%s','%s')"%(nombre,descri,version,imagen,linkexe,linkrar)
-#cursor.execute(prod)
-#db.commit()
+for i in controller_contract.get_contract_by_process_list(db,controller_process.get_process_by_id_area(db,AREA_DESARROLLO_ID)):
+	print i.purchase_order
