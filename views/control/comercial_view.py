@@ -176,8 +176,8 @@ class ventanaContrato(QDialog):
     PO = unicode(self.editPO.text())
     Is_Provisional = CONTRACT_TYPE_FIRME
     #fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
-    init_date = datetime.now(tzlocal())
-    mod_date = datetime.now(tzlocal())
+    init_date = str(datetime.now(tzlocal()))
+    mod_date = str(datetime.now(tzlocal()))
     Commentary = unicode(self.editCommentary.toPlainText())
     if self.editIs_Provisional.isChecked():
         Is_Provisional = CONTRACT_TYPE_PROVISIONAL
