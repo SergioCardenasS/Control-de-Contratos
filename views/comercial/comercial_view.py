@@ -120,15 +120,16 @@ class comercial_window(QWidget):
 			self.tabla.setItem(size,2, QTableWidgetItem(listaEventos[size][2]))
 			size +=1
 	def crearContrato(self):
-		ventana = ventanaContrato().exec_()
+		ventana = ventanaContrato(db=self.db).exec_()
 	def close_db(self):
 		if(self.db_connected):
 			self.db_connected=False
 			self.db.close()
 
 class ventanaContrato(QDialog):
-	def __init__(self, parent=None):
+	def __init__(self, db, parent=None):
 		super(ventanaContrato, self).__init__(parent)
+		self.db=db
 		#Nombre de los campos
 		#Creacion de botones
 		self.aceptarBoton = QPushButton("OK", self)
@@ -174,21 +175,18 @@ class ventanaContrato(QDialog):
 		#Funcionalidades de los botones
 		self.cancelarBoton.clicked.connect(self.close)
 		self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
-		#DB conexion
 	def Crear(self):
 		PO = self.editPO.text()
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
-			db=get_connection()
 			init_date = time.strftime('%Y-%m-%d %H:%m')
 			mod_date = init_date
 			Is_Provisional = int(self.editIs_Provisional.isChecked())
 			Commentary = unicode(self.editCommentary.toPlainText())
 			new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
-			new_contract.insert(db.cursor())
+			new_contract.insert(self.db.cursor())
 			new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
-			db.close()
+			new_comment.insert(self.db.cursor())
+			self.db.commit()
 			self.close()
