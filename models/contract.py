@@ -38,9 +38,9 @@ class Contract:
 		self.purchase_order		= row_contract[1]
 		self.contract_number	= row_contract[2]
 		self.id_process			= row_contract[3]
-		self.contract_type		= row_contract[4]
-		self.init_date			= row_contract[5]
-		self.mod_date			= row_contract[6]
+		self.contract_type		= ord(row_contract[4])
+		self.init_date			= str(row_contract[5])
+		self.mod_date			= str(row_contract[6])
 		self.iteration_number	= row_contract[7]
 	def insert(self,cursor_db):
 		insert_code_contract="""INSERT INTO Contract

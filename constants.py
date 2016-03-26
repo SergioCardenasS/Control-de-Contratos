@@ -18,8 +18,15 @@ def get_time_str():
 	return time.strftime('%Y-%m-%d %H:%M:%S')
 
 #CONTRACTS TYPE
-CONTRACT_TYPE_FIRME			= 0
-CONTRACT_TYPE_PROVISIONAL	= 1
+CONTRACT_TYPE_FIRME				= 0
+CONTRACT_TYPE_PROVISIONAL		= 1
+CONTRACT_TYPE_FIRME_NAME		= "Firme"
+CONTRACT_TYPE_PROVISIONAL_NAME	= "Provisional"
+
+def get_str_contract_type(type):
+	if(type==CONTRACT_TYPE_FIRME):
+		return CONTRACT_TYPE_FIRME_NAME
+	return CONTRACT_TYPE_PROVISIONAL_NAME
 
 #PROCESS
 PROCESS_SET_PO_ID				= 1
@@ -43,6 +50,27 @@ PROCESS_ACTIVATE_CONTRACT_NAME	= "Activar Contrato"
 PROCESS_COMPLETED_ID			= 10
 PROCESS_COMPLETED_NAME			= "Completado"
 
+def get_str_name_from_id_process(id_process):
+	if(id_process==PROCESS_SET_PO_ID):
+		return PROCESS_SET_PO_NAME
+	elif(id_process==PROCESS_SET_CODE_ID):
+		return PROCESS_SET_CODE_NAME
+	elif(id_process==PROCESS_SAVE_PRECONTRACT_ID):
+		return PROCESS_SAVE_PRECONTRACT_NAME
+	elif(id_process==PROCESS_SET_WEIGHT_ID):
+		return PROCESS_SET_WEIGHT_NAME
+	elif(id_process==PROCESS_YAM_STATUS_ID):
+		return PROCESS_YAM_STATUS_NAME
+	elif(id_process==PROCESS_SET_ACCESS_ID):
+		return PROCESS_SET_ACCESS_NAME
+	elif(id_process==PROCESS_SET_DATES_ID):
+		return PROCESS_SET_DATES_NAME
+	elif(id_process==PROCESS_ACCEPT_DATES_ID):
+		return PROCESS_ACCEPT_DATES_NAME
+	elif(id_process==PROCESS_ACTIVATE_CONTRACT_ID):
+		return PROCESS_ACTIVATE_CONTRACT_NAME
+	return PROCESS_COMPLETED_NAME
+
 #AREAS
 AREA_CONTROL_ID				= 1
 AREA_CONTROL_NAME			= "Administrador"
@@ -63,6 +91,21 @@ AREA_PLANIFICACION_ID		= 6
 AREA_PLANIFICACION_NAME		= "Planificacion"
 AREA_PLANIFICACION_PASS		= "Planificacion"
 
+def get_str_name_by_id_area(id_area):
+	if(id_area==AREA_CONTROL_ID):
+		return AREA_CONTROL_NAME
+	elif(id_area==AREA_COMERCIAL_ID):
+		return AREA_COMERCIAL_NAME
+	elif(id_area==AREA_ABASTECIMIENTOS_ID):
+		return AREA_ABASTECIMIENTOS_NAME
+	elif(id_area==AREA_DESARROLLO_ID):
+		return AREA_DESARROLLO_NAME
+	elif(id_area==AREA_INGENIERIA_ID):
+		return AREA_INGENIERIA_NAME
+	elif(id_area==AREA_PLANIFICACION_ID):
+		return AREA_PLANIFICACION_NAME
+	return ""
+
 #LOGIN_ERRORS
 LOGIN_ERROR_NO_PASS_TYPED	= "No ha escrito ninguna contrasenha"
 LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
@@ -71,6 +114,8 @@ LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
 CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"
 
 #TABLA
-SIZE_COLUMNS = 8
-TITLE_ROWS = "OP;Numero de Contrato; Nombre del proceso;Tipo del Contrato;Fecha Inicial;Ultima de Modificacion;Iteracion"
-SPLIT = ";"
+SIZE_COLUMNS			= 8
+TITLE_ROWS				= "OP;Numero de Contrato; Nombre del proceso;Tipo del Contrato;Fecha Inicial;Ultima Modificacion;Iteracion;Comentarios"
+SPLIT					= ";"
+SIZE_COLUMNS_COMMENT	= 2
+TITLE_ROWS_COMMENT		= "Area;Comentario"

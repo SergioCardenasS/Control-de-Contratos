@@ -16,5 +16,14 @@ def get_all_comments(db):
 	select_comment="select * from Comment"
 	cursor.execute(select_comment)
 	for row in cursor:
-		process_list.append(comment.Comment(row))
+		comment_list.append(comment.Comment(row))
+	return comment_list
+
+def get_all_comments_by_id_contract(db,id_contract):
+	cursor=db.cursor()
+	comment_list=[]
+	select_comment="select * from Comment where id_contract='%d' order by comment_number DESC"%(id_contract)
+	cursor.execute(select_comment)
+	for row in cursor:
+		comment_list.append(comment.Comment(row))
 	return comment_list

@@ -11,6 +11,8 @@ BASE_DIR='../..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from models import contract, comment
+from controllers.controller_contract import *
+from controllers.controller_process import *
 
 class comercial_window(QWidget):
 	def __init__(self):
@@ -22,8 +24,6 @@ class comercial_window(QWidget):
 		left=(desktopSize.width())-(size.width())
 		self.move(left, top)
 		#Creacion de conexion a BD
-		self.db=get_connection()
-		self.db_connected=True
 		#abrimos la pantalla princilal para todas las areas
 		self.pantallaComercial()
 		self.setWindowTitle('Comercial')
@@ -32,32 +32,20 @@ class comercial_window(QWidget):
 	def pantallaComercial(self):
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
-		tablaItem = QTableWidgetItem()
+		self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers)
 		#Numero de items o filas
-		self.rows = 3
+		self.rows = 0
 		self.stringRow = ''
 		#Creamos las columnas
-		self.tabla.setColumnCount(4)
-		self.tabla.setHorizontalHeaderLabels(QString("Nombre;Proceso;Posicion;Estado").split(";"))
+		self.tabla.setColumnCount(SIZE_COLUMNS)
+		self.tabla.setHorizontalHeaderLabels(QString(TITLE_ROWS).split(SPLIT))
 		#Por ahora solo creamos el numero de filas o items
 		self.tabla.setRowCount(self.rows)
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
 		header = self.tabla.horizontalHeader()
 		header.setResizeMode(QHeaderView.Stretch)
-		#Esta lista de elementos tendra la query en lista
-		listaEventos = [['1','2','3'],['1','2','3'],['1','2','3']]
-		for numEventos in range(len(listaEventos)):
-			#self.tabla.setItem(numEventos,0, QTableWidgetItem(listaEventos[numEventos].nombre))
-			#self.tabla.setItem(numEventos,1, QTableWidgetItem(listaEventos[numEventos].importancia))
-			#self.tabla.setItem(numEventos,2, QTableWidgetItem(listaEventos[numEventos].alerta))
-			# Asi se sacarain los elementos si fueran datos de una base de datos
 
-			self.tabla.setItem(numEventos,0, QTableWidgetItem(listaEventos[numEventos][0]))
-			self.tabla.setItem(numEventos,1, QTableWidgetItem(listaEventos[numEventos][1]))
-			self.tabla.setItem(numEventos,2, QTableWidgetItem(listaEventos[numEventos][2]))
-			# Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
-			self.stringRow = self.stringRow + str(numEventos+1) + ";"
 		#Ahora creamos dicha filas de numeros o ids
 		self.tabla.setVerticalHeaderLabels(QString(self.stringRow).split(";"))
 
@@ -91,43 +79,53 @@ class comercial_window(QWidget):
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
 		self.setLayout(grid)
+		self.refresh_table(AREA_COMERCIAL_ID)
 
 	def Actualizar(self):
+		self.refresh_table(AREA_COMERCIAL_ID)
+
+	def LimpiarTabla(self):
+		self.tabla.clear();
+		self.tabla.setRowCount(0);
+		self.tabla.setColumnCount(SIZE_COLUMNS)
+		self.tabla.setHorizontalHeaderLabels(QString(TITLE_ROWS).split(SPLIT))
+
+	def refresh_table(self,AREA_ID):
+		self.LimpiarTabla()
 		#Primero lo que hara esta funcion es actualizar los items nuevos para eso necesitamos el ultimo tamano de items
+		db=get_connection()
+		self.listaContratos = get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ID))
+		db.close()
 		numEventos = self.rows
 		#Guardamos el nuevo tamano de items
-		self.rows = 4
+		self.rows = len(self.listaContratos)
 		self.tabla.setRowCount(self.rows)
 		#Este size hara los id o filas en string
-		size = numEventos
-		#Con este while creamos esa fila para actualizar la que teniamos mas antes
-		while(numEventos<self.rows):
-		  numEventos += 1
-		  self.stringRow = self.stringRow + str(numEventos) + ";"
-
-		#Ahorta solo la seteamos
-		self.tabla.setVerticalHeaderLabels(QString(self.stringRow).split(";"))
-
+		stringRow = ''
 		#Ahora nuevamente sacamos todos los elementos
-		listaEventos = [['1','2','3'],['1','2','3'],['1','2','3'],['1','2','3']]
-		while(size<len(listaEventos)):
-			#self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+		for numContratos in range(len(self.listaContratos)):
 			#De esa forma actualizaremos
-			self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size][0]))
-			self.tabla.setItem(size,1, QTableWidgetItem(listaEventos[size][1]))
-			self.tabla.setItem(size,2, QTableWidgetItem(listaEventos[size][2]))
-			size +=1
+			self.tabla.setItem(numContratos,0, QTableWidgetItem(self.listaContratos[numContratos].purchase_order))
+			self.tabla.setItem(numContratos,1, QTableWidgetItem(self.listaContratos[numContratos].contract_number))
+			self.tabla.setItem(numContratos,2, QTableWidgetItem(get_str_name_from_id_process(self.listaContratos[numContratos].id_process)))
+			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
+			self.tabla.setItem(numContratos,4, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
+			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
+			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
+			self.btn_sell = QPushButton('Finalizar')
+			self.btn_sell.clicked.connect(self.Finalizar)
+			self.tabla.setCellWidget(numContratos,7,self.btn_sell)
+			stringRow = stringRow + str(numContratos+1) + SPLIT
+		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
+
 	def crearContrato(self):
-		ventana = ventanaContrato(db=self.db).exec_()
-	def close_db(self):
-		if(self.db_connected):
-			self.db_connected=False
-			self.db.close()
+		ventana = ventanaContrato().exec_()
+	def Finalizar(self):
+		print "fin"
 
 class ventanaContrato(QDialog):
-	def __init__(self, db, parent=None):
+	def __init__(self, parent=None):
 		super(ventanaContrato, self).__init__(parent)
-		self.db=db
 		#Nombre de los campos
 		#Creacion de botones
 		self.aceptarBoton = QPushButton("OK", self)
@@ -180,11 +178,13 @@ class ventanaContrato(QDialog):
 		else:
 			init_date = get_time_str()
 			mod_date = init_date
-			Is_Provisional = int(self.editIs_Provisional.isChecked())
+			Is_Provisional = chr(self.editIs_Provisional.isChecked())
 			Commentary = unicode(self.editCommentary.toPlainText())
+			db=get_connection()
 			new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
-			new_contract.insert(self.db.cursor())
+			new_contract.insert(db.cursor())
 			new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(self.db.cursor())
-			self.db.commit()
+			new_comment.insert(db.cursor())
+			db.commit()
+			db.close()
 			self.close()

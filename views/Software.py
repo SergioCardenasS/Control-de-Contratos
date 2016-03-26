@@ -43,7 +43,6 @@ def main():
 		window.resize(screenGeometry.width(), screenGeometry.height())
 		window.showMaximized()
 		app.exec_()
-		window.close_db()
 	Login.close_db()
 
 if __name__ == '__main__':
