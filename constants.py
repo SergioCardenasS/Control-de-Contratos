@@ -61,3 +61,6 @@ AREA_PLANIFICACION_PASS		= "Planificacion"
 #LOGIN_ERRORS
 LOGIN_ERROR_NO_PASS_TYPED	= "No ha escrito ninguna contrasenha"
 LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
+
+#CREATE CONTRACT ERRORS
+CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"

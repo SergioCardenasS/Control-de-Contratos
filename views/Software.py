@@ -11,7 +11,12 @@ BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from views import login
-from views.control import control_view, abastecimiento_view, comercial_view, desarrollo_view, ingenieria_view, planificacion_view
+from views.control import control_view
+from views.abastecimientos import abastecimiento_view
+from views.comercial import comercial_view
+from views.desarrollo import desarrollo_view
+from views.ingenieria import ingenieria_view
+from views.planificacion import planificacion_view
 
 def main():
 	app = QApplication(sys.argv)
@@ -37,6 +42,7 @@ def main():
 		screenGeometry = QApplication.desktop().availableGeometry()
 		window.resize(screenGeometry.width(), screenGeometry.height())
 		window.showMaximized()
+		window.close_db()
 		app.exec_()
 	Login.close_db()
 

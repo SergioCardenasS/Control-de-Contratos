@@ -18,7 +18,7 @@ class login_window(QDialog):
 		super(login_window, self).__init__(parent)
 
 		self.ingresarBoton = QPushButton("Ingresar", self)
-		self.cancelarBoton = QPushButton("Cancelar")
+		self.cancelarBoton = QPushButton("Salir")
 
 		luser = QLabel('Area')
 		lpassword = QLabel('Password')
@@ -77,4 +77,3 @@ class login_window(QDialog):
 		if(self.db_connected):
 			self.db_connected=False
 			self.db.close()
-

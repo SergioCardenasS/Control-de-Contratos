@@ -17,8 +17,7 @@ cursor.execute("""CREATE TABLE Process
 				(
 				id_process int PRIMARY KEY,
 				name varchar(50),
-				id_area int,
-				FOREIGN KEY (id_area) REFERENCES Area(id_area)
+				id_area int
 				)""")
 
 db.commit()

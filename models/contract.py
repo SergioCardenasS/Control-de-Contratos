@@ -21,15 +21,15 @@ class Contract:
 	#Orden de Compra del Contrato
 	purchase_order		= ""
 	#Numero del Contrato
-	contract_number		= 0
+	contract_number		= ""
 	#Indice del Proceso (Estado)
 	id_process			= 0
 	#Tipo del Contrato
 	contract_type		= CONTRACT_TYPE_PROVISIONAL
 	#Fecha Inicial (creacion del Control del Contrato)
-	init_date			= datetime.datetime(1,1,1,0,0,0)
+	init_date			= ""
 	#Fecha de Ultima Modificacion (Ultima modificacion del Control del Contrato)
-	mod_date			= datetime.datetime(1,1,1,0,0,0)
+	mod_date			= ""
 	#Numero de Iteracion del Control del Contrato
 	iteration_number	= 0
 	#Constructor de la clase Contrato, recive una fila de la tabla de la bases de datos, como una lista.
@@ -42,3 +42,20 @@ class Contract:
 		self.init_date			= row_contract[5]
 		self.mod_date			= row_contract[6]
 		self.iteration_number	= row_contract[7]
+	def insert(self,cursor_db):
+		insert_code_contract="""INSERT INTO Contract
+								(purchase_order,contract_number,id_process,contract_type,init_date,mod_date,iteration_number)
+								values('%s','%s','%d',b'%d','%s','%s','%d'
+								)"""%(self.purchase_order,
+										self.contract_number,
+										self.id_process,
+										self.contract_type,
+										self.init_date,
+										self.mod_date
+										,self.iteration_number)
+		cursor_db.execute(insert_code_contract)
+		cursor_db.execute("select MAX(id_contract) from Contract")
+		for row in cursor_db:
+			self.id_contract=row[0]
+	def update(self,cursor_db):
+		x=1
