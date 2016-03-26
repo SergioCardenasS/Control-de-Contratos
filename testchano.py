@@ -3,13 +3,6 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-def handleButtonClicked(self):
-    button = qApp.focusWidget()
-    # or button = self.sender()
-    index = self.table.indexAt(button.pos())
-    if index.isValid():
-        print(index.row(), index.column())
-
 
 class MainWindow(QWidget):
     def __init__(self, parent=None):
