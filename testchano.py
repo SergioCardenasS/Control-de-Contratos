@@ -11,12 +11,11 @@ def handleButtonClicked(self):
         print(index.row(), index.column())
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self, parent=None):
-        QMainWindow.__init__(self,parent)
+        super(MainWindow, self).__init__(parent)
         self.table = QTableWidget()
         self.table.setColumnCount(3)
-        self.setCentralWidget(self.table)
         data1 = ['row1','row2','row3','row4']
         data2 = ['1','2.0','3.00000001','3.9999999']
 
@@ -30,6 +29,10 @@ class MainWindow(QMainWindow):
             self.btn_sell = QPushButton('Edit')
             self.btn_sell.clicked.connect(self.handleButtonClicked)
             self.table.setCellWidget(index,2,self.btn_sell)
+        grid = QGridLayout()
+
+        grid.addWidget(self.table,1,0)
+        self.setLayout(grid)
         self.show()
 
     def handleButtonClicked(self):
