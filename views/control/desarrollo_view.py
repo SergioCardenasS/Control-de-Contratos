@@ -65,28 +65,33 @@ class desarrollo_window(QWidget):
     grid = QGridLayout()
 
     #Instaciamos botones
-    aceptar_button = QPushButton('Actualizar', self)
-    aceptar1_button = QPushButton('Crear Contrato', self)
+    actualizar_button = QPushButton('Actualizar', self)
+    agregar_button = QPushButton('Agregar Codigo', self)
+    devolver_button = QPushButton('Devolver a Comercial', self)
 
     #Le damos funcionalidades a cada boton
-    self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
-    self.connect(aceptar1_button, SIGNAL("clicked()"), self.crearContrato)
+    self.connect(actualizar_button, SIGNAL("clicked()"), self.Actualizar)
+    self.connect(devolver_button, SIGNAL("clicked()"), self.Devolver)
+    self.connect(agregar_button, SIGNAL("clicked()"), self.agregarNumeroContrato)
 
     #Le damos posicion a nuestros botones
-    aceptar_button.move(400,550)
-    aceptar1_button.move(400,550)
+    actualizar_button.move(400,550)
+    agregar_button.move(400,550)
+    devolver_button.move(400,550)
 
     #Ahora le damos un tamano a nuestros botones
-    aceptar_button.setFixedSize(150, 110)
-    aceptar1_button.setFixedSize(150, 110)
+    actualizar_button.setFixedSize(150, 110)
+    agregar_button.setFixedSize(150, 110)
+    devolver_button.setFixedSize(150, 110)
 
     #le damos un espacio a nuestro grid
     grid.setHorizontalSpacing(6)
     grid.setVerticalSpacing(5)
 
     #Agregamos los widgets al grid
-    grid.addWidget(aceptar_button,5,3)
-    grid.addWidget(aceptar1_button,5,5)
+    grid.addWidget(actualizar_button,5,2)
+    grid.addWidget(agregar_button,5,6)
+    grid.addWidget(devolver_button,5,4)
     grid.addWidget(self.tabla,1,0,3,9)
 
     #Por ultimo agregamos todo el Layout con todos nuestros widgets
@@ -118,50 +123,61 @@ class desarrollo_window(QWidget):
       self.tabla.setItem(size,2, QTableWidgetItem(listaEventos[size][2]))
       size +=1
 
-  def crearContrato(self):
+  def Devolver(self):
+    process = PROCESS_SET_PO_ID
+    print "Se envia a Comercial", process
+
+  def agregarNumeroContrato(self):
 	ventana = ventanaContrato().exec_()
 
 class ventanaContrato(QDialog):
   def __init__(self, parent=None):
-	super(ventanaContrato, self).__init__(parent)
-	#Nombre de los campos
+    super(ventanaContrato, self).__init__(parent)
+    #Nombre de los campos
 
-	#Creacion de botones
-	self.aceptarBoton = QPushButton("OK", self)
-	self.cancelarBoton = QPushButton("Cancelar")
+    #Creacion de botones
+    self.aceptarBoton = QPushButton("OK", self)
+    self.cancelarBoton = QPushButton("Cancelar")
 
-	#Creacion de los label
-	nombre = QLabel('Nombre')
+    #Creacion de los label
+    ContractNumber = QLabel('Numero de contracto')
+    Commentary = QLabel('Comentario')
 
-	#Creacion de los campos de edicion
-	self.editarNombre = QLineEdit()
-	#Para fecha seria asi dependiendo del tzlocal de la maquina con las liberia 'from dateutil.tz import tzlocal'
-	#self.editarFecha_inicio = QDateTimeEdit(datetime.now(tzlocal()))
+    #Creacion de los campos de edicion
+    self.editarContractNumber = QLineEdit()
+    self.editCommentary = QTextEdit()
+    #Para fecha seria asi dependiendo del tzlocal de la maquina con las liberia 'from dateutil.tz import tzlocal'
+    #self.editarFecha_inicio = QDateTimeEdit(datetime.now(tzlocal()))
 
-	#Creando el grid
-	grid = QGridLayout()
-	grid.addWidget(nombre,1,0)
-	grid.addWidget(self.editarNombre,1,1)
+    #Creando el grid
+    grid = QGridLayout()
+    grid.addWidget(ContractNumber,1,0)
+    grid.addWidget(self.editarContractNumber,1,1)
 
-	grid.addWidget(self.aceptarBoton,7,1)
-	grid.addWidget(self.cancelarBoton,7,2)
+    grid.addWidget(Commentary,2,0)
+    grid.addWidget(self.editCommentary,2,1)
 
-	self.setLayout(grid)
+    grid.addWidget(self.aceptarBoton,6,1)
+    grid.addWidget(self.cancelarBoton,6,2)
 
-	#Dando tamaño a la pantalla
-	size=self.size()
-	desktopSize=QDesktopWidget().screenGeometry()
-	top=(desktopSize.height()/2)-(size.height()/2)
-	left=(desktopSize.width()/2)-(size.width()/2)
-	self.move(left, top)
-	self.setWindowTitle('Crear Contrato')
-	self.show()
+    self.setLayout(grid)
 
-	#Funcionalidades de los botones
-	self.cancelarBoton.clicked.connect(self.close)
-	self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
+    #Dando tamaño a la pantalla
+    size=self.size()
+    desktopSize=QDesktopWidget().screenGeometry()
+    top=(desktopSize.height()/2)-(size.height()/2)
+    left=(desktopSize.width()/2)-(size.width()/2)
+    self.move(left, top)
+    self.setWindowTitle('Crear Codigo de Contrato')
+    self.show()
 
-  def Crear(self):
-	nombre = unicode(self.editarNombre.text())
-	#fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
-	self.close()
+    #Funcionalidades de los botones
+    self.cancelarBoton.clicked.connect(self.close)
+    self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear_Codigo)
+
+  def Crear_Codigo(self):
+    ContractNumber = unicode(self.editarContractNumber.text())
+    Commentary = unicode(self.editCommentary.toPlainText())
+    #fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
+    print ContractNumber, Commentary
+    self.close()

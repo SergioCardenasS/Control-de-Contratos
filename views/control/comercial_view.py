@@ -175,12 +175,13 @@ class ventanaContrato(QDialog):
   def Crear(self):
     PO = unicode(self.editPO.text())
     Is_Provisional = CONTRACT_TYPE_FIRME
-    #fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
     init_date = str(datetime.now(tzlocal()))
     mod_date = str(datetime.now(tzlocal()))
     Commentary = unicode(self.editCommentary.toPlainText())
+    id_process = PROCESS_SET_CODE_ID
+    iteration_number = 1
     if self.editIs_Provisional.isChecked():
         Is_Provisional = CONTRACT_TYPE_PROVISIONAL
     #insertar()
-    print PO , Is_Provisional , init_date, mod_date , Commentary
+    print PO , Is_Provisional, id_process, init_date, mod_date ,iteration_number, Commentary
     self.close()
