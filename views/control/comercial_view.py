@@ -6,6 +6,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from datetime import datetime
+from dateutil.tz import tzlocal
 
 #Import de Modulos
 BASE_DIR='../..'
@@ -130,38 +131,28 @@ class ventanaContrato(QDialog):
     self.cancelarBoton = QPushButton("Cancelar")
 
     #Creacion de los label
-    nombre = QLabel('Nombre')
-    po = QLabel('PO')
-    codigo = QLabel('Codigo del contrato')
-    tipo = QLabel('Tipo de contrato')
-    comentario = QLabel('Comentario')
+    PO = QLabel('Purchase Orden')
+    Commentary = QLabel('Comentario')
+    Is_Provisional = QLabel('Tipo de contrato')
 
     #Creacion de los campos de edicion
-    self.editarNombre = QLineEdit()
-    self.editarPo = QLineEdit()
-    self.editarCodigo = QLineEdit()
-    self.editarTipo = QRadioButton()
-    self.editarComentario = QTextEdit()
+    self.editPO = QLineEdit()
+    self.editIs_Provisional = QRadioButton()
+    self.editCommentary = QTextEdit()
     #Para fecha seria asi dependiendo de
-    #Para fecha seria asi dependiendo del tzlocal de la maquina con las liberia 'from dateutil.tz import tzlocal'
+    #Para fecha seria asi dependiendo del tzlocal de la maquina con las liberia ''
     #self.editarFecha_inicio = QDateTimeEdit(datetime.now(tzlocal()))
 
     #Creando el grid
     grid = QGridLayout()
-    grid.addWidget(nombre,1,0)
-    grid.addWidget(self.editarNombre,1,1)
+    grid.addWidget(PO,1,0)
+    grid.addWidget(self.editPO,1,1)
 
-    grid.addWidget(po,2,0)
-    grid.addWidget(self.editarPo,2,1)
+    grid.addWidget(self.editIs_Provisional,2,0)
+    grid.addWidget(Is_Provisional,2,1)
 
-    grid.addWidget(self.editarTipo,3,0)
-    grid.addWidget(tipo,3,1)
-
-    grid.addWidget(comentario,5,0)
-    grid.addWidget(self.editarComentario,5,1)
-
-    grid.addWidget(codigo,4,0)
-    grid.addWidget(self.editarCodigo,4,1)
+    grid.addWidget(Commentary,3,0)
+    grid.addWidget(self.editCommentary,3,1)
 
     grid.addWidget(self.aceptarBoton,7,1)
     grid.addWidget(self.cancelarBoton,7,2)
@@ -182,14 +173,14 @@ class ventanaContrato(QDialog):
     self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
 
   def Crear(self):
-    nombre = unicode(self.editarNombre.text())
-    po = unicode(self.editarPo.text())
-    codigo = unicode(self.editarCodigo.text())
-    tipo = CONTRACT_TYPE_FIRME
+    PO = unicode(self.editPO.text())
+    Is_Provisional = CONTRACT_TYPE_FIRME
     #fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
-    # liberias from datetime import datetime, timedelta, date
-    comentario = unicode(self.editarComentario.toPlainText())
-    if self.editarAlerta.isChecked():
-        tipo = CONTRACT_TYPE_PROVISIONAL
+    init_date = datetime.now(tzlocal())
+    mod_date = datetime.now(tzlocal())
+    Commentary = unicode(self.editCommentary.toPlainText())
+    if self.editIs_Provisional.isChecked():
+        Is_Provisional = CONTRACT_TYPE_PROVISIONAL
     #insertar()
+    print PO , Is_Provisional , init_date, mod_date , Commentary
     self.close()
