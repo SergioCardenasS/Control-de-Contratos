@@ -53,15 +53,15 @@ class control_window(QWidget):
     header.setResizeMode(QHeaderView.Stretch)
 
     #Esta lista de elementos tendra la query en lista
-    #listaEventos = [['1','2','3'],['1','2','3'],['1','2','3']]
-    #for numEventos in range(len(listaEventos)):
-    #self.tabla.setItem(numEventos,0, QTableWidgetItem(listaEventos[numEventos].nombre))
-    #self.tabla.setItem(numEventos,1, QTableWidgetItem(listaEventos[numEventos].importancia))
-    #self.tabla.setItem(numEventos,2, QTableWidgetItem(listaEventos[numEventos].alerta))
+    #listaContratos = [['1','2','3'],['1','2','3'],['1','2','3']]
+    #for numEventos in range(len(listaContratos)):
+    #self.tabla.setItem(numEventos,0, QTableWidgetItem(listaContratos[numEventos].nombre))
+    #self.tabla.setItem(numEventos,1, QTableWidgetItem(listaContratos[numEventos].importancia))
+    #self.tabla.setItem(numEventos,2, QTableWidgetItem(listaContratos[numEventos].alerta))
     # Asi se sacarain los elementos si fueran datos de una base de datos
-      #self.tabla.setItem(numEventos,0, QTableWidgetItem(listaEventos[numEventos][0]))
-      #self.tabla.setItem(numEventos,1, QTableWidgetItem(listaEventos[numEventos][1]))
-      #self.tabla.setItem(numEventos,2, QTableWidgetItem(listaEventos[numEventos][2]))
+      #self.tabla.setItem(numEventos,0, QTableWidgetItem(listaContratos[numEventos][0]))
+      #self.tabla.setItem(numEventos,1, QTableWidgetItem(listaContratos[numEventos][1]))
+      #self.tabla.setItem(numEventos,2, QTableWidgetItem(listaContratos[numEventos][2]))
     # Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
       #self.stringRow = self.stringRow + str(numEventos+1) + ";"
 
@@ -137,21 +137,24 @@ class control_window(QWidget):
     stringRow = ''
     #Ahora nuevamente sacamos todos los elementos
     for numContratos in range(len(listaContratos)):
-      #self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+      #self.tabla.setItem(size,0, QTableWidgetItem(listaContratos[size].nombre))
       #De esa forma actualizaremos
-      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaEventos[numContratos][0]))
-      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaEventos[numContratos][1]))
-      self.tabla.setItem(numContratos,2, QTableWidgetItem(listaEventos[numContratos][2]))
-      self.tabla.setItem(numContratos,3, QTableWidgetItem(listaEventos[numContratos][3]))
-      self.tabla.setItem(numContratos,4, QTableWidgetItem(listaEventos[numContratos][4]))
-      self.tabla.setItem(numContratos,5, QTableWidgetItem(listaEventos[numContratos][5]))
-      self.tabla.setItem(numContratos,6, QTableWidgetItem(listaEventos[numContratos][6]))
+      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaContratos[numContratos].purchase_order))
+      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaContratos[numContratos].contract_number))
+      self.tabla.setItem(numContratos,2, QTableWidgetItem(str(listaContratos[numContratos].id_process)))
+      self.tabla.setItem(numContratos,3, QTableWidgetItem(str(listaContratos[numContratos].contract_type)))
+      self.tabla.setItem(numContratos,4, QTableWidgetItem(str(listaContratos[numContratos].init_date)))
+      self.tabla.setItem(numContratos,5, QTableWidgetItem(str(listaContratos[numContratos].mod_date)))
+      self.tabla.setItem(numContratos,6, QTableWidgetItem(str(listaContratos[numContratos].iteration_number)))
       self.btn_sell = QPushButton('Comentarios')
-      self.btn_sell.clicked.connect(self.handleButtonClicked)
-      self.table.setCellWidget(numContratos,7,self.btn_sell)
+      self.btn_sell.clicked.connect(self.VerComentarios)
+      self.tabla.setCellWidget(numContratos,7,self.btn_sell)
       stringRow = stringRow + str(numContratos+1) + SPLIT
     #Ahorta solo la seteamos
     self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
+
+  def VerComentarios(self):
+    print 'Ver mas comentarios'
 
   def tablaAbastecimiento(self):
     self.LimpiarTabla()
@@ -166,18 +169,18 @@ class control_window(QWidget):
     stringRow = ''
     #Ahora nuevamente sacamos todos los elementos
     for numContratos in range(len(listaContratos)):
-      #self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+      #self.tabla.setItem(size,0, QTableWidgetItem(listaContratos[size].nombre))
       #De esa forma actualizaremos
-      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaEventos[numContratos][0]))
-      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaEventos[numContratos][1]))
-      self.tabla.setItem(numContratos,2, QTableWidgetItem(listaEventos[numContratos][2]))
-      self.tabla.setItem(numContratos,3, QTableWidgetItem(listaEventos[numContratos][3]))
-      self.tabla.setItem(numContratos,4, QTableWidgetItem(listaEventos[numContratos][4]))
-      self.tabla.setItem(numContratos,5, QTableWidgetItem(listaEventos[numContratos][5]))
-      self.tabla.setItem(numContratos,6, QTableWidgetItem(listaEventos[numContratos][6]))
+      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaContratos[numContratos].purchase_order))
+      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaContratos[numContratos].contract_number))
+      self.tabla.setItem(numContratos,2, QTableWidgetItem(str(listaContratos[numContratos].id_process)))
+      self.tabla.setItem(numContratos,3, QTableWidgetItem(str(listaContratos[numContratos].contract_type)))
+      self.tabla.setItem(numContratos,4, QTableWidgetItem(str(listaContratos[numContratos].init_date)))
+      self.tabla.setItem(numContratos,5, QTableWidgetItem(str(listaContratos[numContratos].mod_date)))
+      self.tabla.setItem(numContratos,6, QTableWidgetItem(str(listaContratos[numContratos].iteration_number)))
       self.btn_sell = QPushButton('Comentarios')
-      self.btn_sell.clicked.connect(self.handleButtonClicked)
-      self.table.setCellWidget(numContratos,7,self.btn_sell)
+      self.btn_sell.clicked.connect(self.VerComentarios)
+      self.tabla.setCellWidget(numContratos,7,self.btn_sell)
       stringRow = stringRow + str(numContratos+1) + SPLIT
     #Ahorta solo la seteamos
     self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
@@ -195,18 +198,18 @@ class control_window(QWidget):
     stringRow = ''
     #Ahora nuevamente sacamos todos los elementos
     for numContratos in range(len(listaContratos)):
-      #self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+      #self.tabla.setItem(size,0, QTableWidgetItem(listaContratos[size].nombre))
       #De esa forma actualizaremos
-      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaEventos[numContratos][0]))
-      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaEventos[numContratos][1]))
-      self.tabla.setItem(numContratos,2, QTableWidgetItem(listaEventos[numContratos][2]))
-      self.tabla.setItem(numContratos,3, QTableWidgetItem(listaEventos[numContratos][3]))
-      self.tabla.setItem(numContratos,4, QTableWidgetItem(listaEventos[numContratos][4]))
-      self.tabla.setItem(numContratos,5, QTableWidgetItem(listaEventos[numContratos][5]))
-      self.tabla.setItem(numContratos,6, QTableWidgetItem(listaEventos[numContratos][6]))
+      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaContratos[numContratos].purchase_order))
+      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaContratos[numContratos].contract_number))
+      self.tabla.setItem(numContratos,2, QTableWidgetItem(str(listaContratos[numContratos].id_process)))
+      self.tabla.setItem(numContratos,3, QTableWidgetItem(str(listaContratos[numContratos].contract_type)))
+      self.tabla.setItem(numContratos,4, QTableWidgetItem(str(listaContratos[numContratos].init_date)))
+      self.tabla.setItem(numContratos,5, QTableWidgetItem(str(listaContratos[numContratos].mod_date)))
+      self.tabla.setItem(numContratos,6, QTableWidgetItem(str(listaContratos[numContratos].iteration_number)))
       self.btn_sell = QPushButton('Comentarios')
-      self.btn_sell.clicked.connect(self.handleButtonClicked)
-      self.table.setCellWidget(numContratos,7,self.btn_sell)
+      self.btn_sell.clicked.connect(self.VerComentarios)
+      self.tabla.setCellWidget(numContratos,7,self.btn_sell)
       stringRow = stringRow + str(numContratos+1) + SPLIT
     #Ahorta solo la seteamos
     self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
@@ -224,18 +227,18 @@ class control_window(QWidget):
     stringRow = ''
     #Ahora nuevamente sacamos todos los elementos
     for numContratos in range(len(listaContratos)):
-      #self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+      #self.tabla.setItem(size,0, QTableWidgetItem(listaContratos[size].nombre))
       #De esa forma actualizaremos
-      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaEventos[numContratos][0]))
-      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaEventos[numContratos][1]))
-      self.tabla.setItem(numContratos,2, QTableWidgetItem(listaEventos[numContratos][2]))
-      self.tabla.setItem(numContratos,3, QTableWidgetItem(listaEventos[numContratos][3]))
-      self.tabla.setItem(numContratos,4, QTableWidgetItem(listaEventos[numContratos][4]))
-      self.tabla.setItem(numContratos,5, QTableWidgetItem(listaEventos[numContratos][5]))
-      self.tabla.setItem(numContratos,6, QTableWidgetItem(listaEventos[numContratos][6]))
+      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaContratos[numContratos].purchase_order))
+      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaContratos[numContratos].contract_number))
+      self.tabla.setItem(numContratos,2, QTableWidgetItem(str(listaContratos[numContratos].id_process)))
+      self.tabla.setItem(numContratos,3, QTableWidgetItem(str(listaContratos[numContratos].contract_type)))
+      self.tabla.setItem(numContratos,4, QTableWidgetItem(str(listaContratos[numContratos].init_date)))
+      self.tabla.setItem(numContratos,5, QTableWidgetItem(str(listaContratos[numContratos].mod_date)))
+      self.tabla.setItem(numContratos,6, QTableWidgetItem(str(listaContratos[numContratos].iteration_number)))
       self.btn_sell = QPushButton('Comentarios')
-      self.btn_sell.clicked.connect(self.handleButtonClicked)
-      self.table.setCellWidget(numContratos,7,self.btn_sell)
+      self.btn_sell.clicked.connect(self.VerComentarios)
+      self.tabla.setCellWidget(numContratos,7,self.btn_sell)
       stringRow = stringRow + str(numContratos+1) + SPLIT
     #Ahorta solo la seteamos
     self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
@@ -253,17 +256,17 @@ class control_window(QWidget):
     stringRow = ''
     #Ahora nuevamente sacamos todos los elementos
     for numContratos in range(len(listaContratos)):
-      #self.tabla.setItem(size,0, QTableWidgetItem(listaEventos[size].nombre))
+      #self.tabla.setItem(size,0, QTableWidgetItem(listaContratos[size].nombre))
       #De esa forma actualizaremos
-      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaEventos[numContratos][0]))
-      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaEventos[numContratos][1]))
-      self.tabla.setItem(numContratos,2, QTableWidgetItem(listaEventos[numContratos][2]))
-      self.tabla.setItem(numContratos,3, QTableWidgetItem(listaEventos[numContratos][3]))
-      self.tabla.setItem(numContratos,4, QTableWidgetItem(listaEventos[numContratos][4]))
-      self.tabla.setItem(numContratos,5, QTableWidgetItem(listaEventos[numContratos][5]))
-      self.tabla.setItem(numContratos,6, QTableWidgetItem(listaEventos[numContratos][6]))
+      self.tabla.setItem(numContratos,0, QTableWidgetItem(listaContratos[numContratos].purchase_order))
+      self.tabla.setItem(numContratos,1, QTableWidgetItem(listaContratos[numContratos].contract_number))
+      self.tabla.setItem(numContratos,2, QTableWidgetItem(str(listaContratos[numContratos].id_process)))
+      self.tabla.setItem(numContratos,3, QTableWidgetItem(str(listaContratos[numContratos].contract_type)))
+      self.tabla.setItem(numContratos,4, QTableWidgetItem(str(listaContratos[numContratos].init_date)))
+      self.tabla.setItem(numContratos,5, QTableWidgetItem(str(listaContratos[numContratos].mod_date)))
+      self.tabla.setItem(numContratos,6, QTableWidgetItem(str(listaContratos[numContratos].iteration_number)))
       self.btn_sell = QPushButton('Comentarios')
-      self.btn_sell.clicked.connect(self.handleButtonClicked)
+      self.btn_sell.clicked.connect(self.VerComentarios)
       self.table.setCellWidget(numContratos,7,self.btn_sell)
       stringRow = stringRow + str(numContratos+1) + SPLIT
     #Ahorta solo la seteamos
