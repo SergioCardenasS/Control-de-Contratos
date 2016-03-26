@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import MySQLdb
+import time
 
 #DATABASE Configuration
 DATABASE_HOST		= "127.0.0.1"
@@ -11,6 +12,10 @@ DATABASE_NAME 		= "BASE_SEGUIMIENTO"
 
 def get_connection():
 	return MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
+
+#TIME
+def get_time_str():
+	return time.strftime('%Y-%m-%d %H:%M:%S')
 
 #CONTRACTS TYPE
 CONTRACT_TYPE_FIRME			= 0

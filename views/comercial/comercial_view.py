@@ -5,8 +5,6 @@
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from datetime import datetime
-import time
 
 #Import de Modulos
 BASE_DIR='../..'
@@ -180,7 +178,7 @@ class ventanaContrato(QDialog):
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
-			init_date = time.strftime('%Y-%m-%d %H:%m')
+			init_date = get_time_str()
 			mod_date = init_date
 			Is_Provisional = int(self.editIs_Provisional.isChecked())
 			Commentary = unicode(self.editCommentary.toPlainText())
