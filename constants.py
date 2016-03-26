@@ -69,3 +69,8 @@ LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
 
 #CREATE CONTRACT ERRORS
 CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"
+
+#TABLA
+SIZE_COLUMNS = 8
+TITLE_ROWS = "OP;Numero de Contrato; Nombre del proceso;Tipo del Contrato;Fecha Inicial;Ultima de Modificacion;Iteracion"
+SPLIT = ";"
