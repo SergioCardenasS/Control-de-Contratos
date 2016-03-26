@@ -12,9 +12,9 @@ BASE_DIR='../..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 
-class control_window(QWidget):
+class comercial_window(QWidget):
   def __init__(self):
-    super(control_window, self).__init__()
+    super(comercial_window, self).__init__()
     #Dar tamano a la pantalla
     size=self.size()
     desktopSize=QDesktopWidget().screenGeometry()
@@ -22,11 +22,11 @@ class control_window(QWidget):
     left=(desktopSize.width())-(size.width())
     self.move(left, top)
     #abrimos la pantalla princilal para todas las areas
-    self.pantallasAreas()
-    self.setWindowTitle('Administrador')
+    self.pantallaComercial()
+    self.setWindowTitle('Comercial')
     self.show()
 
-  def pantallasAreas(self):
+  def pantallaComercial(self):
     #Creacion de la tabla  con cada item
     self.tabla = QTableWidget()
     tablaItem = QTableWidgetItem()
@@ -64,44 +64,29 @@ class control_window(QWidget):
     grid = QGridLayout()
 
     #Instaciamos botones
-    comercial_button = QPushButton('Comercial', self)
-    abastecimiento_button = QPushButton('Abastecimiento', self)
-    desarrollo_button = QPushButton('Desarrollo', self)
-    ingenieria_button = QPushButton('Ingenieria', self)
-    planificacion_button = QPushButton('Planificacion', self)
-    refresh_button = QPushButton('Refresh', self)
+    aceptar_button = QPushButton('Actualizar', self)
+    aceptar1_button = QPushButton('Crear Contrato', self)
 
     #Le damos funcionalidades a cada boton
-    self.connect(comercial_button, SIGNAL("clicked()"), self.Actualizar)
+    self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
+    self.connect(aceptar1_button, SIGNAL("clicked()"), self.crearContrato)
 
     #Le damos posicion a nuestros botones
-    comercial_button.move(50, 150)
-    abastecimiento_button.move(50, 250)
-    desarrollo_button.move(50, 350)
-    ingenieria_button.move(50, 450)
-    planificacion_button.move(50, 550)
-    refresh_button.move(400,550)
+    aceptar_button.move(400,550)
+    aceptar1_button.move(400,550)
 
     #Ahora le damos un tamano a nuestros botones
-    comercial_button.setFixedSize(150, 110)
-    abastecimiento_button.setFixedSize(150, 110)
-    desarrollo_button.setFixedSize(150, 110)
-    ingenieria_button.setFixedSize(150, 110)
-    planificacion_button.setFixedSize(150, 110)
-    refresh_button.setFixedSize(150, 110)
+    aceptar_button.setFixedSize(150, 110)
+    aceptar1_button.setFixedSize(150, 110)
 
     #le damos un espacio a nuestro grid
     grid.setHorizontalSpacing(6)
     grid.setVerticalSpacing(5)
 
     #Agregamos los widgets al grid
-    grid.addWidget(comercial_button,1,0)
-    grid.addWidget(abastecimiento_button,1,2)
-    grid.addWidget(desarrollo_button,1,4)
-    grid.addWidget(ingenieria_button,1,6)
-    grid.addWidget(planificacion_button,1,8)
-    grid.addWidget(refresh_button,5,4)
-    grid.addWidget(self.tabla,2,0,3,9)
+    grid.addWidget(aceptar_button,5,3)
+    grid.addWidget(aceptar1_button,5,5)
+    grid.addWidget(self.tabla,1,0,3,9)
 
     #Por ultimo agregamos todo el Layout con todos nuestros widgets
     self.setLayout(grid)
@@ -131,3 +116,80 @@ class control_window(QWidget):
       self.tabla.setItem(size,1, QTableWidgetItem(listaEventos[size][1]))
       self.tabla.setItem(size,2, QTableWidgetItem(listaEventos[size][2]))
       size +=1
+
+  def crearContrato(self):
+	ventana = ventanaContrato().exec_()
+
+class ventanaContrato(QDialog):
+  def __init__(self, parent=None):
+    super(ventanaContrato, self).__init__(parent)
+    #Nombre de los campos
+
+    #Creacion de botones
+    self.aceptarBoton = QPushButton("OK", self)
+    self.cancelarBoton = QPushButton("Cancelar")
+
+    #Creacion de los label
+    nombre = QLabel('Nombre')
+    po = QLabel('PO')
+    codigo = QLabel('Codigo del contrato')
+    tipo = QLabel('Tipo de contrato')
+    comentario = QLabel('Comentario')
+
+    #Creacion de los campos de edicion
+    self.editarNombre = QLineEdit()
+    self.editarPo = QLineEdit()
+    self.editarCodigo = QLineEdit()
+    self.editarTipo = QRadioButton()
+    self.editarComentario = QTextEdit()
+    #Para fecha seria asi dependiendo de
+    #Para fecha seria asi dependiendo del tzlocal de la maquina con las liberia 'from dateutil.tz import tzlocal'
+    #self.editarFecha_inicio = QDateTimeEdit(datetime.now(tzlocal()))
+
+    #Creando el grid
+    grid = QGridLayout()
+    grid.addWidget(nombre,1,0)
+    grid.addWidget(self.editarNombre,1,1)
+
+    grid.addWidget(po,2,0)
+    grid.addWidget(self.editarPo,2,1)
+
+    grid.addWidget(self.editarTipo,3,0)
+    grid.addWidget(tipo,3,1)
+
+    grid.addWidget(comentario,5,0)
+    grid.addWidget(self.editarComentario,5,1)
+
+    grid.addWidget(codigo,4,0)
+    grid.addWidget(self.editarCodigo,4,1)
+
+    grid.addWidget(self.aceptarBoton,7,1)
+    grid.addWidget(self.cancelarBoton,7,2)
+
+    self.setLayout(grid)
+
+    #Dando tamaño a la pantalla
+    size=self.size()
+    desktopSize=QDesktopWidget().screenGeometry()
+    top=(desktopSize.height()/2)-(size.height()/2)
+    left=(desktopSize.width()/2)-(size.width()/2)
+    self.move(left, top)
+    self.setWindowTitle('Crear Contrato')
+    self.show()
+
+    #Funcionalidades de los botones
+    self.cancelarBoton.clicked.connect(self.close)
+    self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
+
+  def Crear(self):
+    nombre = unicode(self.editarNombre.text())
+    po = unicode(self.editarPo.text())
+    codigo = unicode(self.editarCodigo.text())
+    tipo = CONTRACT_TYPE_FIRME
+    #fecha_fin = datetime.strptime(str(self.editarFecha_fin.text()),'%d/%m/%y %H:%M') Para la transformacion del tiempo
+    # liberias from datetime import datetime, timedelta, date
+    comentario = unicode(self.editarComentario.toPlainText())
+    if self.editarAlerta.isChecked():
+        tipo = CONTRACT_TYPE_PROVISIONAL
+    #insertar()
+    self.close()

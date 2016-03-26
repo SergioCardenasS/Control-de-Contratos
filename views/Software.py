@@ -11,7 +11,7 @@ BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from views import login
-from views.control import control_view
+from views.control import control_view, abastecimiento_view, comercial_view, desarrollo_view, ingenieria_view, planificacion_view
 
 def main():
 	app = QApplication(sys.argv)
@@ -22,6 +22,16 @@ def main():
 		window = None
 		if(actual_id==AREA_CONTROL_ID):
 			window = control_view.control_window()
+		elif(actual_id==AREA_COMERCIAL_ID):
+			window = comercial_view.comercial_window()
+		elif(actual_id==AREA_ABASTECIMIENTOS_ID):
+			window = abastecimiento_view.abastecimiento_window()
+		elif(actual_id==AREA_DESARROLLO_ID):
+			window = desarrollo_view.desarrollo_window()
+		elif(actual_id==AREA_INGENIERIA_ID):
+			window = ingenieria_view.ingenieria_window()
+		elif(actual_id==AREA_PLANIFICACION_ID):
+			window = planificacion_view.planificacion_window()
 		else:
 			return
 		screenGeometry = QApplication.desktop().availableGeometry()
