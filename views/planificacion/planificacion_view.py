@@ -74,10 +74,10 @@ class planificacion_window(QWidget):
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
 		self.setLayout(grid)
-		self.refresh_table(AREA_ABASTECIMIENTOS_ID)
+		self.refresh_table(AREA_PLANIFICACION_ID)
 
 	def Actualizar(self):
-		self.refresh_table(AREA_ABASTECIMIENTOS_ID)
+		self.refresh_table(AREA_PLANIFICACION_ID)
 
 	def LimpiarTabla(self):
 		self.tabla.clear();
@@ -118,3 +118,4 @@ class planificacion_window(QWidget):
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
 			ventana = planificacion_fin_process.FinishProcessSetDate(contract=self.listaContratos[index.row()]).exec_()
+			self.refresh_table(AREA_PLANIFICACION_ID)

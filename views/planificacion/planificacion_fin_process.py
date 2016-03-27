@@ -12,27 +12,29 @@ BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from controllers import controller_comment
+from models import comment
+from controllers import controller_comment
 
 class FinishProcessSetDate(QDialog):
 	def __init__(self, contract ,parent=None):
-		super(FinishProcessStateYarn, self).__init__(parent)
+		super(FinishProcessSetDate, self).__init__(parent)
 		self.contract=contract
 		#crear la ventana
-		self.finishProcessStateYarnWindow()
+		self.finishProcessSetDateWindow()
 		#Dando tamaño a la pantalla
 		size=self.size()
 		desktopSize=QDesktopWidget().screenGeometry()
 		top=(3*desktopSize.height()/4)
 		left=(3*desktopSize.width()/4)
 		self.resize(left, top)
-		self.setWindowTitle('Dar Fechas')
+		self.setWindowTitle('Finalizar Proceso')
 		self.show()
 
 	def finishProcessSetDateWindow(self):
 		#Nombre de los campos
 		#Creacion de botones
+		self.crearBoton = QPushButton("Mandar Fechas a Comercial", self)
 		self.atrasBoton = QPushButton("Atras", self)
-		self.crearBoton = QPushButton("Mandar Fecha a Comercial", self)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -52,7 +54,6 @@ class FinishProcessSetDate(QDialog):
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
 		header = self.tabla.verticalHeader()
-		header.setResizeMode(QHeaderView.Stretch)
 
 		#Esta lista de elementos tendra la query en lista
 		for numEventos in range(len(listaCometarios)):
@@ -64,6 +65,7 @@ class FinishProcessSetDate(QDialog):
 		#Ahora creamos dicha filas de numeros o ids
 		self.tabla.setVerticalHeaderLabels(QString(self.stringRow).split(";"))
 		self.tabla.setColumnWidth(0, WIDTH_COLUMN_COMMENT)
+		self.tabla.resizeRowsToContents()
 		self.tabla.horizontalHeader().setStretchLastSection(True)
 
 		#Crearemos un grid ponde estaran todos nuestro widgets
@@ -79,7 +81,6 @@ class FinishProcessSetDate(QDialog):
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
-		self.consultarComercialBoton.setFixedSize(350, 110)
 		self.crearBoton.setFixedSize(350, 110)
 
 		#Agregamos los widgets al grid
@@ -91,3 +92,17 @@ class FinishProcessSetDate(QDialog):
 		self.setLayout(grid)
 		#Funcionalidades de los botones
 		self.atrasBoton.clicked.connect(self.close)
+		self.connect(self.crearBoton, SIGNAL("clicked()"), self.FinishSendDates)
+
+	def FinishSendDates(self):
+		Commentary = unicode(self.editCommentary.toPlainText())
+		db=get_connection()
+		self.contract.mod_date = get_time_str()
+		self.contract.id_process=PROCESS_ACCEPT_DATES_ID
+		self.contract.update(db.cursor())
+		new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_PLANIFICACION_ID,Commentary])
+		new_comment.insert(db.cursor())
+		db.commit()
+		db.close()
+		self.close()
+

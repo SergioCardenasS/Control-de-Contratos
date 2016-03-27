@@ -118,3 +118,4 @@ class abastecimiento_window(QWidget):
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
 			ventana = abastecimiento_fin_process.FinishProcessStateYarn(contract=self.listaContratos[index.row()]).exec_()
+			self.refresh_table(AREA_ABASTECIMIENTOS_ID)

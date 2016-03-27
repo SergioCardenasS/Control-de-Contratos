@@ -74,10 +74,10 @@ class ingenieria_window(QWidget):
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
 		self.setLayout(grid)
-		self.refresh_table(AREA_ABASTECIMIENTOS_ID)
+		self.refresh_table(AREA_INGENIERIA_ID)
 
 	def Actualizar(self):
-		self.refresh_table(AREA_ABASTECIMIENTOS_ID)
+		self.refresh_table(AREA_INGENIERIA_ID)
 
 	def LimpiarTabla(self):
 		self.tabla.clear();
@@ -118,3 +118,4 @@ class ingenieria_window(QWidget):
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
 			ventana = ingenieria_fin_process.FinishProcessSetWeight(contract=self.listaContratos[index.row()]).exec_()
+			self.refresh_table(AREA_INGENIERIA_ID)

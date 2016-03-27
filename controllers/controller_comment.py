@@ -27,3 +27,12 @@ def get_all_comments_by_id_contract(db,id_contract):
 	for row in cursor:
 		comment_list.append(comment.Comment(row))
 	return comment_list
+
+def get_next_number_comment_by_id_contract(db,id_contract):
+	cursor=db.cursor()
+	select_comment="select MAX(comment_number) from Comment where id_contract='%d'"%(id_contract)
+	cursor.execute(select_comment)
+	val=0
+	for row in cursor:
+		val=row[0]
+	return val+1

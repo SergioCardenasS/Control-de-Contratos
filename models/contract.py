@@ -34,7 +34,7 @@ class Contract:
 	iteration_number	= 0
 	#Constructor de la clase Contrato, recive una fila de la tabla de la bases de datos, como una lista.
 	def __init__(self, row_contract):
-		self.id_contract		= row_contract[0]
+		self.id_contract		= int(row_contract[0])
 		self.purchase_order		= row_contract[1]
 		self.contract_number	= row_contract[2]
 		self.id_process			= row_contract[3]
@@ -51,11 +51,20 @@ class Contract:
 										self.id_process,
 										self.contract_type,
 										self.init_date,
-										self.mod_date
-										,self.iteration_number)
+										self.mod_date,
+										self.iteration_number)
 		cursor_db.execute(insert_code_contract)
 		cursor_db.execute("select MAX(id_contract) from Contract")
 		for row in cursor_db:
 			self.id_contract=row[0]
 	def update(self,cursor_db):
-		x=1
+		update_code_contract="""UPDATE Contract SET purchase_order='%s', contract_number='%s', id_process='%d', contract_type=b'%d', mod_date='%s', iteration_number='%d'
+							WHERE id_contract='%d'"""%(
+									self.purchase_order,
+									self.contract_number,
+									self.id_process,
+									self.contract_type,
+									self.mod_date,
+									self.iteration_number,
+									self.id_contract)
+		cursor_db.execute(update_code_contract)

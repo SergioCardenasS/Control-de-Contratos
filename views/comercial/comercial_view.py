@@ -13,7 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
-from views import temporary
+from views.comercial import comercial_fin_process
 
 class comercial_window(QWidget):
 	def __init__(self):
@@ -126,7 +126,17 @@ class comercial_window(QWidget):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			ventana = temporary.ventanaFinalizar(id_contract=self.listaContratos[index.row()].id_contract,ID_AREA=AREA_COMERCIAL_ID).exec_()
+			if(self.listaContratos[index.row()].id_process==PROCESS_SET_PO_ID):
+				ventana = comercial_fin_process.FinishProcessSetPO(contract=self.listaContratos[index.row()]).exec_()
+			elif(self.listaContratos[index.row()].id_process==PROCESS_SAVE_PRECONTRACT_ID):
+				ventana = comercial_fin_process.FinishProcessSavePreContract(contract=self.listaContratos[index.row()]).exec_()
+			elif(self.listaContratos[index.row()].id_process==PROCESS_SET_ACCESS_ID):
+				ventana = comercial_fin_process.FinishProcessSetAcesss(contract=self.listaContratos[index.row()]).exec_()
+			elif(self.listaContratos[index.row()].id_process==PROCESS_ACCEPT_DATES_ID):
+				ventana = comercial_fin_process.FinishProcessAcceptDates(contract=self.listaContratos[index.row()]).exec_()
+			elif(self.listaContratos[index.row()].id_process==PROCESS_ACTIVATE_CONTRACT_ID):
+				ventana = comercial_fin_process.FinishProcessAcceptContract(contract=self.listaContratos[index.row()]).exec_()
+			self.refresh_table(AREA_COMERCIAL_ID)
 			
 
 class ventanaContrato(QDialog):

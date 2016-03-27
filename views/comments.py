@@ -51,7 +51,6 @@ class ventanaCommentarios(QDialog):
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
 		header = self.tabla.verticalHeader()
-		header.setResizeMode(QHeaderView.Stretch)
 
 		#Esta lista de elementos tendra la query en lista
 		for numEventos in range(len(listaCometarios)):
@@ -70,6 +69,7 @@ class ventanaCommentarios(QDialog):
 		#Ahora creamos dicha filas de numeros o ids
 		self.tabla.setVerticalHeaderLabels(QString(self.stringRow).split(";"))
 		self.tabla.setColumnWidth(0, WIDTH_COLUMN_COMMENT)
+		self.tabla.resizeRowsToContents()
 		self.tabla.horizontalHeader().setStretchLastSection(True)
 
 		#Crearemos un grid ponde estaran todos nuestro widgets

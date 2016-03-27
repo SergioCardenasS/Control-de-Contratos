@@ -119,3 +119,4 @@ class desarrollo_window(QWidget):
 		if index.isValid():
 			if(self.listaContratos[index.row()].id_process==PROCESS_SET_CODE_ID):
 				ventana = desarrollo_fin_process.FinishProcessSetCode(contract=self.listaContratos[index.row()]).exec_()
+				self.refresh_table(AREA_DESARROLLO_ID)
