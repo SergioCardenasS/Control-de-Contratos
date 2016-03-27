@@ -121,7 +121,10 @@ class comercial_window(QWidget):
 	def crearContrato(self):
 		ventana = ventanaContrato().exec_()
 	def Finalizar(self):
-		print "fin"
+		button = qApp.focusWidget()
+		index = self.tabla.indexAt(button.pos())
+		if index.isValid():
+			print index.row()
 
 class ventanaContrato(QDialog):
 	def __init__(self, parent=None):

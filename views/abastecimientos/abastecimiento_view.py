@@ -115,4 +115,7 @@ class abastecimiento_window(QWidget):
 	def crearContrato(self):
 		ventana = ventanaContrato(db=self.db).exec_()
 	def Finalizar(self):
-		print "fin"
+		button = qApp.focusWidget()
+		index = self.tabla.indexAt(button.pos())
+		if index.isValid():
+			print index.row()
