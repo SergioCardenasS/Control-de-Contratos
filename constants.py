@@ -119,3 +119,6 @@ TITLE_ROWS				= "OP;Numero de Contrato; Nombre del proceso;Tipo del Contrato;Fec
 SPLIT					= ";"
 SIZE_COLUMNS_COMMENT	= 2
 TITLE_ROWS_COMMENT		= "Area;Comentario"
+SIZE_COLUMNS_END		= 2
+TITLE_COLUMNS_END		= "Area;Comentario"
+WIDTH_COLUMN_COMMENT	= 140
