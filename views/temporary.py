@@ -65,6 +65,11 @@ class ventanaFinalizar(QDialog):
 		for numEventos in range(len(listaCometarios)):
 			self.tabla.setItem(numEventos,0, QTableWidgetItem(get_str_name_by_id_area(listaCometarios[numEventos].id_area)))
 			self.tabla.setItem(numEventos,1, QTableWidgetItem(str(listaCometarios[numEventos].comment)))
+			#Agregando texEdit()
+			self.btn_sell = QTextEdit()
+			self.btn_sell.setText(self.tabla.item(numEventos,1).text())
+			self.tabla.setCellWidget(numEventos,1,self.btn_sell)
+			self.btn_sell.setReadOnly(True)
 			# Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
 			self.stringRow = self.stringRow + str(numEventos+1) + ";"
 
