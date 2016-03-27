@@ -13,6 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
+from views.planificacion import planificacion_fin_process
 
 class planificacion_window(QWidget):
 	def __init__(self):
@@ -116,4 +117,4 @@ class planificacion_window(QWidget):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			print index.row()
+			ventana = planificacion_fin_process.FinishProcessSetDate(contract=self.listaContratos[index.row()]).exec_()

@@ -13,6 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
+from views.abastecimientos import abastecimiento_fin_process
 
 class abastecimiento_window(QWidget):
 	def __init__(self):
@@ -116,4 +117,4 @@ class abastecimiento_window(QWidget):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			print index.row()
+			ventana = abastecimiento_fin_process.FinishProcessStateYarn(contract=self.listaContratos[index.row()]).exec_()
