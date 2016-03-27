@@ -13,6 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
+from views import temporary
 
 class comercial_window(QWidget):
 	def __init__(self):
@@ -66,7 +67,7 @@ class comercial_window(QWidget):
 
 		#Ahora le damos un tamano a nuestros botones
 		aceptar_button.setFixedSize(150, 110)
-		aceptar1_button.setFixedSize(150, 110)
+		aceptar1_button.setFixedSize(180, 110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -120,11 +121,13 @@ class comercial_window(QWidget):
 
 	def crearContrato(self):
 		ventana = ventanaContrato().exec_()
+
 	def Finalizar(self):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			print index.row()
+			ventana = temporary.ventanaFinalizar(id_contract=self.listaContratos[index.row()].id_contract,ID_AREA=AREA_COMERCIAL_ID).exec_()
+			
 
 class ventanaContrato(QDialog):
 	def __init__(self, parent=None):
@@ -174,6 +177,7 @@ class ventanaContrato(QDialog):
 		#Funcionalidades de los botones
 		self.cancelarBoton.clicked.connect(self.close)
 		self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
+
 	def Crear(self):
 		PO = self.editPO.text()
 		if(PO == ''):

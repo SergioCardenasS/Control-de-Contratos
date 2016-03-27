@@ -13,6 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
+from views import temporary
 
 class desarrollo_window(QWidget):
 	def __init__(self):
@@ -116,4 +117,4 @@ class desarrollo_window(QWidget):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			print index.row()
+			ventana = temporary.ventanaFinalizar(id_contract=self.listaContratos[index.row()].id_contract,ID_AREA=AREA_DESARROLLO_ID).exec_()

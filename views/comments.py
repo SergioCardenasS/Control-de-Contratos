@@ -22,9 +22,9 @@ class ventanaCommentarios(QDialog):
 		#Dando tamaño a la pantalla
 		size=self.size()
 		desktopSize=QDesktopWidget().screenGeometry()
-		top=(desktopSize.height()/2)-(size.height()/2)
-		left=(desktopSize.width()/2)-(size.width()/2)
-		self.move(left, top)
+		top=(desktopSize.height())
+		left=(desktopSize.width())
+		self.resize(left, top)
 		self.setWindowTitle('Ver Comentarios')
 		self.show()
 
@@ -36,6 +36,7 @@ class ventanaCommentarios(QDialog):
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
 		self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers)
+		self.tabla.resizeColumnsToContents()
 		#Numero de items o filas
 		db=get_connection()
 		listaCometarios = controller_comment.get_all_comments_by_id_contract(db,self.id_contract)
@@ -49,7 +50,7 @@ class ventanaCommentarios(QDialog):
 		self.tabla.setRowCount(self.rows)
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
-		header = self.tabla.horizontalHeader()
+		header = self.tabla.verticalHeader()
 		header.setResizeMode(QHeaderView.Stretch)
 
 		#Esta lista de elementos tendra la query en lista
@@ -61,6 +62,8 @@ class ventanaCommentarios(QDialog):
 
 		#Ahora creamos dicha filas de numeros o ids
 		self.tabla.setVerticalHeaderLabels(QString(self.stringRow).split(";"))
+		self.tabla.setColumnWidth(0, WIDTH_COLUMN_COMMENT)
+		self.tabla.horizontalHeader().setStretchLastSection(True)
 
 		#Crearemos un grid ponde estaran todos nuestro widgets
 		grid = QGridLayout()
@@ -69,9 +72,12 @@ class ventanaCommentarios(QDialog):
 		grid.setHorizontalSpacing(6)
 		grid.setVerticalSpacing(5)
 
+		#Tamano del boton
+		self.aceptarBoton.setFixedSize(150, 110)
+
 		#Agregamos los widgets al grid
 		grid.addWidget(self.aceptarBoton,2,4)
-		grid.addWidget(self.tabla,2,0,3,3)
+		grid.addWidget(self.tabla,1,0,5,3)
 		self.setLayout(grid)
 		#Funcionalidades de los botones
 		self.aceptarBoton.clicked.connect(self.close)
