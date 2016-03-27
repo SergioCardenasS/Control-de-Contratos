@@ -111,9 +111,7 @@ class abastecimiento_window(QWidget):
 			self.tabla.setCellWidget(numContratos,7,self.btn_sell)
 			stringRow = stringRow + str(numContratos+1) + SPLIT
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
-
-	def crearContrato(self):
-		ventana = ventanaContrato(db=self.db).exec_()
+		
 	def Finalizar(self):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
