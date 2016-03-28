@@ -119,7 +119,7 @@ class FinishProcessSetCode(QDialog):
 		self.close()
 
 	def FinishToSetCodeBoton(self):
-		contract_number = self.editContractNumber.text()
+		contract_number = unicode(elf.editContractNumber.text())
 		if(contract_number == ''):
 			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
 		else:

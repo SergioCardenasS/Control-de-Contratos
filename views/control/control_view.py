@@ -62,6 +62,7 @@ class control_window(QWidget):
 		ingenieria_button = QPushButton('Ingenieria', self)
 		planificacion_button = QPushButton('Planificacion', self)
 		refresh_button = QPushButton('Actualizar', self)
+		finish_button = QPushButton('Contratos Finalizados', self)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(refresh_button, SIGNAL("clicked()"), self.Actualizar)
@@ -78,6 +79,7 @@ class control_window(QWidget):
 		ingenieria_button.move(50, 450)
 		planificacion_button.move(50, 550)
 		refresh_button.move(400,550)
+		finish_button.move(400,350)
 
 		#Ahora le damos un tamano a nuestros botones
 		comercial_button.setFixedSize(150, 110)
@@ -86,6 +88,7 @@ class control_window(QWidget):
 		ingenieria_button.setFixedSize(150, 110)
 		planificacion_button.setFixedSize(150, 110)
 		refresh_button.setFixedSize(150, 110)
+		finish_button.setFixedSize(180, 110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -98,6 +101,7 @@ class control_window(QWidget):
 		grid.addWidget(ingenieria_button,1,6)
 		grid.addWidget(planificacion_button,1,8)
 		grid.addWidget(refresh_button,5,4)
+		grid.addWidget(finish_button,5,2)
 		grid.addWidget(self.tabla,2,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets

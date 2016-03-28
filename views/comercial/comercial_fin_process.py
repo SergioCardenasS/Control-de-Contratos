@@ -105,7 +105,7 @@ class FinishProcessSetPO(QDialog):
 		self.connect(self.crearBoton, SIGNAL("clicked()"), self.FinishToDesarrolloBoton)
 
 	def FinishToDesarrolloBoton(self):
-		PO = self.editPONumber.text()
+		PO = unicode(self.editPONumber.text())
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
