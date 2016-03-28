@@ -11,9 +11,8 @@ from datetime import datetime
 BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
-from controllers import controller_comment
 from models import comment
-from controllers import controller_comment
+from controllers import controller_comment,controller_contract
 
 class FinishProcessSetDate(QDialog):
 	def __init__(self, contract ,parent=None):
@@ -97,12 +96,14 @@ class FinishProcessSetDate(QDialog):
 	def FinishSendDates(self):
 		Commentary = unicode(self.editCommentary.toPlainText())
 		db=get_connection()
-		self.contract.mod_date = get_time_str()
-		self.contract.id_process=PROCESS_ACCEPT_DATES_ID
-		self.contract.update(db.cursor())
-		new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_PLANIFICACION_ID,Commentary])
-		new_comment.insert(db.cursor())
-		db.commit()
+		if(controller_contract.contract_is_equal(db,self.contract)):
+			self.contract.mod_date = get_time_str()
+			self.contract.id_process=PROCESS_ACCEPT_DATES_ID
+			self.contract.update(db.cursor())
+			new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_PLANIFICACION_ID,Commentary])
+			new_comment.insert(db.cursor())
+			db.commit()
+		else:
+			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
 		db.close()
 		self.close()
-

@@ -21,12 +21,22 @@ def get_all_contracts(db):
 
 def get_contracts_by_id(db,id_contract):
 	cursor=db.cursor()
-	select_contract="select * from Contract where id='%d'"%(id_contract)
+	select_contract="select * from Contract where id_contract='%d'"%(id_contract)
 	cursor.execute(select_contract)
 	row=cursor.fetchone()
 	if(row==None):
 		return None
 	return contract.Contract(row)
+
+def contract_is_equal(db,last_contract):
+	cursor=db.cursor()
+	select_contract="select * from Contract where id_contract='%d'"%(last_contract.id_contract)
+	cursor.execute(select_contract)
+	row=cursor.fetchone()
+	if(row==None):
+		return False
+	new=contract.Contract(row)
+	return (last_contract.id_process==new.id_process)
 
 def get_contract_by_process_list(db,process_list):
 	cursor=db.cursor()

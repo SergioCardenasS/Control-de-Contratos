@@ -138,7 +138,6 @@ class comercial_window(QWidget):
 				ventana = comercial_fin_process.FinishProcessAcceptContract(contract=self.listaContratos[index.row()]).exec_()
 			self.refresh_table(AREA_COMERCIAL_ID)
 			
-
 class ventanaContrato(QDialog):
 	def __init__(self, parent=None):
 		super(ventanaContrato, self).__init__(parent)

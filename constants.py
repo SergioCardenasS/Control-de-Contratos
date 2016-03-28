@@ -117,6 +117,7 @@ CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"
 ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED	= "No ha escrito Codigo del contrato"
 ERROR_IS_A_FIRME_CONTRACT				= "El Contrato es Firme"
 ERROR_IS_A_PROVISIONAL_CONTRACT			= "El Contrato es Provisional"
+ERROR_MODIFICATE_CONTRACT				= "El Control ya ha sido Modificado"
 
 #TABLA
 SIZE_COLUMNS			= 8
