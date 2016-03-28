@@ -111,8 +111,11 @@ class control_window(QWidget):
 	def refresh_table(self,AREA_ID):
 		self.LimpiarTabla()
 		#Primero lo que hara esta funcion es actualizar los items nuevos para eso necesitamos el ultimo tamano de items
+		VALUE_DESC=False
+		if(AREA_ID==AREA_CONTROL_ID):
+			VALUE_DESC=True
 		db=get_connection()
-		self.listaContratos = get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ID))
+		self.listaContratos = get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ID),VALUE_DESC)
 		db.close()
 		numEventos = self.rows
 		#Guardamos el nuevo tamano de items

@@ -203,7 +203,7 @@ class ventanaContrato(QDialog):
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
-			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo el Proceso...",QMessageBox.Yes,QMessageBox.No)
+			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo Proceso...",QMessageBox.Yes,QMessageBox.No)
 			if reply == QMessageBox.Yes:
 				init_date = get_time_str()
 				mod_date = init_date
@@ -211,9 +211,15 @@ class ventanaContrato(QDialog):
 				Commentary = unicode(self.editCommentary.toPlainText())
 				db=get_connection()
 				new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
-				new_contract.insert(db.cursor())
-				new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
-				db.close()
-				self.close()
+				if(new_contract.insert(db.cursor())):
+                                        new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
+                                        if(new_comment.insert(db.cursor())):
+                                                db.commit()
+                                                db.close()
+                                                self.close()
+                                        else:
+                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                                db.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        db.close()

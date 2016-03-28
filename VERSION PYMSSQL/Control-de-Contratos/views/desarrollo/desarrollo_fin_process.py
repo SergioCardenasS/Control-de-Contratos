@@ -76,12 +76,9 @@ class FinishProcessSetCode(QDialog):
 		grid.setVerticalSpacing(6)
 
 		#Nombre de los imputs
-		self.contractNumber = QLabel('Numero de Contrato')
 		self.commentary = QLabel('Comentario')
 
-		self.editContractNumber = QLineEdit() 
 		self.editCommentary = QTextEdit()
-		self.editContractNumber.setText(self.contract.contract_number)
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
@@ -91,8 +88,6 @@ class FinishProcessSetCode(QDialog):
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
 		grid.addWidget(self.tabla,0,2,4,5)
-		grid.addWidget(self.contractNumber,5,2)
-		grid.addWidget(self.editContractNumber,5,3)
 		grid.addWidget(self.commentary,6,2)
 		grid.addWidget(self.editCommentary,6,3)
 		grid.addWidget(self.aComercialBoton,8,3)
@@ -110,52 +105,47 @@ class FinishProcessSetCode(QDialog):
 			self.contract.mod_date = get_time_str()
 			self.contract.id_process=PROCESS_SET_PO_ID
 			if(self.contract.update(db.cursor())):
-                                new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
-                                if(new_comment.insert(db.cursor())):
-                                        db.commit()
-                                        db.close()
-                                        self.close()
-                                else:
-                                        QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
-                                        self.contract.id_process=PROCESS_SET_CODE_ID
-                                        db.close()
-                        else:
-                                QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
-                                self.contract.id_process=PROCESS_SET_CODE_ID
-                                db.close()
+				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
+				if(new_comment.insert(db.cursor())):
+					db.commit()
+					db.close()
+					self.close()
+				else:
+					QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+					self.contract.id_process=PROCESS_SET_CODE_ID
+					db.close()
+			else:
+				QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+				self.contract.id_process=PROCESS_SET_CODE_ID
+				db.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-        		db.close()
-                        self.close()
+			db.close()
+			self.close()
 
 	def FinishToSetCodeBoton(self):
-		contract_number = self.editContractNumber.text()
-		if(contract_number == ''):
-			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
-		else:
-			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Enviar este Numero de Contrato...",QMessageBox.Yes,QMessageBox.No)
-			if reply == QMessageBox.Yes:
-				Commentary = unicode(self.editCommentary.toPlainText())
-				db=get_connection()
-				if(controller_contract.contract_is_equal(db,self.contract)):
-					self.contract.contract_number = contract_number
-					self.contract.mod_date = get_time_str()
-					self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
-					if(self.contract.update(db.cursor())):
-                                                new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
-                                                if(new_comment.insert(db.cursor())):
-                                                        db.commit()
-                                                        db.close()
-                                                        self.close()
-                                                else:
-                                                        QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
-                                                        self.contract.id_process=PROCESS_SET_CODE_ID
-                                                        db.close()
-                                        else:
-                                                QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
-                                                self.contract.id_process=PROCESS_SET_CODE_ID
-                                                db.close()
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Aceptar la PO y ese tipo de Contrato...",QMessageBox.Yes,QMessageBox.No)
+		if reply == QMessageBox.Yes:
+			Commentary = unicode(self.editCommentary.toPlainText())
+			db=get_connection()
+			if(controller_contract.contract_is_equal(db,self.contract)):
+				self.contract.mod_date = get_time_str()
+				self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+				if(self.contract.update(db.cursor())):
+						new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
+						if(new_comment.insert(db.cursor())):
+								db.commit()
+								db.close()
+								self.close()
+						else:
+								QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+								self.contract.id_process=PROCESS_SET_CODE_ID
+								db.close()
 				else:
-					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-                                        db.close()
-                                        self.close()
+						QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+						self.contract.id_process=PROCESS_SET_CODE_ID
+						db.close()
+			else:
+				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+				db.close()
+				self.close()

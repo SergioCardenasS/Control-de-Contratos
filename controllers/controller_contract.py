@@ -38,13 +38,15 @@ def contract_is_equal(db,last_contract):
 	new=contract.Contract(row)
 	return (last_contract.id_process==new.id_process)
 
-def get_contract_by_process_list(db,process_list):
+def get_contract_by_process_list(db,process_list,asc_desc=False):
 	cursor=db.cursor()
 	contract_list=[]
 	select_contract="select * from Contract where id_process IN ('%d'"%(process_list[0].id_process)
 	for index in range(1,len(process_list)):
 		select_contract+=",'%d'"%(process_list[index].id_process)
 	select_contract+=") ORDER BY mod_date"
+	if(asc_desc):
+                select_contract+=" DESC"
 	cursor.execute(select_contract)
 	for row in cursor:
 		contract_list.append(contract.Contract(row))

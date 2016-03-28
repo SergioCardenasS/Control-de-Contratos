@@ -109,7 +109,7 @@ class FinishProcessSetWeight(QDialog):
                                         db.close()
                                         self.close()
                                 else:
-                                        QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
                                         self.contract.id_process=PROCESS_SET_WEIGHT_ID
                                         db.close()
 			else:

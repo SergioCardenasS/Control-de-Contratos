@@ -103,9 +103,15 @@ class FinishProcessSetDate(QDialog):
 				self.contract.id_process=PROCESS_ACCEPT_DATES_ID
 				self.contract.update(db.cursor())
 				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_PLANIFICACION_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
+				if(new_comment.insert(db.cursor())):
+                                        db.commit()
+                                        db.close()
+                                        self.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        self.contract.id_process=PROCESS_SET_DATES_ID
+                                        db.close()
 			else:
 				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+                                db.close()
+                                self.close()

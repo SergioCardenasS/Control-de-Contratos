@@ -25,8 +25,8 @@ class Comment():
 		self.id_area 		= row_comment[2]
 		self.comment 		= row_comment[3]
 	def insert(self,cursor_db):
-                if(str_has_unicode(self.comment)):
-                        return False
+		if(str_is_invalid(self.comment)):
+			return False
 		insert_code_comment="""INSERT INTO Comment values('%d','%d','%d','%s')"""%(self.id_contract,self.comment_number,self.id_area,self.comment)
 		cursor_db.execute(insert_code_comment)
 		return True

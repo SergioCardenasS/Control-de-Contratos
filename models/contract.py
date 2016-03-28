@@ -43,6 +43,8 @@ class Contract:
 		self.mod_date			= str(row_contract[6])
 		self.iteration_number	= row_contract[7]
 	def insert(self,cursor_db):
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+			return False
 		insert_code_contract="""INSERT INTO Contract
 								(purchase_order,contract_number,id_process,contract_type,init_date,mod_date,iteration_number)
 								values('%s','%s','%d',b'%d','%s','%s','%d'
@@ -57,7 +59,10 @@ class Contract:
 		cursor_db.execute("select MAX(id_contract) from Contract")
 		for row in cursor_db:
 			self.id_contract=row[0]
+		return True
 	def update(self,cursor_db):
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+			return False
 		update_code_contract="""UPDATE Contract SET purchase_order='%s', contract_number='%s', id_process='%d', contract_type=b'%d', mod_date='%s', iteration_number='%d'
 							WHERE id_contract='%d'"""%(
 									self.purchase_order,
@@ -68,3 +73,4 @@ class Contract:
 									self.iteration_number,
 									self.id_contract)
 		cursor_db.execute(update_code_contract)
+		return True

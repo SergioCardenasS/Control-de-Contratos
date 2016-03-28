@@ -43,8 +43,8 @@ class Contract:
 		self.mod_date			= str(row_contract[6])
 		self.iteration_number	= row_contract[7]
 	def insert(self,cursor_db):
-                if(str_has_unicode(self.purchase_order) or str_has_unicode(self.contract_number)):
-                        return False
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+			return False
 		insert_code_contract="""INSERT INTO Contract
 								(purchase_order,contract_number,id_process,contract_type,init_date,mod_date,iteration_number)
 								values('%s','%s','%d',CONVERT(bit,'%d'),'%s','%s','%d'
@@ -61,8 +61,8 @@ class Contract:
 			self.id_contract=row[0]
 		return True
 	def update(self,cursor_db):
-                if(str_has_unicode(self.purchase_order) or str_has_unicode(self.contract_number)):
-                        return False
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+			return False
 		update_code_contract="""UPDATE Contract SET purchase_order='%s', contract_number='%s', id_process='%d', contract_type=CONVERT(bit,'%d'), mod_date='%s', iteration_number='%d'
 							WHERE id_contract='%d'"""%(
 									self.purchase_order,

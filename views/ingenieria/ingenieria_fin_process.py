@@ -104,9 +104,15 @@ class FinishProcessSetWeight(QDialog):
 				self.contract.id_process=PROCESS_YAM_STATUS_ID
 				self.contract.update(db.cursor())
 				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_INGENIERIA_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
+				if(new_comment.insert(db.cursor())):
+                                        db.commit()
+                                        db.close()
+                                        self.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        self.contract.id_process=PROCESS_SET_WEIGHT_ID
+                                        db.close()
 			else:
 				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+                                db.close()
+                                self.close()

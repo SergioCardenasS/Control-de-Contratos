@@ -17,6 +17,21 @@ def get_connection():
 def get_time_str():
 	return time.strftime('%Y-%m-%d %H:%M:%S')
 
+#UNICODE
+def str_is_invalid(str_u):
+	for char_u in unicode(str_u):
+		if(ord(char_u)>=128 or char_u=="'"):
+			return True
+	return False
+
+def is_invalid_contract_number(contract_number):
+	if(str_is_invalid(contract_number)):
+		return True
+	for char_u in str(contract_number):
+		if(ord(char_u)<48 or ord(char_u)>57):
+			return True
+	return False
+
 #CONTRACTS TYPE
 CONTRACT_TYPE_FIRME				= 0
 CONTRACT_TYPE_PROVISIONAL		= 1
@@ -112,6 +127,7 @@ LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
 
 #CREATE CONTRACT ERRORS
 CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"
+INVALID_STR							= "Existe texto no valido"
 
 #PROCESS ERRORS
 ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED	= "No ha escrito Codigo del contrato"

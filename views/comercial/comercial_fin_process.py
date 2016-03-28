@@ -118,14 +118,24 @@ class FinishProcessSetPO(QDialog):
 					self.contract.contract_type = ord(chr(self.editIs_Provisional.isChecked()))
 					self.contract.mod_date = get_time_str()
 					self.contract.id_process=PROCESS_SET_CODE_ID
-					self.contract.update(db.cursor())
-					new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-					new_comment.insert(db.cursor())
-					db.commit()
+					if(self.contract.update(db.cursor())):
+                                                new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
+                                                if(new_comment.insert(db.cursor())):
+                                                        db.commit()
+                                                        db.close()
+                                                        self.close()
+                                                else:
+                                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                                        self.contract.id_process=PROCESS_SET_PO_ID
+                                                        db.close()
+                                        else:
+                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                                self.contract.id_process=PROCESS_SET_PO_ID
+                                                db.close()
 				else:
 					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-				db.close()
-				self.close()
+                                        db.close()
+                                        self.close()
 
 class FinishProcessSavePreContract(QDialog):
 	def __init__(self, contract ,parent=None):
@@ -191,6 +201,9 @@ class FinishProcessSavePreContract(QDialog):
 		#Nombre de los imputs
 		self.commentary = QLabel('Comentario')
 		self.editCommentary = QTextEdit()
+		self.editContractNumber = QLineEdit() 
+		self.contractNumber = QLabel('Numero de Contrato')
+		self.editContractNumber.setText(self.contract.contract_number)
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
@@ -200,6 +213,8 @@ class FinishProcessSavePreContract(QDialog):
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
 		grid.addWidget(self.tabla,0,2,4,5)
+		grid.addWidget(self.contractNumber,5,2)
+		grid.addWidget(self.editContractNumber,5,3)
 		grid.addWidget(self.commentary,6,2)
 		grid.addWidget(self.editCommentary,6,3)
 		grid.addWidget(self.aComercialBoton,8,3)
@@ -216,31 +231,58 @@ class FinishProcessSavePreContract(QDialog):
 		if(controller_contract.contract_is_equal(db,self.contract)):
 			self.contract.mod_date = get_time_str()
 			self.contract.id_process=PROCESS_SET_CODE_ID
-			self.contract.update(db.cursor())
-			new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
+			if(self.contract.update(db.cursor())):
+                                new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
+                                if(new_comment.insert(db.cursor())):
+                                        db.commit()
+                                        db.close()
+                                        self.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+                                        db.close()
+                        else:
+                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+                                db.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-		db.close()
-		self.close()
+                        db.close()
+                        self.close()
 
 	def FinishToSavePreContratoBoton(self):
-		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Grabar PreContrato...",QMessageBox.Yes,QMessageBox.No)
-		if reply == QMessageBox.Yes:
-			Commentary = unicode(self.editCommentary.toPlainText())
-			db=get_connection()
-			if(controller_contract.contract_is_equal(db,self.contract)):
-				self.contract.mod_date = get_time_str()
-				self.contract.id_process=PROCESS_SET_WEIGHT_ID
-				self.contract.update(db.cursor())
-				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
-			else:
-				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+		contract_number = self.editContractNumber.text()
+		if(contract_number == ''):
+			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
+		elif(is_invalid_contract_number(contract_number)):
+			QMessageBox.warning(self, 'Error',"Numero de Contrato no Valido", QMessageBox.Ok)
+		else:
+			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Grabar PreContrato...",QMessageBox.Yes,QMessageBox.No)
+			if reply == QMessageBox.Yes:
+				Commentary = unicode(self.editCommentary.toPlainText())
+				db=get_connection()
+				if(controller_contract.contract_is_equal(db,self.contract)):
+					self.contract.mod_date = get_time_str()
+					self.contract.contract_number = contract_number
+					self.contract.id_process=PROCESS_SET_WEIGHT_ID
+					if(self.contract.update(db.cursor())):
+							new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
+							if(new_comment.insert(db.cursor())):
+									db.commit()
+									db.close()
+									self.close()
+							else:
+									QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+									self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+									db.close()
+					else:
+							QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+							self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+							db.close()
+				else:
+					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+					db.close()
+					self.close()
 
 class FinishProcessSetAcesss(QDialog):
 	def __init__(self, contract ,parent=None):
@@ -330,12 +372,18 @@ class FinishProcessSetAcesss(QDialog):
 			self.contract.id_process=PROCESS_YAM_STATUS_ID
 			self.contract.update(db.cursor())
 			new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
+			if(new_comment.insert(db.cursor())):
+                                db.commit()
+                                db.close()
+                                self.close()
+                        else:
+                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                self.contract.id_process=PROCESS_SET_ACCESS_ID
+                                db.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-		db.close()
-		self.close()
+                        db.close()
+                        self.close()
 
 class FinishProcessAcceptDates(QDialog):
 	def __init__(self, contract ,parent=None):
@@ -428,12 +476,18 @@ class FinishProcessAcceptDates(QDialog):
 			self.contract.id_process=PROCESS_SET_DATES_ID
 			self.contract.update(db.cursor())
 			new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
+			if(new_comment.insert(db.cursor())):
+                                db.commit()
+                                db.close()
+                                self.close()
+                        else:
+                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                self.contract.id_process=PROCESS_ACCEPT_DATES_ID
+                                db.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-		db.close()
-		self.close()
+                        db.close()
+                        self.close()
 
 	def FinishToAcceptDateBoton(self):
 		reply=QMessageBox.question(self, 'Message',"Esta Seguro de haber Aceptado las Fechas...",QMessageBox.Yes,QMessageBox.No)
@@ -445,12 +499,18 @@ class FinishProcessAcceptDates(QDialog):
 				self.contract.id_process=PROCESS_ACTIVATE_CONTRACT_ID
 				self.contract.update(db.cursor())
 				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
+				if(new_comment.insert(db.cursor())):
+                                        db.commit()
+                                        db.close()
+                                        self.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        self.contract.id_process=PROCESS_ACCEPT_DATES_ID
+                                        db.close()
 			else:
 				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+                                db.close()
+                                self.close()
 
 class FinishProcessAcceptContract(QDialog):
 	def __init__(self, contract ,parent=None):
@@ -550,12 +610,18 @@ class FinishProcessAcceptContract(QDialog):
 					self.contract.contract_type = CONTRACT_TYPE_FIRME
 					self.contract.update(db.cursor())
 					new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-					new_comment.insert(db.cursor())
-					db.commit()
+					if(new_comment.insert(db.cursor())):
+                                                db.commit()
+                                                db.close()
+                                                self.close()
+                                        else:
+                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                                self.contract.contract_type = CONTRACT_TYPE_PROVISIONAL
+                                                db.close()
 				else:
 					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-				db.close()
-				self.close()
+                                        db.close()
+                                        self.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_IS_A_FIRME_CONTRACT, QMessageBox.Ok)
 	def FinishToActivateContractBoton(self):
@@ -567,12 +633,18 @@ class FinishProcessAcceptContract(QDialog):
 				self.contract.id_process = PROCESS_COMPLETED_ID
 				self.contract.update(db.cursor())
 				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
+				if(new_comment.insert(db.cursor())):
+                                        db.commit()
+                                        db.close()
+                                        self.close()
+                                else:
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                        self.contract.id_process = PROCESS_ACTIVATE_CONTRACT_ID
+                                        db.close()
 			else:
 				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+                                db.close()
+                                self.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_IS_A_PROVISIONAL_CONTRACT, QMessageBox.Ok)
 	def FinishToReiniciarBoton(self):
@@ -587,11 +659,18 @@ class FinishProcessAcceptContract(QDialog):
 					self.contract.iteration_number+=1
 					self.contract.update(db.cursor())
 					new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary])
-					new_comment.insert(db.cursor())
-					db.commit()
+					if(new_comment.insert(db.cursor())):
+                                                db.commit()
+                                                db.close()
+                                                self.close()
+                                        else:
+                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+                                                self.contract.id_process = PROCESS_ACTIVATE_CONTRACT_ID
+                                                self.contract.iteration_number-=1
+                                                db.close()
 				else:
 					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-				db.close()
-				self.close()
+                                        db.close()
+                                        self.close()
 		else:
 			QMessageBox.warning(self, 'Error',ERROR_IS_A_FIRME_CONTRACT, QMessageBox.Ok)

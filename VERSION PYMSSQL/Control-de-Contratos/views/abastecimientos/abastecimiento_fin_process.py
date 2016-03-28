@@ -110,7 +110,7 @@ class FinishProcessStateYarn(QDialog):
                                 db.close()
                                 self.close()
                         else:
-                                QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
+                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
                                 self.contract.id_process=PROCESS_YAM_STATUS_ID
                                 db.close()
 		else:
@@ -132,7 +132,7 @@ class FinishProcessStateYarn(QDialog):
                                         db.close()
                                         self.close()
                                 else:
-                                        QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,'tildes)", QMessageBox.Ok)
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
                                         self.contract.id_process=PROCESS_YAM_STATUS_ID
                                         db.close()
 			else:

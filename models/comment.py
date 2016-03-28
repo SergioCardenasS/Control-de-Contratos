@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#Import de Librerias
+import sys
+
+#Import de Modulos
+BASE_DIR='..'
+sys.path.insert(0,BASE_DIR)
+from constants import *
+
 # La clase comentario guardara los comentarios del contrado que cada area colocara 
 # en cada uno de los procesos
 class Comment():
@@ -18,5 +26,8 @@ class Comment():
 		self.id_area 		= row_comment[2]
 		self.comment 		= row_comment[3]
 	def insert(self,cursor_db):
+		if(str_is_invalid(self.comment)):
+			return False
 		insert_code_comment="""INSERT INTO Comment values('%d','%d','%d',"%s")"""%(self.id_contract,self.comment_number,self.id_area,self.comment)
 		cursor_db.execute(insert_code_comment)
+		return True

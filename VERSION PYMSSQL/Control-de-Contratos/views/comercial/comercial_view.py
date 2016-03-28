@@ -203,7 +203,7 @@ class ventanaContrato(QDialog):
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
-			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo el Proceso...",QMessageBox.Yes,QMessageBox.No)
+			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo Proceso...",QMessageBox.Yes,QMessageBox.No)
 			if reply == QMessageBox.Yes:
 				init_date = get_time_str()
 				mod_date = init_date
@@ -218,8 +218,8 @@ class ventanaContrato(QDialog):
                                                 db.close()
                                                 self.close()
                                         else:
-                                                QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,',tildes)", QMessageBox.Ok)
+                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
                                                 db.close()
                                 else:
-                                        QMessageBox.warning(self, 'Error',"No use caracteres ASCII (e.g \xa4,',tildes)", QMessageBox.Ok)
+                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
                                         db.close()
