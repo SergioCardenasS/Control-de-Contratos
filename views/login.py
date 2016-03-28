@@ -48,8 +48,8 @@ class login_window(QDialog):
 
 		size=self.size()
 		desktopSize=QDesktopWidget().screenGeometry()
-		top=(desktopSize.height()/2)-(size.height()/2)
-		left=(desktopSize.width()/2)-(size.width()/2)
+		top=(desktopSize.height()/2)-(size.height()/4)
+		left=(desktopSize.width()/2)-(size.width()/4)
 		self.move(left, top)
 		self.setWindowTitle('Login')
 		self.show()
