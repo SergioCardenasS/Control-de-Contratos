@@ -112,16 +112,18 @@ class FinishProcessStateYarn(QDialog):
 		db.close()
 		self.close()
 	def FinishEnviarEstado(self):
-		Commentary = unicode(self.editCommentary.toPlainText())
-		db=get_connection()
-		if(controller_contract.contract_is_equal(db,self.contract)):
-			self.contract.mod_date = get_time_str()
-			self.contract.id_process=PROCESS_SET_DATES_ID
-			self.contract.update(db.cursor())
-			new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_ABASTECIMIENTOS_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
-		else:
-			QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-		db.close()
-		self.close()
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Enviar el Estado de Hilado a Planificacion...",QMessageBox.Yes,QMessageBox.No)
+		if reply == QMessageBox.Yes:
+			Commentary = unicode(self.editCommentary.toPlainText())
+			db=get_connection()
+			if(controller_contract.contract_is_equal(db,self.contract)):
+				self.contract.mod_date = get_time_str()
+				self.contract.id_process=PROCESS_SET_DATES_ID
+				self.contract.update(db.cursor())
+				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_ABASTECIMIENTOS_ID,Commentary])
+				new_comment.insert(db.cursor())
+				db.commit()
+			else:
+				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+			db.close()
+			self.close()

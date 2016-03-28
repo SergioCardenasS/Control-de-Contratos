@@ -71,6 +71,7 @@ class control_window(QWidget):
 		self.connect(desarrollo_button, SIGNAL("clicked()"), self.tablaDesarrollo)
 		self.connect(ingenieria_button, SIGNAL("clicked()"), self.tablaIngenieria)
 		self.connect(planificacion_button, SIGNAL("clicked()"), self.tablaPlanificacion)
+		self.connect(finish_button, SIGNAL("clicked()"), self.tablaFinalizados)
 
 		#Le damos posicion a nuestros botones
 		comercial_button.move(50, 150)
@@ -160,6 +161,10 @@ class control_window(QWidget):
 	def tablaPlanificacion(self):
 		self.AREA_ACTUAL_ID=AREA_PLANIFICACION_ID
 		self.refresh_table(AREA_PLANIFICACION_ID)
+
+	def tablaFinalizados(self):
+		self.AREA_ACTUAL_ID=AREA_CONTROL_ID
+		self.refresh_table(AREA_CONTROL_ID)
 
 	def Actualizar(self):
 		self.refresh_table(self.AREA_ACTUAL_ID)

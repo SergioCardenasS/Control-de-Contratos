@@ -118,6 +118,7 @@ ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED	= "No ha escrito Codigo del contrato"
 ERROR_IS_A_FIRME_CONTRACT				= "El Contrato es Firme"
 ERROR_IS_A_PROVISIONAL_CONTRACT			= "El Contrato es Provisional"
 ERROR_MODIFICATE_CONTRACT				= "El Control ya ha sido Modificado"
+ERROR_A_PROCESS_OPENED					= "Ya tiene Abierta una Opcion"
 
 #TABLA
 SIZE_COLUMNS			= 8

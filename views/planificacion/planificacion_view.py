@@ -28,6 +28,7 @@ class planificacion_window(QWidget):
 		self.pantallaDesarrollo()
 		self.setWindowTitle('Planificacion')
 		self.show()
+		self.control_singleton=False
 
 	def pantallaDesarrollo(self):
 		#Creacion de la tabla  con cada item
@@ -114,8 +115,13 @@ class planificacion_window(QWidget):
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
 
 	def Finalizar(self):
-		button = qApp.focusWidget()
-		index = self.tabla.indexAt(button.pos())
-		if index.isValid():
-			ventana = planificacion_fin_process.FinishProcessSetDate(contract=self.listaContratos[index.row()]).exec_()
-			self.refresh_table(AREA_PLANIFICACION_ID)
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			button = qApp.focusWidget()
+			index = self.tabla.indexAt(button.pos())
+			if index.isValid():
+				ventana = planificacion_fin_process.FinishProcessSetDate(contract=self.listaContratos[index.row()]).exec_()
+				self.refresh_table(AREA_PLANIFICACION_ID)
+			self.control_singleton=False

@@ -28,6 +28,7 @@ class desarrollo_window(QWidget):
 		self.pantallaDesarrollo()
 		self.setWindowTitle('Desarrollo')
 		self.show()
+		self.control_singleton=False
 
 	def pantallaDesarrollo(self):
 		#Creacion de la tabla  con cada item
@@ -114,9 +115,14 @@ class desarrollo_window(QWidget):
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
 
 	def Finalizar(self):
-		button = qApp.focusWidget()
-		index = self.tabla.indexAt(button.pos())
-		if index.isValid():
-			if(self.listaContratos[index.row()].id_process==PROCESS_SET_CODE_ID):
-				ventana = desarrollo_fin_process.FinishProcessSetCode(contract=self.listaContratos[index.row()]).exec_()
-				self.refresh_table(AREA_DESARROLLO_ID)
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			button = qApp.focusWidget()
+			index = self.tabla.indexAt(button.pos())
+			if index.isValid():
+				if(self.listaContratos[index.row()].id_process==PROCESS_SET_CODE_ID):
+					ventana = desarrollo_fin_process.FinishProcessSetCode(contract=self.listaContratos[index.row()]).exec_()
+					self.refresh_table(AREA_DESARROLLO_ID)
+			self.control_singleton=False

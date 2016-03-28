@@ -29,6 +29,7 @@ class comercial_window(QWidget):
 		self.pantallaComercial()
 		self.setWindowTitle('Comercial')
 		self.show()
+		self.control_singleton=False
 
 	def pantallaComercial(self):
 		#Creacion de la tabla  con cada item
@@ -120,23 +121,33 @@ class comercial_window(QWidget):
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
 
 	def crearContrato(self):
-		ventana = ventanaContrato().exec_()
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			ventana = ventanaContrato().exec_()
+			self.control_singleton=False
 
 	def Finalizar(self):
-		button = qApp.focusWidget()
-		index = self.tabla.indexAt(button.pos())
-		if index.isValid():
-			if(self.listaContratos[index.row()].id_process==PROCESS_SET_PO_ID):
-				ventana = comercial_fin_process.FinishProcessSetPO(contract=self.listaContratos[index.row()]).exec_()
-			elif(self.listaContratos[index.row()].id_process==PROCESS_SAVE_PRECONTRACT_ID):
-				ventana = comercial_fin_process.FinishProcessSavePreContract(contract=self.listaContratos[index.row()]).exec_()
-			elif(self.listaContratos[index.row()].id_process==PROCESS_SET_ACCESS_ID):
-				ventana = comercial_fin_process.FinishProcessSetAcesss(contract=self.listaContratos[index.row()]).exec_()
-			elif(self.listaContratos[index.row()].id_process==PROCESS_ACCEPT_DATES_ID):
-				ventana = comercial_fin_process.FinishProcessAcceptDates(contract=self.listaContratos[index.row()]).exec_()
-			elif(self.listaContratos[index.row()].id_process==PROCESS_ACTIVATE_CONTRACT_ID):
-				ventana = comercial_fin_process.FinishProcessAcceptContract(contract=self.listaContratos[index.row()]).exec_()
-			self.refresh_table(AREA_COMERCIAL_ID)
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			button = qApp.focusWidget()
+			index = self.tabla.indexAt(button.pos())
+			if index.isValid():
+				if(self.listaContratos[index.row()].id_process==PROCESS_SET_PO_ID):
+					ventana = comercial_fin_process.FinishProcessSetPO(contract=self.listaContratos[index.row()]).exec_()
+				elif(self.listaContratos[index.row()].id_process==PROCESS_SAVE_PRECONTRACT_ID):
+					ventana = comercial_fin_process.FinishProcessSavePreContract(contract=self.listaContratos[index.row()]).exec_()
+				elif(self.listaContratos[index.row()].id_process==PROCESS_SET_ACCESS_ID):
+					ventana = comercial_fin_process.FinishProcessSetAcesss(contract=self.listaContratos[index.row()]).exec_()
+				elif(self.listaContratos[index.row()].id_process==PROCESS_ACCEPT_DATES_ID):
+					ventana = comercial_fin_process.FinishProcessAcceptDates(contract=self.listaContratos[index.row()]).exec_()
+				elif(self.listaContratos[index.row()].id_process==PROCESS_ACTIVATE_CONTRACT_ID):
+					ventana = comercial_fin_process.FinishProcessAcceptContract(contract=self.listaContratos[index.row()]).exec_()
+				self.refresh_table(AREA_COMERCIAL_ID)
+			self.control_singleton=False
 			
 class ventanaContrato(QDialog):
 	def __init__(self, parent=None):
@@ -192,15 +203,17 @@ class ventanaContrato(QDialog):
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
 		else:
-			init_date = get_time_str()
-			mod_date = init_date
-			Is_Provisional = chr(self.editIs_Provisional.isChecked())
-			Commentary = unicode(self.editCommentary.toPlainText())
-			db=get_connection()
-			new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
-			new_contract.insert(db.cursor())
-			new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
-			new_comment.insert(db.cursor())
-			db.commit()
-			db.close()
-			self.close()
+			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo el Proceso...",QMessageBox.Yes,QMessageBox.No)
+			if reply == QMessageBox.Yes:
+				init_date = get_time_str()
+				mod_date = init_date
+				Is_Provisional = chr(self.editIs_Provisional.isChecked())
+				Commentary = unicode(self.editCommentary.toPlainText())
+				db=get_connection()
+				new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
+				new_contract.insert(db.cursor())
+				new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary])
+				new_comment.insert(db.cursor())
+				db.commit()
+				db.close()
+				self.close()

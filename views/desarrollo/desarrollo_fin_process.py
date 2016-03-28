@@ -119,21 +119,23 @@ class FinishProcessSetCode(QDialog):
 		self.close()
 
 	def FinishToSetCodeBoton(self):
-		contract_number = unicode(elf.editContractNumber.text())
+		contract_number = self.editContractNumber.text()
 		if(contract_number == ''):
 			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
 		else:
-			Commentary = unicode(self.editCommentary.toPlainText())
-			db=get_connection()
-			if(controller_contract.contract_is_equal(db,self.contract)):
-				self.contract.contract_number = contract_number
-				self.contract.mod_date = get_time_str()
-				self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
-				self.contract.update(db.cursor())
-				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
-				new_comment.insert(db.cursor())
-				db.commit()
-			else:
-				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
-			db.close()
-			self.close()
+			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Enviar este Numero de Contrato...",QMessageBox.Yes,QMessageBox.No)
+			if reply == QMessageBox.Yes:
+				Commentary = unicode(self.editCommentary.toPlainText())
+				db=get_connection()
+				if(controller_contract.contract_is_equal(db,self.contract)):
+					self.contract.contract_number = contract_number
+					self.contract.mod_date = get_time_str()
+					self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+					self.contract.update(db.cursor())
+					new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary])
+					new_comment.insert(db.cursor())
+					db.commit()
+				else:
+					QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+				db.close()
+				self.close()
