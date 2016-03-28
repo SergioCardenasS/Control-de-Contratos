@@ -30,7 +30,18 @@ class desarrollo_window(QWidget):
 		self.show()
 		self.control_singleton=False
 
+	def time_event(self):
+		if(self.control_singleton==False):
+			self.refresh_table(AREA_DESARROLLO_ID)
+
+	def closeEvent(self,event):
+		self.timer.stop()
+
 	def pantallaDesarrollo(self):
+		#TEMPORIZADOR
+		self.timer = QTimer()
+		self.connect(self.timer, SIGNAL("timeout()"), self.time_event)
+		self.timer.start(TIMER_EVENT)
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
 		self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -78,7 +89,12 @@ class desarrollo_window(QWidget):
 		self.refresh_table(AREA_DESARROLLO_ID)
 
 	def Actualizar(self):
-		self.refresh_table(AREA_DESARROLLO_ID)
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			self.refresh_table(AREA_DESARROLLO_ID)
+			self.control_singleton=False
 
 	def LimpiarTabla(self):
 		self.tabla.clear();

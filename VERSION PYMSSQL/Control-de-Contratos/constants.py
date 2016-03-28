@@ -127,6 +127,7 @@ LOGIN_ERROR_BAD_PASS		= "Contrasenha Incorrecta"
 
 #CREATE CONTRACT ERRORS
 CREATE_CONTRACT_ERROR_NO_PO_TYPED	= "No ha escrito el PO"
+INVALID_STR							= "Existe texto no valido"
 
 #PROCESS ERRORS
 ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED	= "No ha escrito Codigo del contrato"
@@ -144,3 +145,5 @@ TITLE_ROWS_COMMENT		= "Area;Comentario"
 SIZE_COLUMNS_END		= 2
 TITLE_COLUMNS_END		= "Area;Comentario"
 WIDTH_COLUMN_COMMENT	= 140
+TIMER_SEC				= 10
+TIMER_EVENT				= TIMER_SEC*1000
