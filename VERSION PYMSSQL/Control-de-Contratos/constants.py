@@ -27,7 +27,7 @@ def str_is_invalid(str_u):
 def is_invalid_contract_number(contract_number):
 	if(str_is_invalid(contract_number)):
 		return True
-	for char_u in str(contract_number):
+	for char_u in unicode(contract_number):
 		if(ord(char_u)<48 or ord(char_u)>57):
 			return True
 	return False

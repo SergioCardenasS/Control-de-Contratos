@@ -29,6 +29,7 @@ class control_window(QWidget):
 		self.pantallasCreador()
 		self.setWindowTitle('Administrador')
 		self.show()
+		self.Refresh_Numbers()
 
 	def pantallasCreador(self):
 		#Un temporal para saber en que boton estamos
@@ -170,7 +171,11 @@ class control_window(QWidget):
 		self.refresh_table(AREA_CONTROL_ID)
 
 	def Actualizar(self):
+		self.Refresh_Numbers()
 		self.refresh_table(self.AREA_ACTUAL_ID)
+
+	def Refresh_Numbers(self):
+		print "HEY"
 
 	def LimpiarTabla(self):
 		self.tabla.clear();
