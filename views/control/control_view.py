@@ -175,7 +175,10 @@ class control_window(QWidget):
 		self.refresh_table(self.AREA_ACTUAL_ID)
 
 	def Refresh_Numbers(self):
-		print "HEY"
+		print "oa"
+		#db=get_connection()
+		#TemplistaContratos = get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ID))
+		#db.close()
 
 	def LimpiarTabla(self):
 		self.tabla.clear();

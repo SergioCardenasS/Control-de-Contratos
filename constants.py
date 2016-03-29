@@ -3,6 +3,7 @@
 
 import MySQLdb
 import time
+import datetime
 
 #DATABASE Configuration
 DATABASE_HOST		= "127.0.0.1"
@@ -16,6 +17,11 @@ def get_connection():
 #TIME
 def get_time_str():
 	return time.strftime('%Y-%m-%d %H:%M:%S')
+
+def time_pass_one_day(str_u):
+	mod_date=datetime.datetime.strptime(str_u,"%Y-%m-%d %H:%M:%S")
+	actual_date=datetime.datetime.now()
+	return bool(abs((actual_date-mod_date).days))
 
 #UNICODE
 def str_is_invalid(str_u):
