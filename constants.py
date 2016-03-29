@@ -155,5 +155,4 @@ TIMER_SEC				= 10
 TIMER_EVENT				= TIMER_SEC*1000
 
 #TITLE
-
 TITLE_APP = "Sistema de Respuestas"

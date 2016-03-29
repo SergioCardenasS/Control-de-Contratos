@@ -30,8 +30,10 @@ class control_window(QWidget):
 		self.setWindowTitle(TITLE_APP)
 		self.show()
 		self.Refresh_Numbers()
+		self.control_singleton=False
 
 	def pantallasCreador(self):
+		self.listaContratos=[]
 		#Un temporal para saber en que boton estamos
 		self.AREA_ACTUAL_ID=AREA_COMERCIAL_ID
 		#Creacion de la tabla  con cada item
@@ -57,11 +59,11 @@ class control_window(QWidget):
 		grid = QGridLayout()
 
 		#Instaciamos botones
-		comercial_button = QPushButton('Comercial', self)
-		abastecimiento_button = QPushButton('Abastecimiento', self)
-		desarrollo_button = QPushButton('Desarrollo', self)
-		ingenieria_button = QPushButton('Ingenieria', self)
-		planificacion_button = QPushButton('Planificacion', self)
+		self.comercial_button = QPushButton('Comercial', self)
+		self.abastecimiento_button = QPushButton('Abastecimiento', self)
+		self.desarrollo_button = QPushButton('Desarrollo', self)
+		self.ingenieria_button = QPushButton('Ingenieria', self)
+		self.planificacion_button = QPushButton('Planificacion', self)
 		refresh_button = QPushButton('Actualizar', self)
 		undoicon = QIcon.fromTheme("view-refresh")
 		refresh_button.setIcon(undoicon)
@@ -74,29 +76,30 @@ class control_window(QWidget):
 
 		#Le damos funcionalidades a cada boton
 		self.connect(refresh_button, SIGNAL("clicked()"), self.Actualizar)
-		self.connect(comercial_button, SIGNAL("clicked()"), self.tablaComercial)
-		self.connect(abastecimiento_button, SIGNAL("clicked()"), self.tablaAbastecimiento)
-		self.connect(desarrollo_button, SIGNAL("clicked()"), self.tablaDesarrollo)
-		self.connect(ingenieria_button, SIGNAL("clicked()"), self.tablaIngenieria)
-		self.connect(planificacion_button, SIGNAL("clicked()"), self.tablaPlanificacion)
+		self.connect(self.comercial_button, SIGNAL("clicked()"), self.tablaComercial)
+		self.connect(self.abastecimiento_button, SIGNAL("clicked()"), self.tablaAbastecimiento)
+		self.connect(self.desarrollo_button, SIGNAL("clicked()"), self.tablaDesarrollo)
+		self.connect(self.ingenieria_button, SIGNAL("clicked()"), self.tablaIngenieria)
+		self.connect(self.planificacion_button, SIGNAL("clicked()"), self.tablaPlanificacion)
 		self.connect(finish_button, SIGNAL("clicked()"), self.tablaFinalizados)
+		self.connect(search_button, SIGNAL("clicked()"), self.buscaCodigoLista)
 
 		#Le damos posicion a nuestros botones
-		comercial_button.move(50, 150)
-		abastecimiento_button.move(50, 250)
-		desarrollo_button.move(50, 350)
-		ingenieria_button.move(50, 450)
-		planificacion_button.move(50, 550)
+		self.comercial_button.move(50, 150)
+		self.abastecimiento_button.move(50, 250)
+		self.desarrollo_button.move(50, 350)
+		self.ingenieria_button.move(50, 450)
+		self.planificacion_button.move(50, 550)
 		refresh_button.move(400,750)
 		finish_button.move(400,550)
 		search_button.move(400,350)
 
 		#Ahora le damos un tamano a nuestros botones
-		comercial_button.setFixedSize(150, 110)
-		abastecimiento_button.setFixedSize(150, 110)
-		desarrollo_button.setFixedSize(150, 110)
-		ingenieria_button.setFixedSize(150, 110)
-		planificacion_button.setFixedSize(150, 110)
+		self.comercial_button.setFixedSize(150, 110)
+		self.abastecimiento_button.setFixedSize(150, 110)
+		self.desarrollo_button.setFixedSize(150, 110)
+		self.ingenieria_button.setFixedSize(150, 110)
+		self.planificacion_button.setFixedSize(150, 110)
 		refresh_button.setFixedSize(150, 110)
 		finish_button.setFixedSize(180, 110)
 		search_button.setFixedSize(150, 110)
@@ -106,11 +109,11 @@ class control_window(QWidget):
 		grid.setVerticalSpacing(5)
 
 		#Agregamos los widgets al grid
-		grid.addWidget(comercial_button,1,0)
-		grid.addWidget(abastecimiento_button,1,2)
-		grid.addWidget(desarrollo_button,1,4)
-		grid.addWidget(ingenieria_button,1,6)
-		grid.addWidget(planificacion_button,1,8)
+		grid.addWidget(self.comercial_button,1,0)
+		grid.addWidget(self.abastecimiento_button,1,2)
+		grid.addWidget(self.desarrollo_button,1,4)
+		grid.addWidget(self.ingenieria_button,1,6)
+		grid.addWidget(self.planificacion_button,1,8)
 		grid.addWidget(refresh_button,5,6)
 		grid.addWidget(finish_button,5,4)
 		grid.addWidget(search_button,5,2)
@@ -163,22 +166,37 @@ class control_window(QWidget):
 			ventana = comments.ventanaCommentarios(id_contract=self.listaContratos[index.row()].id_contract).exec_()
 
 	def tablaComercial(self):
+		db=get_connection()
+		self.comercial_button.setText("Comercial ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_COMERCIAL_ID))))+")")
+		db.close()
 		self.AREA_ACTUAL_ID=AREA_COMERCIAL_ID
 		self.refresh_table(AREA_COMERCIAL_ID)
 
 	def tablaAbastecimiento(self):
+		db=get_connection()
+		self.abastecimiento_button.setText("Abastecimiento ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ABASTECIMIENTOS_ID))))+")")
+		db.close()
 		self.AREA_ACTUAL_ID=AREA_ABASTECIMIENTOS_ID
 		self.refresh_table(AREA_ABASTECIMIENTOS_ID)
     
 	def tablaDesarrollo(self):
+		db=get_connection()
+		self.desarrollo_button.setText("Desarrollo ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_DESARROLLO_ID))))+")")
+		db.close()
 		self.AREA_ACTUAL_ID=AREA_DESARROLLO_ID
 		self.refresh_table(AREA_DESARROLLO_ID)
 
 	def tablaIngenieria(self):
+		db=get_connection()
+		self.ingenieria_button.setText("Ingenieria ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_INGENIERIA_ID))))+")")
+		db.close()
 		self.AREA_ACTUAL_ID=AREA_INGENIERIA_ID
 		self.refresh_table(AREA_INGENIERIA_ID)
 
 	def tablaPlanificacion(self):
+		db=get_connection()
+		self.planificacion_button.setText("Planificacion ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_PLANIFICACION_ID))))+")")
+		db.close()
 		self.AREA_ACTUAL_ID=AREA_PLANIFICACION_ID
 		self.refresh_table(AREA_PLANIFICACION_ID)
 
@@ -191,13 +209,112 @@ class control_window(QWidget):
 		self.refresh_table(self.AREA_ACTUAL_ID)
 
 	def Refresh_Numbers(self):
-		print "oa"
-		#db=get_connection()
-		#TemplistaContratos = get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ID))
-		#db.close()
+		db=get_connection()
+		self.comercial_button.setText("Comercial ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_COMERCIAL_ID))))+")")
+		self.abastecimiento_button.setText("Abastecimiento ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_ABASTECIMIENTOS_ID))))+")")
+		self.desarrollo_button.setText("Desarrollo ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_DESARROLLO_ID))))+")")
+		self.ingenieria_button.setText("Ingenieria ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_INGENIERIA_ID))))+")")
+		self.planificacion_button.setText("Planificacion ("+str(len(get_contract_by_process_list(db,get_process_by_id_area(db,AREA_PLANIFICACION_ID))))+")")
+		db.close()
 
 	def LimpiarTabla(self):
 		self.tabla.clear();
 		self.tabla.setRowCount(0);
 		self.tabla.setColumnCount(SIZE_COLUMNS)
 		self.tabla.setHorizontalHeaderLabels(QString(TITLE_ROWS).split(SPLIT))
+
+	def buscaCodigoLista(self):
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			ventana = ventanaBusqueda()
+			ventana.exec_()
+			if(len(ventana.contract_number)):
+				self.searchCodigo(ventana.contract_number)
+			self.control_singleton=False
+
+	def searchCodigo(self,str_code):
+		NewlistaContratos=[]
+		for contrato in self.listaContratos:
+			if(contrato.contract_number==str_code):
+				NewlistaContratos.append(contrato)
+		self.listaContratos=NewlistaContratos
+		self.LimpiarTabla()
+		numEventos = self.rows
+		#Guardamos el nuevo tamano de items
+		self.rows = len(self.listaContratos)
+		self.tabla.setRowCount(self.rows)
+		#Este size hara los id o filas en string
+		stringRow = ''
+		#Ahora nuevamente sacamos todos los elementos
+		for numContratos in range(len(self.listaContratos)):
+			#De esa forma actualizaremos
+			self.tabla.setItem(numContratos,0, QTableWidgetItem(self.listaContratos[numContratos].purchase_order))
+			self.tabla.setItem(numContratos,1, QTableWidgetItem(self.listaContratos[numContratos].contract_number))
+			self.tabla.setItem(numContratos,2, QTableWidgetItem(get_str_name_from_id_process(self.listaContratos[numContratos].id_process)))
+			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
+			self.tabla.setItem(numContratos,4, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
+			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
+			if(self.AREA_ACTUAL_ID!=AREA_CONTROL_ID):
+				if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date)) == True):
+					self.tabla.item(numContratos, 5).setBackground(QColor(238,0,0))	
+				else:
+					self.tabla.item(numContratos, 5).setBackground(QColor(0,205,0))
+				self.tabla.item(numContratos, 5).setTextColor(QColor(255, 255, 255))
+			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
+			self.btn_sell = QPushButton('Ver Comentarios')
+			self.btn_sell.clicked.connect(self.VerComentarios)
+			self.tabla.setCellWidget(numContratos,7,self.btn_sell)
+			stringRow = stringRow + str(numContratos+1) + SPLIT
+		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
+
+class ventanaBusqueda(QDialog):
+	def __init__(self, parent=None):
+		super(ventanaBusqueda, self).__init__(parent)
+		#Nombre de los campos
+		#Creacion de botones
+		self.aceptarBoton = QPushButton("Buscar", self)
+		self.cancelarBoton = QPushButton("Cancelar")
+
+		#Creacion de los label
+		Ccontract_number = QLabel('Contrato')
+
+		#Creacion de los campos de edicion
+		self.editcontract_number = QLineEdit()
+
+		#Creando el grid
+		grid = QGridLayout()
+		grid.addWidget(Ccontract_number,1,0)
+		grid.addWidget(self.editcontract_number,1,1)
+
+		grid.addWidget(self.aceptarBoton,2,1)
+		grid.addWidget(self.cancelarBoton,2,2)
+
+		self.setLayout(grid)
+
+		#Dando tamaño a la pantalla
+		size=self.size()
+		desktopSize=QDesktopWidget().screenGeometry()
+		top=(desktopSize.height()/2)-(size.height()/2)
+		left=(desktopSize.width()/2)-(size.width()/2)
+		self.move(left, top)
+		self.setWindowTitle('Buscar Contrato')
+		self.show()
+		#Funcionalidades de los botones
+		self.connect(self.cancelarBoton, SIGNAL("clicked()"), self.Sair)
+		self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
+		self.contract_number = ''
+
+	def Crear(self):
+		self.contract_number = self.editcontract_number.text()
+		if(self.contract_number == ''):
+			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
+		elif(is_invalid_contract_number(self.contract_number)):
+			QMessageBox.warning(self, 'Error',"Numero de Contrato no Valido", QMessageBox.Ok)
+		else:
+			self.close()
+
+	def Sair(self):
+		self.contract_number = ''
+		self.close()
