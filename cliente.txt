@@ -1,0 +1,9 @@
+1. Busqueda por PO (LIKE)
+
+2. Fecha en Comentarios
+
+3. Ver Administrador para todos (Status General)
+
+4. cambiar administrador por Control 
+
+5. Leer conf bd file
