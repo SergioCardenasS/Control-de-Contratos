@@ -26,7 +26,7 @@ class ingenieria_window(QWidget):
 		self.move(left, top)
 		#abrimos la pantalla princilal para todas las areas
 		self.pantallaDesarrollo()
-		self.setWindowTitle('Ingenieria')
+		self.setWindowTitle(TITLE_APP)
 		self.show()
 		self.control_singleton=False
 
@@ -66,6 +66,8 @@ class ingenieria_window(QWidget):
 
 		#Instaciamos botones
 		aceptar_button = QPushButton('Actualizar', self)
+		undoicon = QIcon.fromTheme("view-refresh")
+		aceptar_button.setIcon(undoicon)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)

@@ -27,7 +27,7 @@ class control_window(QWidget):
 		#Creacion de conexion a BD
 		#abrimos el creador de la pantalla
 		self.pantallasCreador()
-		self.setWindowTitle('Administrador')
+		self.setWindowTitle(TITLE_APP)
 		self.show()
 		self.Refresh_Numbers()
 
@@ -63,7 +63,14 @@ class control_window(QWidget):
 		ingenieria_button = QPushButton('Ingenieria', self)
 		planificacion_button = QPushButton('Planificacion', self)
 		refresh_button = QPushButton('Actualizar', self)
+		undoicon = QIcon.fromTheme("view-refresh")
+		refresh_button.setIcon(undoicon)
 		finish_button = QPushButton('Contratos Finalizados', self)
+		undoicon = QIcon.fromTheme("folder")
+		finish_button.setIcon(undoicon)
+		search_button = QPushButton('Buscar Contrato', self)
+		undoicon = QIcon.fromTheme("edit-find")
+		search_button.setIcon(undoicon)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(refresh_button, SIGNAL("clicked()"), self.Actualizar)
@@ -80,8 +87,9 @@ class control_window(QWidget):
 		desarrollo_button.move(50, 350)
 		ingenieria_button.move(50, 450)
 		planificacion_button.move(50, 550)
-		refresh_button.move(400,550)
-		finish_button.move(400,350)
+		refresh_button.move(400,750)
+		finish_button.move(400,550)
+		search_button.move(400,350)
 
 		#Ahora le damos un tamano a nuestros botones
 		comercial_button.setFixedSize(150, 110)
@@ -91,6 +99,7 @@ class control_window(QWidget):
 		planificacion_button.setFixedSize(150, 110)
 		refresh_button.setFixedSize(150, 110)
 		finish_button.setFixedSize(180, 110)
+		search_button.setFixedSize(150, 110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -102,8 +111,9 @@ class control_window(QWidget):
 		grid.addWidget(desarrollo_button,1,4)
 		grid.addWidget(ingenieria_button,1,6)
 		grid.addWidget(planificacion_button,1,8)
-		grid.addWidget(refresh_button,5,4)
-		grid.addWidget(finish_button,5,2)
+		grid.addWidget(refresh_button,5,6)
+		grid.addWidget(finish_button,5,4)
+		grid.addWidget(search_button,5,2)
 		grid.addWidget(self.tabla,2,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets

@@ -156,8 +156,14 @@ class FinishProcessSavePreContract(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("PreContrato Firmado", self)
+		undoicon = QIcon.fromTheme("document-save-as")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		self.aComercialBoton = QPushButton("Regresar a Desarrollo", self)
+		undoicon = QIcon.fromTheme("application-exit")
+		self.aComercialBoton.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -207,8 +213,8 @@ class FinishProcessSavePreContract(QDialog):
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
-		self.aComercialBoton.setFixedSize(150, 110)
-		self.crearBoton.setFixedSize(150, 110)
+		self.aComercialBoton.setFixedSize(180, 110)
+		self.crearBoton.setFixedSize(180, 110)
 
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
@@ -303,7 +309,11 @@ class FinishProcessSetAcesss(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("Brindar Permiso Por Estado del Hilado", self)
+		undoicon = QIcon.fromTheme("mail-send")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -404,8 +414,15 @@ class FinishProcessAcceptDates(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("Aceptar Fechas", self)
+		undoicon = QIcon.fromTheme("window-new")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		self.aComercialBoton = QPushButton("Rechazar Fechas", self)
+		undoicon = QIcon.fromTheme("application-exit")
+		self.aComercialBoton.setIcon(undoicon)
+
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -531,9 +548,17 @@ class FinishProcessAcceptContract(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("Activar Contrato", self)
+		undoicon = QIcon.fromTheme("window-new")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		self.aComercialBoton = QPushButton("Cambiar Provisional a Firme", self)
+		undoicon = QIcon.fromTheme("mail-send")
+		self.aComercialBoton.setIcon(undoicon)
 		self.aReiniciarBoton = QPushButton("Reiniciar Proceso", self)
+		undoicon = QIcon.fromTheme("view-refresh")
+		self.aReiniciarBoton.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -580,8 +605,8 @@ class FinishProcessAcceptContract(QDialog):
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
-		self.aComercialBoton.setFixedSize(150, 110)
-		self.aReiniciarBoton.setFixedSize(150, 110)
+		self.aComercialBoton.setFixedSize(210, 110)
+		self.aReiniciarBoton.setFixedSize(190, 110)
 		self.crearBoton.setFixedSize(150, 110)
 
 		#Agregamos los widgets al grid

@@ -33,8 +33,14 @@ class FinishProcessSetCode(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("Crear Codigo", self)
+		undoicon = QIcon.fromTheme("window-new")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		self.aComercialBoton = QPushButton("Regresar a Comercial", self)
+		undoicon = QIcon.fromTheme("mail-send")
+		self.aComercialBoton.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
