@@ -129,6 +129,11 @@ class comercial_window(QWidget):
 			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
 			self.tabla.setItem(numContratos,4, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
 			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
+			if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date))):
+				self.tabla.item(numContratos, 5).setBackground(QColor(238,0,0))
+			else:
+				self.tabla.item(numContratos, 5).setBackground(QColor(0,205,0))
+			self.tabla.item(numContratos, 5).setTextColor(QColor(255, 255, 255))
 			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
 			self.btn_sell = QPushButton('Finalizar')
 			self.btn_sell.clicked.connect(self.Finalizar)
