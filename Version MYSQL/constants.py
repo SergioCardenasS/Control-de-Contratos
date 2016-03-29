@@ -4,6 +4,9 @@
 import MySQLdb
 import time
 import datetime
+import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
 #DATABASE Configuration
 DATABASE_HOST		= "127.0.0.1"
@@ -12,7 +15,11 @@ DATABASE_PASSWORD	= ""
 DATABASE_NAME 		= "BASE_SEGUIMIENTO"
 
 def get_connection():
-	return MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
+	try:
+		return MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
+	except MySQLdb.Error as err:
+		QMessageBox.warning(None, 'Error',"Error al Conectar con la Base De Datos", QMessageBox.Ok)
+		exit()
 
 #TIME
 def get_time_str():
