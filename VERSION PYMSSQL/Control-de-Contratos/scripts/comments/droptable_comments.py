@@ -13,6 +13,7 @@ from constants import *
 db=get_connection()
 cursor=db.cursor()
 
+cursor.execute("DROP INDEX Comment.CommentIndex")
 cursor.execute("DROP TABLE Comment")
 
 db.commit()

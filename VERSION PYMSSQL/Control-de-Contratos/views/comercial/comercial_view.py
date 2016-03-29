@@ -27,7 +27,7 @@ class comercial_window(QWidget):
 		#Creacion de conexion a BD
 		#abrimos la pantalla princilal para todas las areas
 		self.pantallaComercial()
-		self.setWindowTitle('Comercial')
+		self.setWindowTitle(TITLE_APP+COMERCIAL_TITLE)
 		self.show()
 		self.control_singleton=False
 
@@ -67,7 +67,11 @@ class comercial_window(QWidget):
 
 		#Instaciamos botones
 		aceptar_button = QPushButton('Actualizar', self)
+		undoicon = QIcon.fromTheme("view-refresh")
+		aceptar_button.setIcon(undoicon)
 		aceptar1_button = QPushButton('Crear Control de Contrato', self)
+		undoicon = QIcon.fromTheme("window-new")
+		aceptar1_button.setIcon(undoicon)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
@@ -79,7 +83,7 @@ class comercial_window(QWidget):
 
 		#Ahora le damos un tamano a nuestros botones
 		aceptar_button.setFixedSize(150, 110)
-		aceptar1_button.setFixedSize(180, 110)
+		aceptar1_button.setFixedSize(200, 110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -129,6 +133,11 @@ class comercial_window(QWidget):
 			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
 			self.tabla.setItem(numContratos,4, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
 			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
+			if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date))):
+				self.tabla.item(numContratos, 5).setBackground(QColor(238,0,0))
+			else:
+				self.tabla.item(numContratos, 5).setBackground(QColor(0,205,0))
+			self.tabla.item(numContratos, 5).setTextColor(QColor(255, 255, 255))
 			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
 			self.btn_sell = QPushButton('Finalizar')
 			self.btn_sell.clicked.connect(self.Finalizar)

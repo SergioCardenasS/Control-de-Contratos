@@ -1,6 +1,0 @@
-//1. temporizador
-//2. contrato lo escribe Comercial en proceso 3 precontrato
-3. numeritos en administrador (cantidad)
-//4. Colores (verde -rojo) 
-5. Imagenes en botones - texto agrandar - stilos
-6. AGREGAR TITULO (Sistema de Respuestas)

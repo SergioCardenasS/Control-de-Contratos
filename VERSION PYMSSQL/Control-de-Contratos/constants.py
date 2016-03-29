@@ -53,7 +53,7 @@ def get_str_contract_type(type):
 PROCESS_SET_PO_ID				= 1
 PROCESS_SET_PO_NAME				= "Colocar PO"
 PROCESS_SET_CODE_ID				= 2
-PROCESS_SET_CODE_NAME			= "Creacion de Codigos"
+PROCESS_SET_CODE_NAME			= "Revision de PO y Tipo"
 PROCESS_SAVE_PRECONTRACT_ID		= 3
 PROCESS_SAVE_PRECONTRACT_NAME	= "Grabar Precontrato"
 PROCESS_SET_WEIGHT_ID			= 4
@@ -155,4 +155,10 @@ TIMER_SEC				= 10
 TIMER_EVENT				= TIMER_SEC*1000
 
 #TITLE
-TITLE_APP = "Sistema de Respuestas"
+TITLE_APP				= "Sistema de Respuestas - "
+CONTROL_TITLE			= "Administrador"
+COMERCIAL_TITLE			= "Comercial"
+DESARROLLO_TITLE		= "Desarrollo"
+ABASTECIMIENTOS_TITLE	= "Abastecimientos"
+PLANIFICACION_TITLE		= "Planificacion"
+INGENIERIA_TITLE		= "Ingenieria"

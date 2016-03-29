@@ -33,7 +33,11 @@ class FinishProcessSetWeight(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.crearBoton = QPushButton("Pesos Colocados", self)
+		undoicon = QIcon.fromTheme("window-new")
+		self.crearBoton.setIcon(undoicon)
 		self.atrasBoton = QPushButton("Atras", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.atrasBoton.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()

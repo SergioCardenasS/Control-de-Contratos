@@ -21,5 +21,9 @@ cursor.execute("""CREATE TABLE Comment
 				text_comment TEXT
 				)""")
 
+cursor.execute("""CREATE INDEX CommentIndex
+				ON Comment (id_contract)
+				""")
+
 db.commit()
 db.close()
