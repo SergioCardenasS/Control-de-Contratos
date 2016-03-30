@@ -14,15 +14,18 @@ from constants import *
 from controllers.controller_contract import *
 from controllers.controller_process import *
 from views import comments
+from views.control import control_view
 
-class control_window(QWidget):
-	def __init__(self):
-		super(control_window, self).__init__()
+class control_window_dialog(QDialog):
+	def __init__(self, parent=None):
+		super(control_window_dialog, self).__init__(parent)
 		#Dar tamano a la pantalla
 		size=self.size()
+		self.resize(7*size.width()/4,size.height())
+		size=self.size()
 		desktopSize=QDesktopWidget().screenGeometry()
-		top=(desktopSize.height())-(size.height())
-		left=(desktopSize.width())-(size.width())
+		top=(desktopSize.height()/2)-(size.height()/2)
+		left=(desktopSize.width()/2)-(size.width()/2)
 		self.move(left, top)
 		#Creacion de conexion a BD
 		#abrimos el creador de la pantalla
@@ -228,15 +231,15 @@ class control_window(QWidget):
 			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
 		else:
 			self.control_singleton=True
-			ventana = ventanaBusqueda()
+			ventana = control_view.ventanaBusqueda()
 			ventana.exec_()
-			if(len(ventana.contract_number)):
-				self.searchCodigo(ventana.contract_number)
+			if(ventana.contract_number!="E"):
+				self.searchCodigo(ventana.purchase_order,ventana.contract_number)
 			self.control_singleton=False
 
-	def searchCodigo(self,str_code):
+	def searchCodigo(self,str_po,str_code):
 		db=get_connection()
-		self.listaContratos=get_contracts_by_number(db,str_code)
+		self.listaContratos=get_contracts_by_number(db,str_po,str_code)
 		db.close()
 		self.LimpiarTabla()
 		numEventos = self.rows
@@ -265,53 +268,3 @@ class control_window(QWidget):
 			self.tabla.setCellWidget(numContratos,7,self.btn_sell)
 			stringRow = stringRow + str(numContratos+1) + SPLIT
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
-
-class ventanaBusqueda(QDialog):
-	def __init__(self, parent=None):
-		super(ventanaBusqueda, self).__init__(parent)
-		#Nombre de los campos
-		#Creacion de botones
-		self.aceptarBoton = QPushButton("Buscar", self)
-		self.cancelarBoton = QPushButton("Cancelar")
-
-		#Creacion de los label
-		Ccontract_number = QLabel('Contrato')
-
-		#Creacion de los campos de edicion
-		self.editcontract_number = QLineEdit()
-
-		#Creando el grid
-		grid = QGridLayout()
-		grid.addWidget(Ccontract_number,1,0)
-		grid.addWidget(self.editcontract_number,1,1)
-
-		grid.addWidget(self.aceptarBoton,2,1)
-		grid.addWidget(self.cancelarBoton,2,2)
-
-		self.setLayout(grid)
-
-		#Dando tamaño a la pantalla
-		size=self.size()
-		desktopSize=QDesktopWidget().screenGeometry()
-		top=(desktopSize.height()/2)-(size.height()/2)
-		left=(desktopSize.width()/2)-(size.width()/2)
-		self.move(left, top)
-		self.setWindowTitle('Buscar Contrato')
-		self.show()
-		#Funcionalidades de los botones
-		self.connect(self.cancelarBoton, SIGNAL("clicked()"), self.Sair)
-		self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
-		self.contract_number = ''
-
-	def Crear(self):
-		self.contract_number = self.editcontract_number.text()
-		if(self.contract_number == ''):
-			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
-		elif(is_invalid_contract_number(self.contract_number)):
-			QMessageBox.warning(self, 'Error',"Numero de Contrato no Valido", QMessageBox.Ok)
-		else:
-			self.close()
-
-	def Sair(self):
-		self.contract_number = ''
-		self.close()

@@ -1,7 +1,0 @@
-1. Busqueda por PO (LIKE) agregar a Administrador boton
-3. Ver Administrador para todos Boton con nombre (Status General)
-
-//6. Icono
-//4. cambiar administrador por Control 
-//2. Fecha en Comentarios
-//5. Leer conf bd file

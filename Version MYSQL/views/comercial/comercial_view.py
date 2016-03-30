@@ -14,6 +14,7 @@ from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
 from views.comercial import comercial_fin_process
+from views.control import control_view_dialog
 
 class comercial_window(QWidget):
 	def __init__(self):
@@ -30,6 +31,7 @@ class comercial_window(QWidget):
 		self.setWindowTitle(TITLE_APP+COMERCIAL_TITLE)
 		self.show()
 		self.control_singleton=False
+		self.admin_singleton=False
 
 	def time_event(self):
 		if(self.control_singleton==False):
@@ -72,18 +74,22 @@ class comercial_window(QWidget):
 		aceptar1_button = QPushButton('Crear Control de Contrato', self)
 		undoicon = QIcon.fromTheme("window-new")
 		aceptar1_button.setIcon(undoicon)
+		admin_button = QPushButton('Ver Status General',self)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
 		self.connect(aceptar1_button, SIGNAL("clicked()"), self.crearContrato)
+		self.connect(admin_button, SIGNAL("clicked()"), self.open_admin_button)
 
 		#Le damos posicion a nuestros botones
 		aceptar_button.move(400,550)
 		aceptar1_button.move(400,550)
+		admin_button.move(400,550)
 
 		#Ahora le damos un tamano a nuestros botones
 		aceptar_button.setFixedSize(150, 110)
 		aceptar1_button.setFixedSize(200, 110)
+		admin_button.setFixedSize(150,110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -91,7 +97,8 @@ class comercial_window(QWidget):
 
 		#Agregamos los widgets al grid
 		grid.addWidget(aceptar_button,5,3)
-		grid.addWidget(aceptar1_button,5,5)
+		grid.addWidget(aceptar1_button,5,4)
+		grid.addWidget(admin_button,5,5)
 		grid.addWidget(self.tabla,1,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
@@ -173,6 +180,14 @@ class comercial_window(QWidget):
 					ventana = comercial_fin_process.FinishProcessAcceptContract(contract=self.listaContratos[index.row()]).exec_()
 				self.refresh_table(AREA_COMERCIAL_ID)
 			self.control_singleton=False
+
+	def open_admin_button(self):
+		if(self.admin_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_ADMIN_OPENED, QMessageBox.Ok)
+		else:
+			self.admin_singleton=True
+			window=control_view_dialog.control_window_dialog().exec_()
+			self.admin_singleton=False
 			
 class ventanaContrato(QDialog):
 	def __init__(self, parent=None):

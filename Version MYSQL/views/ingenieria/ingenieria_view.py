@@ -14,6 +14,7 @@ from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
 from views.ingenieria import ingenieria_fin_process
+from views.control import control_view_dialog
 
 class ingenieria_window(QWidget):
 	def __init__(self):
@@ -29,6 +30,7 @@ class ingenieria_window(QWidget):
 		self.setWindowTitle(TITLE_APP+INGENIERIA_TITLE)
 		self.show()
 		self.control_singleton=False
+		self.admin_singleton=False
 
 	def time_event(self):
 		if(self.control_singleton==False):
@@ -68,22 +70,27 @@ class ingenieria_window(QWidget):
 		aceptar_button = QPushButton('Actualizar', self)
 		undoicon = QIcon.fromTheme("view-refresh")
 		aceptar_button.setIcon(undoicon)
+		admin_button = QPushButton('Ver Status General',self)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
+		self.connect(admin_button, SIGNAL("clicked()"), self.open_admin_button)
 
 		#Le damos posicion a nuestros botones
 		aceptar_button.move(400,550)
+		admin_button.move(400,550)
 
 		#Ahora le damos un tamano a nuestros botones
 		aceptar_button.setFixedSize(150, 110)
+		admin_button.setFixedSize(150,110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
 		grid.setVerticalSpacing(5)
 
 		#Agregamos los widgets al grid
-		grid.addWidget(aceptar_button,5,4)
+		grid.addWidget(aceptar_button,5,3)
+		grid.addWidget(admin_button,5,5)
 		grid.addWidget(self.tabla,1,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
@@ -148,3 +155,11 @@ class ingenieria_window(QWidget):
 				ventana = ingenieria_fin_process.FinishProcessSetWeight(contract=self.listaContratos[index.row()]).exec_()
 				self.refresh_table(AREA_INGENIERIA_ID)
 			self.control_singleton=False
+
+	def open_admin_button(self):
+		if(self.admin_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_ADMIN_OPENED, QMessageBox.Ok)
+		else:
+			self.admin_singleton=True
+			window=control_view_dialog.control_window_dialog().exec_()
+			self.admin_singleton=False

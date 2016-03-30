@@ -230,13 +230,13 @@ class control_window(QWidget):
 			self.control_singleton=True
 			ventana = ventanaBusqueda()
 			ventana.exec_()
-			if(len(ventana.contract_number)):
-				self.searchCodigo(ventana.contract_number)
+			if(ventana.contract_number!="E"):
+				self.searchCodigo(ventana.purchase_order,ventana.contract_number)
 			self.control_singleton=False
 
-	def searchCodigo(self,str_code):
+	def searchCodigo(self,str_po,str_code):
 		db=get_connection()
-		self.listaContratos=get_contracts_by_number(db,str_code)
+		self.listaContratos=get_contracts_by_number(db,str_po,str_code)
 		db.close()
 		self.LimpiarTabla()
 		numEventos = self.rows
@@ -276,17 +276,19 @@ class ventanaBusqueda(QDialog):
 
 		#Creacion de los label
 		Ccontract_number = QLabel('Contrato')
-
-		#Creacion de los campos de edicion
 		self.editcontract_number = QLineEdit()
+		Purchase_Order = QLabel('PO')
+		self.editpurchase_order = QLineEdit()
 
 		#Creando el grid
 		grid = QGridLayout()
-		grid.addWidget(Ccontract_number,1,0)
-		grid.addWidget(self.editcontract_number,1,1)
+		grid.addWidget(Purchase_Order,1,0)
+		grid.addWidget(self.editpurchase_order,1,1)
+		grid.addWidget(Ccontract_number,2,0)
+		grid.addWidget(self.editcontract_number,2,1)
 
-		grid.addWidget(self.aceptarBoton,2,1)
-		grid.addWidget(self.cancelarBoton,2,2)
+		grid.addWidget(self.aceptarBoton,3,1)
+		grid.addWidget(self.cancelarBoton,3,2)
 
 		self.setLayout(grid)
 
@@ -302,16 +304,19 @@ class ventanaBusqueda(QDialog):
 		self.connect(self.cancelarBoton, SIGNAL("clicked()"), self.Sair)
 		self.connect(self.aceptarBoton, SIGNAL("clicked()"), self.Crear)
 		self.contract_number = ''
+		self.purchase_order = ''
 
 	def Crear(self):
+		self.purchase_order = self.editpurchase_order.text()
 		self.contract_number = self.editcontract_number.text()
-		if(self.contract_number == ''):
-			QMessageBox.warning(self, 'Error',ERROR_SET_CODE_CONTRACT_ERROR_NO_TYPED, QMessageBox.Ok)
+		if(str_is_invalid(self.purchase_order)):
+			QMessageBox.warning(self, 'Error',"PO No Valido", QMessageBox.Ok)
 		elif(is_invalid_contract_number(self.contract_number)):
 			QMessageBox.warning(self, 'Error',"Numero de Contrato no Valido", QMessageBox.Ok)
 		else:
 			self.close()
 
 	def Sair(self):
-		self.contract_number = ''
+		self.contract_number = 'E'
+		self.purchase_order = 'E'
 		self.close()

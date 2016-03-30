@@ -52,19 +52,10 @@ def get_contract_by_process_list(db,process_list,asc_desc=False):
 		contract_list.append(contract.Contract(row))
 	return contract_list
 
-def get_contracts_by_number(db,contract_number):
+def get_contracts_by_number(db,purchase_order,contract_number):
 	cursor=db.cursor()
 	contract_list=[]
-	select_contract="select * from Contract where contract_number='%s'"%(contract_number)
-	cursor.execute(select_contract)
-	for row in cursor:
-		contract_list.append(contract.Contract(row))
-	return contract_list
-
-def get_contracts_by_PO(db,purchase_order):
-	cursor=db.cursor()
-	contract_list=[]
-	select_contract="select * from Contract where purchase_order LIKE '%s'"%(purchase_order)
+	select_contract="select * from Contract where purchase_order LIKE '%s' OR contract_number='%s'"%("%"+purchase_order+"%",contract_number)
 	cursor.execute(select_contract)
 	for row in cursor:
 		contract_list.append(contract.Contract(row))

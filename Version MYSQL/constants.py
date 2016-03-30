@@ -143,6 +143,7 @@ ERROR_IS_A_FIRME_CONTRACT				= "El Contrato es Firme"
 ERROR_IS_A_PROVISIONAL_CONTRACT			= "El Contrato es Provisional"
 ERROR_MODIFICATE_CONTRACT				= "El Control ya ha sido Modificado"
 ERROR_A_PROCESS_OPENED					= "Ya tiene Abierta una Opcion"
+ERROR_A_ADMIN_OPENED					= "Ya tiene Abierta una ventana de Status General"
 
 #TABLA
 SIZE_COLUMNS			= 8
