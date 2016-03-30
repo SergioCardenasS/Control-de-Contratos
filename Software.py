@@ -20,6 +20,7 @@ from views.planificacion import planificacion_view
 
 def main():
 	app = QApplication(sys.argv)
+	app.setWindowIcon(QIcon('icon.png'))
 	Login = login.login_window()
 	if Login.exec_() == QDialog.Accepted:
 		Login.close_db()

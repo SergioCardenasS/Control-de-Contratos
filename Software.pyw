@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 #Import de Modulos
-BASE_DIR='Control-de-Contratos'
+BASE_DIR='DATA'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from views import login
@@ -20,6 +20,7 @@ from views.planificacion import planificacion_view
 
 def main():
 	app = QApplication(sys.argv)
+	app.setWindowIcon(QIcon('icon.png'))
 	Login = login.login_window()
 	if Login.exec_() == QDialog.Accepted:
 		Login.close_db()
