@@ -136,19 +136,20 @@ class comercial_window(QWidget):
 			#De esa forma actualizaremos
 			self.tabla.setItem(numContratos,0, QTableWidgetItem(self.listaContratos[numContratos].purchase_order))
 			self.tabla.setItem(numContratos,1, QTableWidgetItem(self.listaContratos[numContratos].contract_number))
-			self.tabla.setItem(numContratos,2, QTableWidgetItem(get_str_name_from_id_process(self.listaContratos[numContratos].id_process)))
-			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
-			self.tabla.setItem(numContratos,4, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
-			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
+			self.tabla.setItem(numContratos,2, QTableWidgetItem(self.listaContratos[numContratos].special_contract))
+			self.tabla.setItem(numContratos,3, QTableWidgetItem(get_str_name_from_id_process(self.listaContratos[numContratos].id_process)))
+			self.tabla.setItem(numContratos,4, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
+			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
+			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
 			if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date))):
-				self.tabla.item(numContratos, 5).setBackground(QColor(238,0,0))
+				self.tabla.item(numContratos, 6).setBackground(QColor(238,0,0))
 			else:
-				self.tabla.item(numContratos, 5).setBackground(QColor(0,205,0))
-			self.tabla.item(numContratos, 5).setTextColor(QColor(255, 255, 255))
-			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
+				self.tabla.item(numContratos, 6).setBackground(QColor(0,205,0))
+			self.tabla.item(numContratos, 6).setTextColor(QColor(255, 255, 255))
+			self.tabla.setItem(numContratos,7, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
 			self.btn_sell = QPushButton('Finalizar')
 			self.btn_sell.clicked.connect(self.Finalizar)
-			self.tabla.setCellWidget(numContratos,7,self.btn_sell)
+			self.tabla.setCellWidget(numContratos,8,self.btn_sell)
 			stringRow = stringRow + str(numContratos+1) + SPLIT
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
 
@@ -199,11 +200,13 @@ class ventanaContrato(QDialog):
 
 		#Creacion de los label
 		PO = QLabel('Purchase Orden')
+		ClientL = QLabel('Cliente')
 		Commentary = QLabel('Comentario')
 		Is_Provisional = QLabel('Provisional')
 
 		#Creacion de los campos de edicion
 		self.editPO = QLineEdit()
+		self.editClient = QLineEdit()
 		self.editIs_Provisional = QRadioButton()
 		self.editCommentary = QTextEdit()
 		#Para fecha seria asi dependiendo de
@@ -214,12 +217,14 @@ class ventanaContrato(QDialog):
 		grid = QGridLayout()
 		grid.addWidget(PO,1,0)
 		grid.addWidget(self.editPO,1,1)
+		grid.addWidget(ClientL,2,0)
+		grid.addWidget(self.editClient,2,1)
 
-		grid.addWidget(Is_Provisional,2,0)
-		grid.addWidget(self.editIs_Provisional,2,1)
+		grid.addWidget(Is_Provisional,3,0)
+		grid.addWidget(self.editIs_Provisional,3,1)
 
-		grid.addWidget(Commentary,3,0)
-		grid.addWidget(self.editCommentary,3,1)
+		grid.addWidget(Commentary,4,0)
+		grid.addWidget(self.editCommentary,4,1)
 
 		grid.addWidget(self.aceptarBoton,7,1)
 		grid.addWidget(self.cancelarBoton,7,2)
@@ -240,8 +245,13 @@ class ventanaContrato(QDialog):
 
 	def Crear(self):
 		PO = self.editPO.text()
+		ClienteCode = self.editClient.text()
 		if(PO == ''):
 			QMessageBox.warning(self, 'Error',CREATE_CONTRACT_ERROR_NO_PO_TYPED, QMessageBox.Ok)
+		elif(ClienteCode == ''):
+			QMessageBox.warning(self, 'Error',"No ha escrito un codigo para el cliente", QMessageBox.Ok)
+		elif(len(ClienteCode)>10):
+			QMessageBox.warning(self, 'Error',"Cliente muy largo", QMessageBox.Ok)
 		else:
 			reply=QMessageBox.question(self, 'Message',"Esta Seguro de Iniciar un Nuevo Proceso...",QMessageBox.Yes,QMessageBox.No)
 			if reply == QMessageBox.Yes:
@@ -250,7 +260,7 @@ class ventanaContrato(QDialog):
 				Is_Provisional = chr(self.editIs_Provisional.isChecked())
 				Commentary = unicode(self.editCommentary.toPlainText())
 				db=get_connection()
-				new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1])
+				new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1,ClienteCode])
 				if(new_contract.insert(db.cursor())):
                                         new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary,mod_date])
                                         if(new_comment.insert(db.cursor())):

@@ -22,7 +22,8 @@ cursor.execute("""CREATE TABLE Contract
 				contract_type BIT,
 				init_date DATETIME,
 				mod_date DATETIME,
-				iteration_number int
+				iteration_number int,
+				special_contract varchar(10)
 				)""")
 
 db.commit()

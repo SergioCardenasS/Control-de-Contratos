@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 #Import de Modulos
-BASE_DIR='DATA'
+BASE_DIR='VERSION MYSQL'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from views import login

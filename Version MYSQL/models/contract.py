@@ -32,6 +32,8 @@ class Contract:
 	mod_date			= ""
 	#Numero de Iteracion del Control del Contrato
 	iteration_number	= 0
+	#Codigo nuevo
+	special_contract	= ""
 	#Constructor de la clase Contrato, recive una fila de la tabla de la bases de datos, como una lista.
 	def __init__(self, row_contract):
 		self.id_contract		= int(row_contract[0])
@@ -42,28 +44,30 @@ class Contract:
 		self.init_date			= str(row_contract[5])
 		self.mod_date			= str(row_contract[6])
 		self.iteration_number	= row_contract[7]
+		self.special_contract	= row_contract[8]
 	def insert(self,cursor_db):
-		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number) or str_is_invalid(self.special_contract)):
 			return False
 		insert_code_contract="""INSERT INTO Contract
-								(purchase_order,contract_number,id_process,contract_type,init_date,mod_date,iteration_number)
-								values('%s','%s','%d',b'%d','%s','%s','%d'
+								(purchase_order,contract_number,id_process,contract_type,init_date,mod_date,iteration_number,special_contract)
+								values('%s','%s','%d',b'%d','%s','%s','%d','%s'
 								)"""%(self.purchase_order,
 										self.contract_number,
 										self.id_process,
 										self.contract_type,
 										self.init_date,
 										self.mod_date,
-										self.iteration_number)
+										self.iteration_number,
+										self.special_contract)
 		cursor_db.execute(insert_code_contract)
 		cursor_db.execute("select MAX(id_contract) from Contract")
 		for row in cursor_db:
 			self.id_contract=row[0]
 		return True
 	def update(self,cursor_db):
-		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number)):
+		if(str_is_invalid(self.purchase_order) or str_is_invalid(self.contract_number) or str_is_invalid(self.special_contract)):
 			return False
-		update_code_contract="""UPDATE Contract SET purchase_order='%s', contract_number='%s', id_process='%d', contract_type=b'%d', mod_date='%s', iteration_number='%d'
+		update_code_contract="""UPDATE Contract SET purchase_order='%s', contract_number='%s', id_process='%d', contract_type=b'%d', mod_date='%s', iteration_number='%d', special_contract='%s'
 							WHERE id_contract='%d'"""%(
 									self.purchase_order,
 									self.contract_number,
@@ -71,6 +75,7 @@ class Contract:
 									self.contract_type,
 									self.mod_date,
 									self.iteration_number,
+									self.special_contract,
 									self.id_contract)
 		cursor_db.execute(update_code_contract)
 		return True
