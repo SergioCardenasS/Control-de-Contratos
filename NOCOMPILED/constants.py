@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import MySQLdb
+import pymssql
 import time
 import datetime
 import sys
@@ -11,8 +11,8 @@ from BDconf import *
 
 def get_connection():
 	try:
-		return MySQLdb.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
-	except MySQLdb.Error as err:
+		return pymssql.connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME)
+	except pymssql.Error as err:
 		QMessageBox.warning(None, 'Error',"Error al Conectar con la Base De Datos", QMessageBox.Ok)
 		exit()
 

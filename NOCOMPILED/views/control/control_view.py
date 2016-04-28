@@ -110,9 +110,9 @@ class control_window(QWidget):
 
 		#Agregamos los widgets al grid
 		grid.addWidget(self.comercial_button,1,0)
-		grid.addWidget(self.abastecimiento_button,1,2)
-		grid.addWidget(self.desarrollo_button,1,4)
-		grid.addWidget(self.ingenieria_button,1,6)
+		grid.addWidget(self.desarrollo_button,1,2)
+		grid.addWidget(self.ingenieria_button,1,4)
+		grid.addWidget(self.abastecimiento_button,1,6)
 		grid.addWidget(self.planificacion_button,1,8)
 		grid.addWidget(refresh_button,5,6)
 		grid.addWidget(finish_button,5,4)
@@ -236,6 +236,7 @@ class control_window(QWidget):
 			self.control_singleton=False
 
 	def searchCodigo(self,str_po,str_code,str_client,searchoption):
+		self.AREA_ACTUAL_ID=AREA_CONTROL_ID
 		db=get_connection()
 		if(searchoption==1):
 			self.listaContratos=get_contracts_by_po(db,str_po)
@@ -261,11 +262,12 @@ class control_window(QWidget):
 			self.tabla.setItem(numContratos,4, QTableWidgetItem(get_str_contract_type(self.listaContratos[numContratos].contract_type)))
 			self.tabla.setItem(numContratos,5, QTableWidgetItem(str(self.listaContratos[numContratos].init_date)))
 			self.tabla.setItem(numContratos,6, QTableWidgetItem(str(self.listaContratos[numContratos].mod_date)))
-			if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date)) == True):
-				self.tabla.item(numContratos, 6).setBackground(QColor(238,0,0))	
-			else:
-				self.tabla.item(numContratos, 6).setBackground(QColor(0,205,0))
-			self.tabla.item(numContratos, 6).setTextColor(QColor(255, 255, 255))
+			if(self.listaContratos[numContratos].id_process!=PROCESS_COMPLETED_ID):
+				if (time_pass_one_day(str(self.listaContratos[numContratos].mod_date)) == True):
+					self.tabla.item(numContratos, 6).setBackground(QColor(238,0,0))	
+				else:
+					self.tabla.item(numContratos, 6).setBackground(QColor(0,205,0))
+				self.tabla.item(numContratos, 6).setTextColor(QColor(255, 255, 255))
 			self.tabla.setItem(numContratos,7, QTableWidgetItem(str(self.listaContratos[numContratos].iteration_number)))
 			self.btn_sell = QPushButton('Ver Comentarios')
 			self.btn_sell.clicked.connect(self.VerComentarios)

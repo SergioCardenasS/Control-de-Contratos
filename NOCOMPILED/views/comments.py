@@ -36,7 +36,7 @@ class ventanaCommentarios(QDialog):
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
 		self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers)
-		self.tabla.resizeColumnsToContents()
+		#self.tabla.resizeColumnsToContents()
 		#Numero de items o filas
 		db=get_connection()
 		listaCometarios = controller_comment.get_all_comments_by_id_contract(db,self.id_contract)
@@ -56,10 +56,10 @@ class ventanaCommentarios(QDialog):
 			self.tabla.setItem(numEventos,2, QTableWidgetItem(str(listaCometarios[numEventos].comment)))
 
 			#Agregando texEdit()
-			self.btn_sell = QTextEdit()
-			self.btn_sell.setText(self.tabla.item(numEventos,1).text())
-			self.tabla.setCellWidget(numEventos,1,self.btn_sell)
-			self.btn_sell.setReadOnly(True)
+			#self.btn_sell = QTextEdit()
+			#self.btn_sell.setText(self.tabla.item(numEventos,1).text())
+			#self.tabla.setCellWidget(numEventos,1,self.btn_sell)
+			#self.btn_sell.setReadOnly(True)
 
 			# Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
 			self.stringRow = self.stringRow + str(numEventos+1) + ";"
