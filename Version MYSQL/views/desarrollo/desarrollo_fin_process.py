@@ -83,20 +83,26 @@ class FinishProcessSetCode(QDialog):
 		grid.setVerticalSpacing(6)
 
 		#Nombre de los imputs
+		self.Is_Provisional = QLabel('Es Provisional')
 		self.commentary = QLabel('Comentario')
 
 		self.editCommentary = QTextEdit()
+		self.editIs_Provisional = QRadioButton()
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
 		self.aComercialBoton.setFixedSize(150, 110)
 		self.crearBoton.setFixedSize(150, 110)
 
+		#iniciamos Datos
+		self.editIs_Provisional.setChecked(bool(self.contract.contract_type))
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
 		grid.addWidget(self.tabla,0,2,4,5)
 		grid.addWidget(self.commentary,6,2)
 		grid.addWidget(self.editCommentary,6,3)
+		grid.addWidget(self.Is_Provisional,7,2)
+		grid.addWidget(self.editIs_Provisional,7,3)
 		grid.addWidget(self.aComercialBoton,8,3)
 		grid.addWidget(self.crearBoton,8,4)
 		self.setLayout(grid)
@@ -131,13 +137,14 @@ class FinishProcessSetCode(QDialog):
 			self.close()
 
 	def FinishToSetCodeBoton(self):
-		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Aceptar la PO y ese tipo de Contrato...",QMessageBox.Yes,QMessageBox.No)
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Aceptar la PO y el tipo de Contrato...",QMessageBox.Yes,QMessageBox.No)
 		if reply == QMessageBox.Yes:
 			Commentary = unicode(self.editCommentary.toPlainText())
 			db=get_connection()
 			if(controller_contract.contract_is_equal(db,self.contract)):
 				self.contract.mod_date = get_time_str()
 				self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+				self.contract.contract_type=ord(chr(self.editIs_Provisional.isChecked()))
 				if(self.contract.update(db.cursor())):
 						new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary,self.contract.mod_date])
 						if(new_comment.insert(db.cursor())):
