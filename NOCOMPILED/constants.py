@@ -156,6 +156,7 @@ TITLE_COLUMNS_END		= "Area;Fecha;Comentario"
 WIDTH_COLUMN_COMMENT	= 140
 TIMER_SEC				= 10
 TIMER_EVENT				= TIMER_SEC*1000
+ColorGRAY				= 240
 
 #TITLE
 TITLE_APP				= "Sistema de Respuestas - "

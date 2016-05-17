@@ -60,12 +60,19 @@ class FinishProcessSetCode(QDialog):
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
 		header = self.tabla.verticalHeader()
-
+		color=False
 		#Esta lista de elementos tendra la query en lista
 		for numEventos in range(len(listaCometarios)):
 			self.tabla.setItem(numEventos,0, QTableWidgetItem(get_str_name_by_id_area(listaCometarios[numEventos].id_area)))
 			self.tabla.setItem(numEventos,1, QTableWidgetItem(str(listaCometarios[numEventos].comment_date)))
 			self.tabla.setItem(numEventos,2, QTableWidgetItem(str(listaCometarios[numEventos].comment)))
+			if(color):
+				self.tabla.item(numEventos,0).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				self.tabla.item(numEventos,1).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				self.tabla.item(numEventos,2).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				color=False
+			else:
+				color=True
 			# Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
 			self.stringRow = self.stringRow + str(numEventos+1) + ";"
 
@@ -83,20 +90,27 @@ class FinishProcessSetCode(QDialog):
 		grid.setVerticalSpacing(6)
 
 		#Nombre de los imputs
+		self.Is_Provisional = QLabel('Es Provisional')
 		self.commentary = QLabel('Comentario')
 
 		self.editCommentary = QTextEdit()
-
+		self.editIs_Provisional = QRadioButton()
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
 		self.aComercialBoton.setFixedSize(150, 110)
 		self.crearBoton.setFixedSize(150, 110)
 
+		#iniciamos Datos
+		self.editIs_Provisional.setChecked(bool(self.contract.contract_type))
+		if(self.contract.contract_type):
+			self.editIs_Provisional.setEnabled(False)
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
 		grid.addWidget(self.tabla,0,2,4,5)
 		grid.addWidget(self.commentary,6,2)
 		grid.addWidget(self.editCommentary,6,3)
+		grid.addWidget(self.Is_Provisional,7,2)
+		grid.addWidget(self.editIs_Provisional,7,3)
 		grid.addWidget(self.aComercialBoton,8,3)
 		grid.addWidget(self.crearBoton,8,4)
 		self.setLayout(grid)
@@ -131,13 +145,14 @@ class FinishProcessSetCode(QDialog):
 			self.close()
 
 	def FinishToSetCodeBoton(self):
-		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Aceptar la PO y ese tipo de Contrato...",QMessageBox.Yes,QMessageBox.No)
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Aceptar la PO y el tipo de Contrato...",QMessageBox.Yes,QMessageBox.No)
 		if reply == QMessageBox.Yes:
 			Commentary = unicode(self.editCommentary.toPlainText())
 			db=get_connection()
 			if(controller_contract.contract_is_equal(db,self.contract)):
 				self.contract.mod_date = get_time_str()
 				self.contract.id_process=PROCESS_SAVE_PRECONTRACT_ID
+				self.contract.contract_type=ord(chr(self.editIs_Provisional.isChecked()))
 				if(self.contract.update(db.cursor())):
 						new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_DESARROLLO_ID,Commentary,self.contract.mod_date])
 						if(new_comment.insert(db.cursor())):

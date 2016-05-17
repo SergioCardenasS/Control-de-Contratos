@@ -57,12 +57,19 @@ class FinishProcessSetDate(QDialog):
 
 		#Estas variables son para darle un tamano dependiendo del texto pero solo para las columnas
 		header = self.tabla.verticalHeader()
-
+		color=False
 		#Esta lista de elementos tendra la query en lista
 		for numEventos in range(len(listaCometarios)):
 			self.tabla.setItem(numEventos,0, QTableWidgetItem(get_str_name_by_id_area(listaCometarios[numEventos].id_area)))
 			self.tabla.setItem(numEventos,1, QTableWidgetItem(str(listaCometarios[numEventos].comment_date)))
 			self.tabla.setItem(numEventos,2, QTableWidgetItem(str(listaCometarios[numEventos].comment)))
+			if(color):
+				self.tabla.item(numEventos,0).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				self.tabla.item(numEventos,1).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				self.tabla.item(numEventos,2).setBackground(QColor(ColorGRAY,ColorGRAY,ColorGRAY))
+				color=False
+			else:
+				color=True
 			# Ahora necesitamos un orden en las filas, podriamos hacerlo con el id o si con el mismo iterador de esta variable numEventos
 			self.stringRow = self.stringRow + str(numEventos+1) + ";"
 
