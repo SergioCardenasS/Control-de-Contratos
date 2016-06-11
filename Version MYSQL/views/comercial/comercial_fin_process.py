@@ -11,7 +11,7 @@ from datetime import datetime
 BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
-from models import comment
+from models import comment,avios_control
 from controllers import controller_comment, controller_contract
 
 class FinishProcessSetPO(QDialog):
@@ -302,6 +302,8 @@ class FinishProcessSavePreContract(QDialog):
 					if(self.contract.update(db.cursor())):
 							new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary,self.contract.mod_date])
 							if(new_comment.insert(db.cursor())):
+									new_avios = avios_control.Avios([0,self.contract.id_contract,PROCESS_AVIOS_CREATE_ID,get_time_str(),get_time_str()])
+									new_avios.insert(db.cursor())
 									db.commit()
 									db.close()
 									self.close()

@@ -73,6 +73,10 @@ PROCESS_ACTIVATE_CONTRACT_NAME	= "Activar Contrato"
 PROCESS_COMPLETED_ID			= 10
 PROCESS_COMPLETED_NAME			= "Completado"
 
+#PROCESS AVIOS
+PROCESS_AVIOS_CREATE_ID			= 1
+PROCESS_AVIOS_CREATE_NAME		= "Control Creado"
+
 def get_str_name_from_id_process(id_process):
 	if(id_process==PROCESS_SET_PO_ID):
 		return PROCESS_SET_PO_NAME
@@ -113,6 +117,9 @@ AREA_INGENIERIA_PASS		= "Ingenieria"
 AREA_PLANIFICACION_ID		= 6
 AREA_PLANIFICACION_NAME		= "Planificacion"
 AREA_PLANIFICACION_PASS		= "Planificacion"
+AREA_CONTROL_CALIDAD_ID		= 7
+AREA_CONTROL_CALIDAD_NAME	= "Control de Calidad"
+AREA_CONTROL_CALIDAD_PASS	= "Calidad"
 
 def get_str_name_by_id_area(id_area):
 	if(id_area==AREA_CONTROL_ID):
