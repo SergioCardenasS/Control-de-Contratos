@@ -14,6 +14,7 @@ from constants import *
 from controllers.controller_contract import *
 from controllers.controller_process import *
 from views import comments
+from views.control import control_avios_view_dialog
 
 class control_window(QWidget):
 	def __init__(self):
@@ -31,6 +32,7 @@ class control_window(QWidget):
 		self.show()
 		self.Refresh_Numbers()
 		self.control_singleton=False
+		self.avios_singleton=False
 
 	def pantallasCreador(self):
 		self.listaContratos=[]
@@ -64,15 +66,11 @@ class control_window(QWidget):
 		self.desarrollo_button = QPushButton('Desarrollo', self)
 		self.ingenieria_button = QPushButton('Ingenieria', self)
 		self.planificacion_button = QPushButton('Planificacion', self)
+
 		refresh_button = QPushButton('Actualizar', self)
-		undoicon = QIcon.fromTheme("view-refresh")
-		refresh_button.setIcon(undoicon)
 		finish_button = QPushButton('Contratos Finalizados', self)
-		undoicon = QIcon.fromTheme("folder")
-		finish_button.setIcon(undoicon)
 		search_button = QPushButton('Buscar Contrato', self)
-		undoicon = QIcon.fromTheme("edit-find")
-		search_button.setIcon(undoicon)
+		avios_button = QPushButton(CONTROL_AVIOS_BUTTON, self)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(refresh_button, SIGNAL("clicked()"), self.Actualizar)
@@ -83,6 +81,7 @@ class control_window(QWidget):
 		self.connect(self.planificacion_button, SIGNAL("clicked()"), self.tablaPlanificacion)
 		self.connect(finish_button, SIGNAL("clicked()"), self.tablaFinalizados)
 		self.connect(search_button, SIGNAL("clicked()"), self.buscaCodigoLista)
+		self.connect(avios_button, SIGNAL("clicked()"), self.open_avios_control)
 
 		#Le damos posicion a nuestros botones
 		self.comercial_button.move(50, 150)
@@ -93,6 +92,7 @@ class control_window(QWidget):
 		refresh_button.move(400,750)
 		finish_button.move(400,550)
 		search_button.move(400,350)
+		avios_button.move(400,150)
 
 		#Ahora le damos un tamano a nuestros botones
 		self.comercial_button.setFixedSize(150, 110)
@@ -103,6 +103,7 @@ class control_window(QWidget):
 		refresh_button.setFixedSize(150, 110)
 		finish_button.setFixedSize(180, 110)
 		search_button.setFixedSize(150, 110)
+		avios_button.setFixedSize(150, 110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
@@ -114,9 +115,10 @@ class control_window(QWidget):
 		grid.addWidget(self.ingenieria_button,1,4)
 		grid.addWidget(self.abastecimiento_button,1,6)
 		grid.addWidget(self.planificacion_button,1,8)
-		grid.addWidget(refresh_button,5,6)
-		grid.addWidget(finish_button,5,4)
+		grid.addWidget(refresh_button,5,8)
+		grid.addWidget(finish_button,5,6)
 		grid.addWidget(search_button,5,2)
+		grid.addWidget(avios_button,5,0)
 		grid.addWidget(self.tabla,2,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
@@ -274,6 +276,15 @@ class control_window(QWidget):
 			self.tabla.setCellWidget(numContratos,8,self.btn_sell)
 			stringRow = stringRow + str(numContratos+1) + SPLIT
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
+
+	def open_avios_control(self):
+		if(self.avios_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.avios_singleton=True
+			ventana = control_avios_view_dialog.control_avios_view_dialog()
+			ventana.exec_()
+			self.avios_singleton=False
 
 class ventanaBusqueda(QDialog):
 	def __init__(self, parent=None):

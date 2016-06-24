@@ -46,6 +46,10 @@ CONTRACT_TYPE_PROVISIONAL		= 1
 CONTRACT_TYPE_FIRME_NAME		= "Firme"
 CONTRACT_TYPE_PROVISIONAL_NAME	= "Provisional"
 
+#SIGNAL TYPE
+SYGNAL_TYPE_PARCIAL				= 0
+SYGNAL_TYPE_TOTAL				= 1
+
 def get_str_contract_type(type):
 	if(type==CONTRACT_TYPE_FIRME):
 		return CONTRACT_TYPE_FIRME_NAME
@@ -74,8 +78,20 @@ PROCESS_COMPLETED_ID			= 10
 PROCESS_COMPLETED_NAME			= "Completado"
 
 #PROCESS AVIOS
-PROCESS_AVIOS_CREATE_ID			= 1
-PROCESS_AVIOS_CREATE_NAME		= "Control Creado"
+PROCESS_AVIOS_ACTIVATE_ID		= 1
+PROCESS_AVIOS_ACTIVATE_NAME		= "Activar Control"
+PROCESS_AVIOS_FIN_DES_ID		= 2
+PROCESS_AVIOS_FIN_DES_NAME		= "Finalizar Trabajo Desarrollo"
+PROCESS_AVIOS_FIN_ING_ID		= 3
+PROCESS_AVIOS_FIN_ING_NAME		= "Finalizar Trabajo Ingenieria"
+PROCESS_AVIOS_FIN_LOG_ID		= 4
+PROCESS_AVIOS_FIN_LOG_NAME		= "Finalizar Trabajo Logistica"
+PROCESS_AVIOS_LLEGADA_ID		= 5
+PROCESS_AVIOS_LLEGADA_NAME		= "Llegada de Avios"
+PROCESS_AVIOS_FIN_CONTROL_ID	= 6
+PROCESS_AVIOS_FIN_CONTROL_NAME	= "Finalizar Control"
+PROCESS_AVIOS_COMPLETED_ID		= 7
+PROCESS_AVIOS_COMPLETED_NAME	= "Completado"
 
 def get_str_name_from_id_process(id_process):
 	if(id_process==PROCESS_SET_PO_ID):
@@ -117,9 +133,12 @@ AREA_INGENIERIA_PASS		= "Ingenieria"
 AREA_PLANIFICACION_ID		= 6
 AREA_PLANIFICACION_NAME		= "Planificacion"
 AREA_PLANIFICACION_PASS		= "Planificacion"
-AREA_CONTROL_CALIDAD_ID		= 7
-AREA_CONTROL_CALIDAD_NAME	= "Control de Calidad"
-AREA_CONTROL_CALIDAD_PASS	= "Calidad"
+AREA_LOGISTICA_ID			= 7
+AREA_LOGISTICA_NAME			= "Logistica"
+AREA_LOGISTICA_PASS			= "Logistica"
+AREA_CALIDAD_ID				= 8
+AREA_CALIDAD_NAME			= "Control de Calidad"
+AREA_CALIDAD_PASS			= "Calidad"
 
 def get_str_name_by_id_area(id_area):
 	if(id_area==AREA_CONTROL_ID):
@@ -134,6 +153,10 @@ def get_str_name_by_id_area(id_area):
 		return AREA_INGENIERIA_NAME
 	elif(id_area==AREA_PLANIFICACION_ID):
 		return AREA_PLANIFICACION_NAME
+	elif(id_area==AREA_LOGISTICA_ID):
+		return AREA_LOGISTICA_NAME
+	elif(id_area==AREA_CALIDAD_ID):
+		return AREA_CALIDAD_NAME
 	return ""
 
 #LOGIN_ERRORS
@@ -173,3 +196,10 @@ DESARROLLO_TITLE		= "Desarrollo"
 ABASTECIMIENTOS_TITLE	= "Abastecimientos"
 PLANIFICACION_TITLE		= "Planificacion"
 INGENIERIA_TITLE		= "Ingenieria"
+
+
+
+
+#Avios Text
+CONTROL_AVIOS_BUTTON					= "Control de Avios"
+CONTROL_AVIOS_TITLE						= "Control de Avios"
