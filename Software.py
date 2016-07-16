@@ -17,6 +17,8 @@ from views.comercial import comercial_view
 from views.desarrollo import desarrollo_view
 from views.ingenieria import ingenieria_view
 from views.planificacion import planificacion_view
+from views.logistica import logistica_avios_view
+from views.calidad import calidad_avios_view
 
 def main():
 	app = QApplication(sys.argv)
@@ -38,6 +40,10 @@ def main():
 			window = ingenieria_view.ingenieria_window()
 		elif(actual_id==AREA_PLANIFICACION_ID):
 			window = planificacion_view.planificacion_window()
+		elif(actual_id==AREA_LOGISTICA_ID):
+			window = logistica_avios_view.logistica_window()
+		elif(actual_id==AREA_CALIDAD_ID):
+			window = calidad_avios_view.calidad_window()
 		else:
 			return
 		screenGeometry = QApplication.desktop().availableGeometry()

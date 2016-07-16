@@ -16,7 +16,7 @@ def get_all_contracts(db):
 	select_contract="select * from Contract"
 	cursor.execute(select_contract)
 	for row in cursor:
-		process_list.append(contract.Contract(row))
+		select_contract.append(contract.Contract(row))
 	return contract_list
 
 def get_contracts_by_id(db,id_contract):

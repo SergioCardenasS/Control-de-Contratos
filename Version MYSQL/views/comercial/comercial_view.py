@@ -262,14 +262,14 @@ class ventanaContrato(QDialog):
 				db=get_connection()
 				new_contract = contract.Contract([0,PO,'-',PROCESS_SET_CODE_ID,Is_Provisional,init_date,mod_date,1,ClienteCode])
 				if(new_contract.insert(db.cursor())):
-                                        new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary,mod_date])
-                                        if(new_comment.insert(db.cursor())):
-                                                db.commit()
-                                                db.close()
-                                                self.close()
-                                        else:
-                                                QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
-                                                db.close()
-                                else:
-                                        QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
-                                        db.close()
+					new_comment = comment.Comment([new_contract.id_contract,1,AREA_COMERCIAL_ID,Commentary,mod_date])
+					if(new_comment.insert(db.cursor())):
+						db.commit()
+						db.close()
+						self.close()
+					else:
+						QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+						db.close()
+				else:
+					QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+					db.close()

@@ -13,7 +13,7 @@ from constants import *
 from models import contract, comment
 from controllers.controller_contract import *
 from controllers.controller_process import *
-from views.desarrollo import desarrollo_fin_process
+from views.desarrollo import desarrollo_fin_process, desarrollo_avios_view
 from views.control import control_view_dialog
 
 class desarrollo_window(QWidget):
@@ -31,6 +31,7 @@ class desarrollo_window(QWidget):
 		self.show()
 		self.control_singleton=False
 		self.admin_singleton=False
+		self.avios_singleton=False
 
 	def time_event(self):
 		if(self.control_singleton==False):
@@ -71,10 +72,12 @@ class desarrollo_window(QWidget):
 		undoicon = QIcon.fromTheme("view-refresh")
 		aceptar_button.setIcon(undoicon)
 		admin_button = QPushButton('Ver Status General',self)
+		avios_button = QPushButton('Avios',self)
 
 		#Le damos funcionalidades a cada boton
 		self.connect(aceptar_button, SIGNAL("clicked()"), self.Actualizar)
 		self.connect(admin_button, SIGNAL("clicked()"), self.open_admin_button)
+		self.connect(avios_button, SIGNAL("clicked()"), self.open_avios)
 
 		#Le damos posicion a nuestros botones
 		aceptar_button.move(400,550)
@@ -83,14 +86,16 @@ class desarrollo_window(QWidget):
 		#Ahora le damos un tamano a nuestros botones
 		aceptar_button.setFixedSize(150, 110)
 		admin_button.setFixedSize(150,110)
+		avios_button.setFixedSize(150,110)
 
 		#le damos un espacio a nuestro grid
 		grid.setHorizontalSpacing(6)
 		grid.setVerticalSpacing(5)
 
 		#Agregamos los widgets al grid
-		grid.addWidget(aceptar_button,5,3)
-		grid.addWidget(admin_button,5,5)
+		grid.addWidget(avios_button,5,2)
+		grid.addWidget(aceptar_button,5,4)
+		grid.addWidget(admin_button,5,6)
 		grid.addWidget(self.tabla,1,0,3,9)
 
 		#Por ultimo agregamos todo el Layout con todos nuestros widgets
@@ -165,3 +170,11 @@ class desarrollo_window(QWidget):
 			self.admin_singleton=True
 			window=control_view_dialog.control_window_dialog().exec_()
 			self.admin_singleton=False
+
+	def open_avios(self):
+		if(self.avios_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_AVIOS_OPENED, QMessageBox.Ok)
+		else:
+			self.avios_singleton=True
+			window=desarrollo_avios_view.desarrollo_window().exec_()
+			self.avios_singleton=False

@@ -20,10 +20,10 @@ def get_connection():
 def get_time_str():
 	return time.strftime('%Y-%m-%d %H:%M:%S')
 
-def time_pass_one_day(str_u):
+def time_pass_one_day(str_u,days_time=0):
 	mod_date=datetime.datetime.strptime(str_u,"%Y-%m-%d %H:%M:%S")
 	actual_date=datetime.datetime.now()
-	return bool(abs((actual_date-mod_date).days))
+	return (abs((actual_date-mod_date).days))>days_time
 
 #UNICODE
 def str_is_invalid(str_u):
@@ -114,6 +114,21 @@ def get_str_name_from_id_process(id_process):
 		return PROCESS_ACTIVATE_CONTRACT_NAME
 	return PROCESS_COMPLETED_NAME
 
+def get_str_name_from_id_process_avios(id_process):
+	if(id_process==PROCESS_AVIOS_ACTIVATE_ID):
+		return PROCESS_AVIOS_ACTIVATE_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_DES_ID):
+		return PROCESS_AVIOS_FIN_DES_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_ING_ID):
+		return PROCESS_AVIOS_FIN_ING_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_LOG_ID):
+		return PROCESS_AVIOS_FIN_LOG_NAME
+	elif(id_process==PROCESS_AVIOS_LLEGADA_ID):
+		return PROCESS_AVIOS_LLEGADA_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_CONTROL_ID):
+		return PROCESS_AVIOS_FIN_CONTROL_NAME
+	return PROCESS_AVIOS_COMPLETED_NAME
+
 #AREAS
 AREA_CONTROL_ID				= 1
 AREA_CONTROL_NAME			= "Control"
@@ -196,10 +211,18 @@ DESARROLLO_TITLE		= "Desarrollo"
 ABASTECIMIENTOS_TITLE	= "Abastecimientos"
 PLANIFICACION_TITLE		= "Planificacion"
 INGENIERIA_TITLE		= "Ingenieria"
+LOGISTICA_TITLE			= "Logistica"
+CALIDAD_TITLE			= "Control de Calidad"
 
 
 
 
 #Avios Text
+AVIOS_TITLE								= "Avios - "
 CONTROL_AVIOS_BUTTON					= "Control de Avios"
 CONTROL_AVIOS_TITLE						= "Control de Avios"
+AVIOS_TABLE_LIST						= ["PO","Contrato","Proceso","Fecha Inicial","Fecha de Modificacion","Opcion"]
+ERROR_A_AVIOS_OPENED					= "Avios ya se encuentra abierto"
+
+#Avios Valores
+SIZE_COLUMNS_AVIOS						= 6
