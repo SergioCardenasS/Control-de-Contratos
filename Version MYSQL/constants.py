@@ -221,8 +221,10 @@ CALIDAD_TITLE			= "Control de Calidad"
 AVIOS_TITLE								= "Avios - "
 CONTROL_AVIOS_BUTTON					= "Control de Avios"
 CONTROL_AVIOS_TITLE						= "Control de Avios"
-AVIOS_TABLE_LIST						= ["PO","Contrato","Proceso","Fecha Inicial","Fecha de Modificacion","Opcion"]
+AVIOS_TABLE_LIST						= ["PO","Contrato","Cliente","Proceso","Fecha Inicial","Fecha de Modificacion","Fecha de Llegada","Opcion"]
 ERROR_A_AVIOS_OPENED					= "Avios ya se encuentra abierto"
+ERROR_MODIFICATE_AVIOS					= "Alguien ya modifico este Control"
 
 #Avios Valores
-SIZE_COLUMNS_AVIOS						= 6
+SIZE_COLUMNS_AVIOS						= 8
+MORE_YEARS								= 5

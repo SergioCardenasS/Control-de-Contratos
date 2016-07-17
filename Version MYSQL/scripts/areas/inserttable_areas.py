@@ -32,11 +32,5 @@ new_area.insert(cursor)
 new_area=area.Area([AREA_PLANIFICACION_ID,AREA_PLANIFICACION_NAME,AREA_PLANIFICACION_PASS])
 new_area.insert(cursor)
 
-new_area=area.Area([AREA_CONTROL_LOGISTICA_ID,AREA_CONTROL_LOGISTICA_NAME,AREA_CONTROL_LOGISTICA_PASS])
-new_area.insert(cursor)
-
-new_area=area.Area([AREA_CONTROL_CALIDAD_ID,AREA_CONTROL_CALIDAD_NAME,AREA_CONTROL_CALIDAD_PASS])
-new_area.insert(cursor)
-
 db.commit()
 db.close()

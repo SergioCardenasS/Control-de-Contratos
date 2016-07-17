@@ -126,17 +126,20 @@ class calidad_window(QWidget):
 			if(actual_contract):
 				self.tabla.setItem(index,0, QTableWidgetItem(actual_contract.purchase_order))
 				self.tabla.setItem(index,1, QTableWidgetItem(actual_contract.contract_number))
-				self.tabla.setItem(index,2, QTableWidgetItem(get_str_name_from_id_process_avios(self.listaAvios[index].id_process)))
-				self.tabla.setItem(index,3, QTableWidgetItem(str(self.listaAvios[index].init_date)))
-				self.tabla.setItem(index,4, QTableWidgetItem(str(self.listaAvios[index].mod_date)))
-				if (time_pass_one_day(str(self.listaAvios[index].mod_date))):
-					self.tabla.item(index, 4).setBackground(QColor(238,0,0))
-				else:
-					self.tabla.item(index, 4).setBackground(QColor(0,205,0))
-				self.tabla.item(index, 4).setTextColor(QColor(255, 255, 255))
+				self.tabla.setItem(index,2, QTableWidgetItem(actual_contract.special_contract))
+				self.tabla.setItem(index,3, QTableWidgetItem(get_str_name_from_id_process_avios(self.listaAvios[index].id_process)))
+				self.tabla.setItem(index,4, QTableWidgetItem(str(self.listaAvios[index].init_date)))
+				self.tabla.setItem(index,5, QTableWidgetItem(str(self.listaAvios[index].mod_date)))
+				if(self.listaAvios[index].id_process==PROCESS_AVIOS_FIN_CONTROL_ID):
+					if (time_pass_one_day(str(self.listaAvios[index].mod_date))):
+						self.tabla.item(index, 5).setBackground(QColor(238,0,0))
+					else:
+						self.tabla.item(index, 5).setBackground(QColor(0,205,0))
+					self.tabla.item(index, 5).setTextColor(QColor(255, 255, 255))
+				self.tabla.setItem(index,6, QTableWidgetItem(str(self.listaAvios[index].llegada_date)))
 				self.btn_sell = QPushButton('Finalizar')
 				self.btn_sell.clicked.connect(self.Finalizar)
-				self.tabla.setCellWidget(index,5,self.btn_sell)
+				self.tabla.setCellWidget(index,7,self.btn_sell)
 				stringRow = stringRow + str(index+1) + SPLIT
 		self.tabla.setVerticalHeaderLabels(QString(stringRow).split(SPLIT))
 		db.close()
@@ -149,7 +152,10 @@ class calidad_window(QWidget):
 			button = qApp.focusWidget()
 			index = self.tabla.indexAt(button.pos())
 			if index.isValid():
-				#ventana = ingenieria_fin_process.FinishProcessSetWeight(contract=self.listaAvios[index.row()]).exec_()
+				if(self.listaAvios[index.row()].id_process==PROCESS_AVIOS_LLEGADA_ID):
+					ventana = calidad_avios_fin_process.AviosLLegadas(s_avios=self.listaAvios[index.row()]).exec_()
+				elif(self.listaAvios[index.row()].id_process==PROCESS_AVIOS_FIN_CONTROL_ID):
+					ventana = calidad_avios_fin_process.FinishCalidadAvios(s_avios=self.listaAvios[index.row()]).exec_()
 				self.refresh_table(AREA_CALIDAD_ID)
 			self.control_singleton=False
 

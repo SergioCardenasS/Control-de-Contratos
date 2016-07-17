@@ -19,7 +19,8 @@ cursor.execute("""CREATE TABLE Avios
 				id_contract int,
 				id_process int,
 				init_date DATETIME,
-				mod_date DATETIME
+				mod_date DATETIME,
+				llegada_date varchar(10)
 				)""")
 
 db.commit()

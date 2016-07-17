@@ -39,12 +39,9 @@ class control_window_dialog(QDialog):
 
 	def pantallasCreador(self):
 		self.listaContratos=[]
-		#Un temporal para saber en que boton estamos
 		self.AREA_ACTUAL_ID=AREA_COMERCIAL_ID
-		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
 		self.tabla.setEditTriggers(QAbstractItemView.NoEditTriggers)
-		#Numero de items o filas
 		self.rows = 0
 		self.stringRow = ''
 		#Creamos las columnas

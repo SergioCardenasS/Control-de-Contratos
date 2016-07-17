@@ -302,7 +302,7 @@ class FinishProcessSavePreContract(QDialog):
 					if(self.contract.update(db.cursor())):
 							new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_COMERCIAL_ID,Commentary,self.contract.mod_date])
 							if(new_comment.insert(db.cursor())):
-								new_avios = avios_control.Avios([0,self.contract.id_contract,PROCESS_AVIOS_ACTIVATE_ID,self.contract.mod_date,self.contract.mod_date])
+								new_avios = avios_control.Avios([0,self.contract.id_contract,PROCESS_AVIOS_ACTIVATE_ID,self.contract.mod_date,self.contract.mod_date,""])
 								new_avios.insert(db.cursor())
 								db.commit()
 								db.close()

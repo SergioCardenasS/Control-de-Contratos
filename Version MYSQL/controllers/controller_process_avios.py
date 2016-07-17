@@ -35,4 +35,6 @@ def get_process_avios_by_id_area(db,id_area):
 	cursor.execute(select_process)
 	for row in cursor:
 		process_list.append(process_avios.ProcessAvios(row))
+	if(id_area==AREA_CALIDAD_ID):
+		process_list.append(process_avios.ProcessAvios([PROCESS_AVIOS_LLEGADA_ID,PROCESS_AVIOS_LLEGADA_NAME,AREA_LOGISTICA_ID]))
 	return process_list
