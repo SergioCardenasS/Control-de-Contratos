@@ -20,10 +20,10 @@ def get_connection():
 def get_time_str():
 	return time.strftime('%Y-%m-%d %H:%M:%S')
 
-def time_pass_one_day(str_u):
+def time_pass_one_day(str_u,days_time=0):
 	mod_date=datetime.datetime.strptime(str_u,"%Y-%m-%d %H:%M:%S")
 	actual_date=datetime.datetime.now()
-	return bool(abs((actual_date-mod_date).days))
+	return (abs((actual_date-mod_date).days))>days_time
 
 #UNICODE
 def str_is_invalid(str_u):
@@ -45,6 +45,10 @@ CONTRACT_TYPE_FIRME				= 0
 CONTRACT_TYPE_PROVISIONAL		= 1
 CONTRACT_TYPE_FIRME_NAME		= "Firme"
 CONTRACT_TYPE_PROVISIONAL_NAME	= "Provisional"
+
+#SIGNAL TYPE
+SYGNAL_TYPE_PARCIAL				= 0
+SYGNAL_TYPE_TOTAL				= 1
 
 def get_str_contract_type(type):
 	if(type==CONTRACT_TYPE_FIRME):
@@ -73,6 +77,22 @@ PROCESS_ACTIVATE_CONTRACT_NAME	= "Activar Contrato"
 PROCESS_COMPLETED_ID			= 10
 PROCESS_COMPLETED_NAME			= "Completado"
 
+#PROCESS AVIOS
+PROCESS_AVIOS_ACTIVATE_ID		= 1
+PROCESS_AVIOS_ACTIVATE_NAME		= "Activar Control"
+PROCESS_AVIOS_FIN_DES_ID		= 2
+PROCESS_AVIOS_FIN_DES_NAME		= "Finalizar Trabajo Desarrollo"
+PROCESS_AVIOS_FIN_ING_ID		= 3
+PROCESS_AVIOS_FIN_ING_NAME		= "Finalizar Trabajo Ingenieria"
+PROCESS_AVIOS_FIN_LOG_ID		= 4
+PROCESS_AVIOS_FIN_LOG_NAME		= "Finalizar Trabajo Logistica"
+PROCESS_AVIOS_LLEGADA_ID		= 5
+PROCESS_AVIOS_LLEGADA_NAME		= "Llegada de Avios"
+PROCESS_AVIOS_FIN_CONTROL_ID	= 6
+PROCESS_AVIOS_FIN_CONTROL_NAME	= "Finalizar Control"
+PROCESS_AVIOS_COMPLETED_ID		= 7
+PROCESS_AVIOS_COMPLETED_NAME	= "Completado"
+
 def get_str_name_from_id_process(id_process):
 	if(id_process==PROCESS_SET_PO_ID):
 		return PROCESS_SET_PO_NAME
@@ -94,6 +114,21 @@ def get_str_name_from_id_process(id_process):
 		return PROCESS_ACTIVATE_CONTRACT_NAME
 	return PROCESS_COMPLETED_NAME
 
+def get_str_name_from_id_process_avios(id_process):
+	if(id_process==PROCESS_AVIOS_ACTIVATE_ID):
+		return PROCESS_AVIOS_ACTIVATE_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_DES_ID):
+		return PROCESS_AVIOS_FIN_DES_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_ING_ID):
+		return PROCESS_AVIOS_FIN_ING_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_LOG_ID):
+		return PROCESS_AVIOS_FIN_LOG_NAME
+	elif(id_process==PROCESS_AVIOS_LLEGADA_ID):
+		return PROCESS_AVIOS_LLEGADA_NAME
+	elif(id_process==PROCESS_AVIOS_FIN_CONTROL_ID):
+		return PROCESS_AVIOS_FIN_CONTROL_NAME
+	return PROCESS_AVIOS_COMPLETED_NAME
+
 #AREAS
 AREA_CONTROL_ID				= 1
 AREA_CONTROL_NAME			= "Control"
@@ -113,6 +148,12 @@ AREA_INGENIERIA_PASS		= "Ingenieria"
 AREA_PLANIFICACION_ID		= 6
 AREA_PLANIFICACION_NAME		= "Planificacion"
 AREA_PLANIFICACION_PASS		= "Planificacion"
+AREA_LOGISTICA_ID			= 7
+AREA_LOGISTICA_NAME			= "Logistica"
+AREA_LOGISTICA_PASS			= "Logistica"
+AREA_CALIDAD_ID				= 8
+AREA_CALIDAD_NAME			= "Control de Calidad"
+AREA_CALIDAD_PASS			= "Calidad"
 
 def get_str_name_by_id_area(id_area):
 	if(id_area==AREA_CONTROL_ID):
@@ -127,6 +168,10 @@ def get_str_name_by_id_area(id_area):
 		return AREA_INGENIERIA_NAME
 	elif(id_area==AREA_PLANIFICACION_ID):
 		return AREA_PLANIFICACION_NAME
+	elif(id_area==AREA_LOGISTICA_ID):
+		return AREA_LOGISTICA_NAME
+	elif(id_area==AREA_CALIDAD_ID):
+		return AREA_CALIDAD_NAME
 	return ""
 
 #LOGIN_ERRORS
@@ -166,3 +211,20 @@ DESARROLLO_TITLE		= "Desarrollo"
 ABASTECIMIENTOS_TITLE	= "Abastecimientos"
 PLANIFICACION_TITLE		= "Planificacion"
 INGENIERIA_TITLE		= "Ingenieria"
+LOGISTICA_TITLE			= "Logistica"
+CALIDAD_TITLE			= "Control de Calidad"
+
+
+
+
+#Avios Text
+AVIOS_TITLE								= "Avios - "
+CONTROL_AVIOS_BUTTON					= "Control de Avios"
+CONTROL_AVIOS_TITLE						= "Control de Avios"
+AVIOS_TABLE_LIST						= ["PO","Contrato","Cliente","Proceso","Fecha Inicial","Fecha de Modificacion","Fecha de Llegada","Opcion"]
+ERROR_A_AVIOS_OPENED					= "Avios ya se encuentra abierto"
+ERROR_MODIFICATE_AVIOS					= "Alguien ya modifico este Control"
+
+#Avios Valores
+SIZE_COLUMNS_AVIOS						= 8
+MORE_YEARS								= 5

@@ -1,3 +1,5 @@
 *.msi
 *.whl
 *.pyc
+
+DATA/
