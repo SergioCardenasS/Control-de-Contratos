@@ -14,15 +14,17 @@ app = QApplication(sys.argv)
 class loginTest(unittest.TestCase):
 	def setUp(self):
 		self.form = login_window()
-
+	
+	a=False
+	
 	def timeOut(self):
 		allToplevelWidgets = QApplication.topLevelWidgets();
-		a = False
+		self.a = False
 		for w in allToplevelWidgets:
 			if (w.inherits("QMessageBox")):
+				self.a= True
 				QTest.keyClick(w, Qt.Key_Enter)
-				a= True
-		self.assertEqual(a,True)
+		self.assertEqual(self.a,True)
 
 	def test_combo(self):
 		self.assertEqual(self.form.editUser.count(),8)
@@ -36,11 +38,12 @@ class loginTest(unittest.TestCase):
 		self.assertEqual(self.form.editUser.itemText(7), "Control de Calidad")
 
 	def test_bad_password(self):
-		self.form.editPassword.setText("BAD PASSWORD")
+		self.form.editPassword.setText("Control")
 		self.timer = QTimer(self.form)
 		self.timer.setSingleShot(True)
 		self.timer.singleShot(1000, self.timeOut)
 		QTest.mouseClick(self.form.ingresarBoton, Qt.LeftButton)
+		self.assertEqual(self.a,True)
 
 	def test_good_password_control(self):
 		self.form.editUser.setCurrentIndex(0);
