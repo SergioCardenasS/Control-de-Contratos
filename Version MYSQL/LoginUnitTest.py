@@ -38,7 +38,7 @@ class loginTest(unittest.TestCase):
 		self.assertEqual(self.form.editUser.itemText(7), "Control de Calidad")
 
 	def test_bad_password(self):
-		self.form.editPassword.setText("Control")
+		self.form.editPassword.setText("BAD")
 		self.timer = QTimer(self.form)
 		self.timer.setSingleShot(True)
 		self.timer.singleShot(1000, self.timeOut)
