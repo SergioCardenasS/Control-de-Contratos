@@ -1,0 +1,60 @@
+Sistema de Respuestas
+______________________________________________________________________________________________________________________________________
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡IMPORTANTE!!!!!!!!!!!!!!!!
+______________________________________________________________________________________________________________________________________
+La carpeta DATA esta usando la PYMSSQL para conetarse a una Base de Datos MICROSOFT SQL SERVER. Si se desea existe la carpeta "VERSION MYSQL" que cuenta con el código fuente de DATA escrito para MYSQL, en "VERSION PYMSSQL" se encuentra solo los archivos que cambian el código fuente.
+______________________________________________________________________________________________________________________________________
+
+______________________________________________________________________________________________________________________________________
+Dependencias Python 2.7: Si el interpretador de Python es 64 bits, descargar las versiones de 64 BITS respectivamente.
+______________________________________________________________________________________________________________________________________
+-pymssql-2.1.2-cp27
+-PyQT4-4.11.4-cp27
+
+______________________________________________________________________________________________________________________________________
+Instalación de la Base de Datos:
+______________________________________________________________________________________________________________________________________
+En la carpeta DATA/scripts se encuentra los scripts escritos en python para la creación de las tablas:
+1) Se debe ejecutar la carpeta areas:
+	-createtable_areas.py para crear la tabla: Areas
+	-inserttable_areas.py para insertar las areas principales para el modulo de contratos.
+	-inserttable_newareas.py para insertar las areas principales para el modulo de avios.
+	-showtable_areas.py para revisar los datos en la tabla.
+
+2) Se debe ejecutar la carpeta process:
+	-createtable_process.py para crear la tabla: Procesos
+	-inserttable_process.py para insertar los procesos del modulo de contratos.
+	-showtable_process.py para revisar los datos en la tabla.
+
+3) Se debe ejecutar la carpeta contracts:
+	-createtable_contracts.py para crear la tabla: Contratos
+
+4) Se debe ejecutar la carpeta comments:
+	-createtable_comments.py para crear la tabla: Comentarios
+
+5) Se debe ejecutar la carpeta process_avios:
+	-createtable_process_avios.py para crear la tabla: Procesos de Avios
+	-inserttable_process_avios.py para insertar los procesos del modulo de avios.
+	-showtable_process_avios.py para revisar los datos en la tabla.
+
+6) Se debe ejecutar la carpeta avios_control:
+	-createtable_avios.py para crear la tabla: Avios
+
+7) Se debe ejecutar la carpeta comments:
+	-createtable_comments.py para crear la tabla: Comentarios de Avios
+
+______________________________________________________________________________________________________________________________________
+Archivos Necesarios para la ejecución:
+______________________________________________________________________________________________________________________________________
+Directorio: 		DATA		- Todos los Scripts para Controladores Vistas y Modelos
+Script Ejecutable: 	Software.py	- Con Consola
+			Software.pyw	- Sin Consola
+Archivo de BD:		DATA/BDconf.py
+	DATABASE_HOST		= "IP"
+	DATABASE_USER		= "USER"
+	DATABASE_PASSWORD	= "PASS"
+	DATABASE_NAME 		= "NAME"
+______________________________________________________________________________________________________________________________________
+Ejecución
+______________________________________________________________________________________________________________________________________
+Para ejecutar el programa debemos usar el Interpretador de Python ejecutando en una consola "python Software.py" o "pythonw Software.pyw" o puede usar el instalador para que cree un archivo en Visual Basic para ejecutar automaticamente con un acceso directo.
