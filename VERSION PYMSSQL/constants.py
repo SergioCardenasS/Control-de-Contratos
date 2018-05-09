@@ -76,6 +76,8 @@ PROCESS_ACTIVATE_CONTRACT_ID	= 9
 PROCESS_ACTIVATE_CONTRACT_NAME	= "Activar Contrato"
 PROCESS_COMPLETED_ID			= 10
 PROCESS_COMPLETED_NAME			= "Completado"
+PROCESS_REVIEW_DATA_ID			= 11
+PROCESS_REVIEW_DATA_NAME		= "Revisar Datos del Contrato"
 
 #PROCESS AVIOS
 PROCESS_AVIOS_ACTIVATE_ID		= 1
@@ -112,6 +114,8 @@ def get_str_name_from_id_process(id_process):
 		return PROCESS_ACCEPT_DATES_NAME
 	elif(id_process==PROCESS_ACTIVATE_CONTRACT_ID):
 		return PROCESS_ACTIVATE_CONTRACT_NAME
+	elif(id_process==PROCESS_REVIEW_DATA_ID):
+		return PROCESS_REVIEW_DATA_NAME
 	return PROCESS_COMPLETED_NAME
 
 def get_str_name_from_id_process_avios(id_process):

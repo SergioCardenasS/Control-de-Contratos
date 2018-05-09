@@ -160,7 +160,9 @@ class desarrollo_window(QWidget):
 			if index.isValid():
 				if(self.listaContratos[index.row()].id_process==PROCESS_SET_CODE_ID):
 					ventana = desarrollo_fin_process.FinishProcessSetCode(contract=self.listaContratos[index.row()]).exec_()
-					self.refresh_table(AREA_DESARROLLO_ID)
+				elif(self.listaContratos[index.row()].id_process==PROCESS_REVIEW_DATA_ID):
+					ventana = desarrollo_fin_process.FinishProcessReviewData(contract=self.listaContratos[index.row()]).exec_()
+				self.refresh_table(AREA_DESARROLLO_ID)
 			self.control_singleton=False
 
 	def open_admin_button(self):

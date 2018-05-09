@@ -45,5 +45,8 @@ new_process.insert(cursor)
 new_process=process.Process([PROCESS_COMPLETED_ID,PROCESS_COMPLETED_NAME,AREA_CONTROL_ID])
 new_process.insert(cursor)
 
+new_process=process.Process([PROCESS_REVIEW_DATA_ID,PROCESS_REVIEW_DATA_NAME,AREA_DESARROLLO_ID])
+new_process.insert(cursor)
+
 db.commit()
 db.close()

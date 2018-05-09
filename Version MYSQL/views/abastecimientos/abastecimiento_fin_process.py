@@ -41,6 +41,12 @@ class FinishProcessStateYarn(QDialog):
 		self.consultarComercialBoton = QPushButton("Consultar Estado del Hilado a Comercial", self)
 		undoicon = QIcon.fromTheme("main-send")
 		self.consultarComercialBoton.setIcon(undoicon)
+		self.regresarIngenieria = QPushButton("Regresar a Ingenieria", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.regresarIngenieria.setIcon(undoicon)
+		self.regresarDesarrollo = QPushButton("Regresar a Desarrollo", self)
+		undoicon = QIcon.fromTheme("go-previous")
+		self.regresarDesarrollo.setIcon(undoicon)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -95,22 +101,72 @@ class FinishProcessStateYarn(QDialog):
 
 		#Tamano del boton
 		self.atrasBoton.setFixedSize(150, 110)
-		self.consultarComercialBoton.setFixedSize(350, 110)
-		self.crearBoton.setFixedSize(350, 110)
+		self.consultarComercialBoton.setFixedSize(250, 110)
+		self.regresarIngenieria.setFixedSize(250,110)
+		self.regresarDesarrollo.setFixedSize(250,110)
+		self.crearBoton.setFixedSize(250, 110)
 
 		#Agregamos los widgets al grid
 		grid.addWidget(self.atrasBoton,0,1)
 		grid.addWidget(self.tabla,0,2,4,5)
 		grid.addWidget(self.commentary,5,2)
-		grid.addWidget(self.editCommentary,5,3)
-		grid.addWidget(self.consultarComercialBoton,7,3)
-		grid.addWidget(self.crearBoton,7,4)
+		grid.addWidget(self.editCommentary,5,3,1,3)
+		grid.addWidget(self.regresarDesarrollo,7,3)
+		grid.addWidget(self.regresarIngenieria,7,4)
+		grid.addWidget(self.consultarComercialBoton,7,5)
+		grid.addWidget(self.crearBoton,7,6)
 		self.setLayout(grid)
 		#Funcionalidades de los botones
 		self.atrasBoton.clicked.connect(self.close)
+		self.connect(self.regresarDesarrollo, SIGNAL("clicked()"), self.FinishRegresarDesarrollo)
+		self.connect(self.regresarIngenieria, SIGNAL("clicked()"), self.FinishRegresarIngenieria)
 		self.connect(self.consultarComercialBoton, SIGNAL("clicked()"), self.FinishConsultarComercialBoton)
 		self.connect(self.crearBoton, SIGNAL("clicked()"), self.FinishEnviarEstado)
 
+	def FinishRegresarDesarrollo(self):
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Regresar el Control a Desarrollo...",QMessageBox.Yes,QMessageBox.No)
+		if reply == QMessageBox.Yes:
+			Commentary = unicode(self.editCommentary.toPlainText())
+			db=get_connection()
+			if(controller_contract.contract_is_equal(db,self.contract)):
+				self.contract.mod_date = get_time_str()
+				self.contract.id_process=PROCESS_REVIEW_DATA_ID
+				self.contract.update(db.cursor())
+				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_ABASTECIMIENTOS_ID,Commentary,self.contract.mod_date])
+				if(new_comment.insert(db.cursor())):
+					db.commit()
+					db.close()
+					self.close()
+				else:
+					QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+					self.contract.id_process=PROCESS_YAM_STATUS_ID
+					db.close()
+			else:
+				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+				db.close()
+				self.close()
+	def FinishRegresarIngenieria(self):
+		reply=QMessageBox.question(self, 'Message',"Esta Seguro de Regresar el Control a Ingenieria...",QMessageBox.Yes,QMessageBox.No)
+		if reply == QMessageBox.Yes:
+			Commentary = unicode(self.editCommentary.toPlainText())
+			db=get_connection()
+			if(controller_contract.contract_is_equal(db,self.contract)):
+				self.contract.mod_date = get_time_str()
+				self.contract.id_process=PROCESS_SET_WEIGHT_ID
+				self.contract.update(db.cursor())
+				new_comment = comment.Comment([self.contract.id_contract,controller_comment.get_next_number_comment_by_id_contract(db,self.contract.id_contract),AREA_ABASTECIMIENTOS_ID,Commentary,self.contract.mod_date])
+				if(new_comment.insert(db.cursor())):
+					db.commit()
+					db.close()
+					self.close()
+				else:
+					QMessageBox.warning(self, 'Error',INVALID_STR, QMessageBox.Ok)
+					self.contract.id_process=PROCESS_YAM_STATUS_ID
+					db.close()
+			else:
+				QMessageBox.warning(self, 'Error',ERROR_MODIFICATE_CONTRACT, QMessageBox.Ok)
+				db.close()
+				self.close()
 	def FinishConsultarComercialBoton(self):
 		Commentary = unicode(self.editCommentary.toPlainText())
 		db=get_connection()
