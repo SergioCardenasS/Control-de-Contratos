@@ -12,12 +12,16 @@ BASE_DIR='..'
 sys.path.insert(0,BASE_DIR)
 from constants import *
 from controllers import controller_comment
+from views.control import control_fin_process
 
 class ventanaCommentarios(QDialog):
-	def __init__(self, id_contract, parent=None):
+	def __init__(self, id_contract, with_control = False, parent=None):
 		super(ventanaCommentarios, self).__init__(parent)
+		self.liberado = False
 		self.id_contract=id_contract
+		self.with_control=with_control
 		#crear la ventana
+		self.control_singleton=False
 		self.ventanaCreador()
 		#Dando tamaño a la pantalla
 		size=self.size()
@@ -32,6 +36,8 @@ class ventanaCommentarios(QDialog):
 		#Nombre de los campos
 		#Creacion de botones
 		self.aceptarBoton = QPushButton("OK", self)
+		if(self.with_control):
+			self.liberarContrato = QPushButton("Liberar Contrato", self)
 		#Creando el grid
 		#Creacion de la tabla  con cada item
 		self.tabla = QTableWidget()
@@ -86,10 +92,28 @@ class ventanaCommentarios(QDialog):
 
 		#Tamano del boton
 		self.aceptarBoton.setFixedSize(150, 110)
+		if(self.with_control):
+			self.liberarContrato.setFixedSize(150, 110)
 
 		#Agregamos los widgets al grid
 		grid.addWidget(self.aceptarBoton,2,4)
+		if(self.with_control):
+			grid.addWidget(self.liberarContrato,1,4)
 		grid.addWidget(self.tabla,1,0,5,3)
 		self.setLayout(grid)
 		#Funcionalidades de los botones
 		self.aceptarBoton.clicked.connect(self.close)
+		if(self.with_control):
+			self.liberarContrato.clicked.connect(self.free_contract)
+
+	def free_contract(self):
+		if(self.control_singleton):
+			QMessageBox.warning(self, 'Error',ERROR_A_PROCESS_OPENED, QMessageBox.Ok)
+		else:
+			self.control_singleton=True
+			ventana = control_fin_process.FinishProcessFreeContract(id_contract=self.id_contract)
+			ventana.exec_()
+			self.control_singleton=False
+			if(ventana.liberado):
+				self.liberado = True
+				self.close()

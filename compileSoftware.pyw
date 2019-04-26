@@ -31,6 +31,7 @@ py_compile.compile("DATA/views/comercial/comercial_fin_process.py")
 
 py_compile.compile("DATA/views/control/__init__.py")
 py_compile.compile("DATA/views/control/control_view.py")
+py_compile.compile("DATA/views/comercial/control_fin_process.py")
 py_compile.compile("DATA/views/control/control_view_dialog.py")
 py_compile.compile("DATA/views/control/control_avios_view_dialog.py")
 

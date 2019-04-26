@@ -1,8 +1,8 @@
-Sistema de Respuestas
+ï»¿Sistema de Respuestas
 ______________________________________________________________________________________________________________________________________
-¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡IMPORTANTE!!!!!!!!!!!!!!!!
+Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡Â¡IMPORTANTE!!!!!!!!!!!!!!!!
 ______________________________________________________________________________________________________________________________________
-La carpeta DATA esta usando la PYMSSQL para conetarse a una Base de Datos MICROSOFT SQL SERVER. Si se desea existe la carpeta "VERSION MYSQL" que cuenta con el código fuente de DATA escrito para MYSQL, en "VERSION PYMSSQL" se encuentra solo los archivos que cambian el código fuente.
+La carpeta DATA esta usando la PYMSSQL para conetarse a una Base de Datos MICROSOFT SQL SERVER. Si se desea existe la carpeta "VERSION MYSQL" que cuenta con el cÃ³digo fuente de DATA escrito para MYSQL, en "VERSION PYMSSQL" se encuentra solo los archivos que cambian el cÃ³digo fuente.
 ______________________________________________________________________________________________________________________________________
 
 ______________________________________________________________________________________________________________________________________
@@ -12,9 +12,9 @@ ________________________________________________________________________________
 -PyQT4-4.11.4-cp27
 
 ______________________________________________________________________________________________________________________________________
-Instalación de la Base de Datos:
+InstalaciÃ³n de la Base de Datos:
 ______________________________________________________________________________________________________________________________________
-En la carpeta DATA/scripts se encuentra los scripts escritos en python para la creación de las tablas:
+En la carpeta DATA/scripts se encuentra los scripts escritos en python para la creaciÃ³n de las tablas:
 1) Se debe ejecutar la carpeta areas:
 	-createtable_areas.py para crear la tabla: Areas
 	-inserttable_areas.py para insertar las areas principales para el modulo de contratos.
@@ -44,7 +44,7 @@ En la carpeta DATA/scripts se encuentra los scripts escritos en python para la c
 	-createtable_comments.py para crear la tabla: Comentarios de Avios
 
 ______________________________________________________________________________________________________________________________________
-Archivos Necesarios para la ejecución:
+Archivos Necesarios para la ejecuciÃ³n:
 ______________________________________________________________________________________________________________________________________
 Directorio: 		DATA		- Todos los Scripts para Controladores Vistas y Modelos
 Script Ejecutable: 	Software.py	- Con Consola
@@ -55,7 +55,7 @@ Archivo de BD:		DATA/BDconf.py
 	DATABASE_PASSWORD	= "PASS"
 	DATABASE_NAME 		= "NAME"
 ______________________________________________________________________________________________________________________________________
-Ejecución
+EjecuciÃ³n
 ______________________________________________________________________________________________________________________________________
 Para ejecutar el programa debemos usar el Interpretador de Python ejecutando en una consola "python Software.py" o "pythonw Software.pyw" o puede usar el instalador para que cree un archivo en Visual Basic para ejecutar automaticamente con un acceso directo.
 ______________________________________________________________________________________________________________________________________

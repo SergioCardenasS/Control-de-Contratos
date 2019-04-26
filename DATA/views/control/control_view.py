@@ -166,7 +166,13 @@ class control_window(QWidget):
 		button = qApp.focusWidget()
 		index = self.tabla.indexAt(button.pos())
 		if index.isValid():
-			ventana = comments.ventanaCommentarios(id_contract=self.listaContratos[index.row()].id_contract).exec_()
+			ventana = comments.ventanaCommentarios(
+				id_contract=self.listaContratos[index.row()].id_contract,
+				with_control=self.listaContratos[index.row()].contract_type == CONTRACT_TYPE_FIRME and self.listaContratos[index.row()].id_process==PROCESS_ACTIVATE_CONTRACT_ID
+			)
+			ventana.exec_()
+			if(ventana.liberado):
+				self.Actualizar()
 
 	def tablaComercial(self):
 		db=get_connection()
