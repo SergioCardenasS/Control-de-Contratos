@@ -2,5 +2,4 @@
 *.whl
 *.pyc
 
-DATA/
 Test/
